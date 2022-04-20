@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.service;
+package org.goafabric.eventdispatcher.dispatcher.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

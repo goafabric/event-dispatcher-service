@@ -1,7 +1,7 @@
-package org.goafabric.eventdispatcher.logic;
+package org.goafabric.eventdispatcher.dispatcher.logic;
 
-import org.goafabric.eventdispatcher.service.ChangeEvent;
-import org.goafabric.eventdispatcher.service.DbOperation;
+import org.goafabric.eventdispatcher.dispatcher.service.ChangeEvent;
+import org.goafabric.eventdispatcher.dispatcher.service.DbOperation;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

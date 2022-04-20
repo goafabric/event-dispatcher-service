@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.service;
+package org.goafabric.eventdispatcher.dispatcher.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
