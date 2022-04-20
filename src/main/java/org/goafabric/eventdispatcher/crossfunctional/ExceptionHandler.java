@@ -1,4 +1,4 @@
-package org.goafabric.calleeservice.crossfunctional;
+package org.goafabric.eventdispatcher.crossfunctional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

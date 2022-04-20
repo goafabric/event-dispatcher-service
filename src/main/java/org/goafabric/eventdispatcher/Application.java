@@ -1,4 +1,4 @@
-package org.goafabric.calleeservice;
+package org.goafabric.eventdispatcher;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

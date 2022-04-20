@@ -1,6 +1,6 @@
-package org.goafabric.calleeservice.service;
+package org.goafabric.eventdispatcher.service;
 
-import org.goafabric.calleeservice.logic.EventDispatcherLogic;
+import org.goafabric.eventdispatcher.logic.EventDispatcherLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,8 @@
-package org.goafabric.calleeservice.logic;
+package org.goafabric.eventdispatcher.logic;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
-import org.goafabric.calleeservice.service.ChangeEvent;
+import org.goafabric.eventdispatcher.service.ChangeEvent;
 import org.springframework.stereotype.Component;
 
 @Component
