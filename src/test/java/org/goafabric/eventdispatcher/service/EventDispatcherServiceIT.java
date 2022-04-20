@@ -12,7 +12,7 @@ import java.util.UUID;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class EventDispatcherServiceIT {
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final String DISPATCH_URL = "http://localhost:50900/events/dispatch";
+    private static final String DISPATCH_URL = "http://localhost:50500/events/dispatch";
 
     private static class Patient {
         private final String id = "44";
