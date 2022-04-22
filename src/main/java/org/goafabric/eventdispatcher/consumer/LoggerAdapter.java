@@ -20,25 +20,25 @@ public class LoggerAdapter {
         key = { "#" }
     ))
     public void logExchangePatient(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
-        log.info("patient: routingKey = {}; {}", routingKey, id);
+        log.info("type = patient; operation = {}; id = {}", routingKey, id);
     }
 
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(durable = "false"),
+            value = @Queue(name = "LoggingQueue", durable = "false"),
             exchange = @Exchange(value = "employee", type = ExchangeTypes.TOPIC),
             key = { "#" }
     ))
     public void logExchangePractice(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
-        log.info("practice: routingKey = {}; {}", routingKey, id);
+        log.info("type = practice; operation = {}; id = {}", routingKey, id);
     }
 
     @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(durable = "false"),
+        value = @Queue(name = "LoggingQueue", durable = "false"),
         exchange = @Exchange(value = "organization", type = ExchangeTypes.TOPIC),
         key = { "#" }
     ))
     public void logExchangeOrganization(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
-        log.info("organization: routingKey = {}; {}", routingKey, id);
+        log.info("type = organization; operation = {}; id = {}", routingKey, id);
     }
 }
