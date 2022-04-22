@@ -13,6 +13,14 @@ management:
         exposure:
           include: "health,prometheus,heapdump"
 
+#rabbitmq
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
 
 #logging
 logging.level.root: "WARN"
