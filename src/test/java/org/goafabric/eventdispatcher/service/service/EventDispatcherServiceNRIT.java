@@ -51,7 +51,7 @@ class EventDispatcherServiceNRIT {
         return ChangeEvent.builder()
                 .id(UUID.randomUUID().toString())
                 .tenantId("0")
-                .referenceId("1")
+                .referenceId(UUID.randomUUID().toString())
                 .operation(operation)
                 .type(object.getClass().getSimpleName())
                 .origin("origin")
