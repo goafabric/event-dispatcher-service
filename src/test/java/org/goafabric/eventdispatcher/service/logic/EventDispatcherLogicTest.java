@@ -1,13 +1,16 @@
 package org.goafabric.eventdispatcher.service.logic;
 
+import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.service.ChangeEvent;
 import org.goafabric.eventdispatcher.service.service.DbOperation;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.UUID;
 
 class EventDispatcherLogicTest {
-    private EventDispatcherLogic eventDispatcherLogic = new EventDispatcherLogic();
+    private EventDispatcherLogic eventDispatcherLogic =
+            new EventDispatcherLogic(Mockito.mock(EventProducer.class));
 
     private static class Patient {
         private final String id = "44";

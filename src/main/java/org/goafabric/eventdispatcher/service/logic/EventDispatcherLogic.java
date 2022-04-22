@@ -2,8 +2,8 @@ package org.goafabric.eventdispatcher.service.logic;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
+import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.service.ChangeEvent;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +11,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class EventDispatcherLogic {
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private EventProducer eventProducer;
+
+    @Autowired
+    public EventDispatcherLogic(EventProducer eventProducer) {
+        this.eventProducer = eventProducer;
+    }
 
     public void dispatch(@RequestBody ChangeEvent changeEvent) {
         log.info(changeEvent.toString());
-        //rabbitTemplate.convertAndSend(changeEvent.getType().toLowerCase(), changeEvent.getOperation().toString().toLowerCase(),changeEvent.getId()  );
+        eventProducer.produce(changeEvent);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class EventDispatcherServiceIT {
+class EventDispatcherServiceNRIT {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String DISPATCH_URL = "http://localhost:50500/events/dispatch";
 

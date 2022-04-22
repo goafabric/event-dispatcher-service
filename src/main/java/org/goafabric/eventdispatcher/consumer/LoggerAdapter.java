@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.adapter;
+package org.goafabric.eventdispatcher.consumer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 public class LoggerAdapter {
 
     @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(durable = "false"),
+        value = @Queue(name = "LoggingQueue", durable = "false"),
         exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC),
         key = { "#" }
     ))
     public void logExchangePatient(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
-        log.info("logExchangePatient: routingKey={}; {}", routingKey, id);
+        log.info("patient: routingKey = {}; {}", routingKey, id);
     }
 
 
@@ -30,7 +30,7 @@ public class LoggerAdapter {
             key = { "#" }
     ))
     public void logExchangePractice(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
-        log.info("logExchangePractice: routingKey={}; {}", routingKey, id);
+        log.info("practice: routingKey = {}; {}", routingKey, id);
     }
 
     @RabbitListener(bindings = @QueueBinding(
@@ -39,6 +39,6 @@ public class LoggerAdapter {
         key = { "#" }
     ))
     public void logExchangeOrganization(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
-        log.info("logExchangePractice: routingKey={}; {}", routingKey, id);
+        log.info("organization: routingKey = {}; {}", routingKey, id);
     }
 }
