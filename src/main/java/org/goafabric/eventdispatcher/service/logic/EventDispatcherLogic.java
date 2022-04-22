@@ -19,7 +19,6 @@ public class EventDispatcherLogic {
     }
 
     public void dispatch(@RequestBody ChangeEvent changeEvent) {
-        //log.info(changeEvent.toString());
         eventProducer.produce(changeEvent);
     }
 }

@@ -45,13 +45,13 @@ class EventDispatcherLogicTest {
 
 
     private ChangeEvent createEvent(Object object, DbOperation operation) {
-    return ChangeEvent.builder()
-            .id(UUID.randomUUID().toString())
-            .tenantId("0")
-            .referenceId("1")
-            .operation(operation)
-            .type(object.getClass().getSimpleName())
-            .origin("origin")
-            .build();
+        return ChangeEvent.builder()
+                .id(UUID.randomUUID().toString())
+                .tenantId("0")
+                .referenceId(UUID.randomUUID().toString())
+                .operation(operation)
+                .type(object.getClass().getSimpleName())
+                .origin("secret-service")
+                .build();
     }
 }

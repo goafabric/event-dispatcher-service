@@ -54,7 +54,7 @@ class EventDispatcherServiceNRIT {
                 .referenceId(UUID.randomUUID().toString())
                 .operation(operation)
                 .type(object.getClass().getSimpleName())
-                .origin("origin")
+                .origin("secret-service")
                 .build();
     }
 
