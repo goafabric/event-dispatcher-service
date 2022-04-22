@@ -13,7 +13,7 @@ public class EventProducer {
     public void produce(ChangeEvent changeEvent) {
         rabbitTemplate.convertAndSend(
                 changeEvent.getType().toLowerCase(),
-                changeEvent.getOperation().toString().toLowerCase(),
+                changeEvent.getOperation().toString(),
                 changeEvent.getReferenceId());
     }
 }
