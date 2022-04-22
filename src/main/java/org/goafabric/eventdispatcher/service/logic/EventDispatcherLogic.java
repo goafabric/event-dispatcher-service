@@ -15,7 +15,6 @@ public class EventDispatcherLogic {
 
     public void dispatch(@RequestBody ChangeEvent changeEvent) {
         log.info(changeEvent.toString());
-        rabbitTemplate.convertAndSend(
-                changeEvent.getType().toLowerCase(), changeEvent.getOperation().toString().toLowerCase(),changeEvent.getId()  );
+        //rabbitTemplate.convertAndSend(changeEvent.getType().toLowerCase(), changeEvent.getOperation().toString().toLowerCase(),changeEvent.getId()  );
     }
 }
