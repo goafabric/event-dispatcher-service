@@ -10,7 +10,7 @@ import static org.goafabric.eventdispatcher.listener.ListenerConstants.*;
 @Configuration
 public class ListenerConfiguration {
     @Bean
-    public HashMap<String, String> eventTypes() {
+    public HashMap<String, String> exchanges() {
         HashMap<String, String> eventTypes = new HashMap<>();
 
         eventTypes.put("Patient", PATIENT);

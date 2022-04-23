@@ -9,6 +9,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 
+import static org.goafabric.eventdispatcher.listener.ListenerConstants.*;
+
 //@Component
 @Slf4j
 public class LoggerAdapter {
@@ -16,7 +18,7 @@ public class LoggerAdapter {
 
     @RabbitListener(bindings = @QueueBinding(
         value = @Queue(name = QUEUE_NAME, durable = "false"),
-        exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC),
+        exchange = @Exchange(value = PATIENT, type = ExchangeTypes.TOPIC),
         key = { "#" }
     ))
     public void logExchangePatient(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
@@ -26,7 +28,7 @@ public class LoggerAdapter {
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(name = QUEUE_NAME, durable = "false"),
-            exchange = @Exchange(value = "employee", type = ExchangeTypes.TOPIC),
+            exchange = @Exchange(value = PRACTITIONER, type = ExchangeTypes.TOPIC),
             key = { "#" }
     ))
     public void logExchangePractice(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {
@@ -35,7 +37,7 @@ public class LoggerAdapter {
 
     @RabbitListener(bindings = @QueueBinding(
         value = @Queue(name = QUEUE_NAME, durable = "false"),
-        exchange = @Exchange(value = "organization", type = ExchangeTypes.TOPIC),
+        exchange = @Exchange(value = ORGANIZATION, type = ExchangeTypes.TOPIC),
         key = { "#" }
     ))
     public void logExchangeOrganization(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey, String id) {

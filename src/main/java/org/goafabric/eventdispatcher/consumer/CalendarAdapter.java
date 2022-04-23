@@ -34,8 +34,20 @@ public class CalendarAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
-            exchange = @Exchange(value = ORGANIZATION, type = ExchangeTypes.TOPIC), key = {CREATE}))
-    public void createOrganization(String id) {
-        log.info("organization create for id = {}", id);
+            exchange = @Exchange(value = PRACTITIONER, type = ExchangeTypes.TOPIC), key = {CREATE}))
+    public void createPractitioner(String id) {
+        log.info("practitioner create for id = {}", id);
+    }
+
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
+            exchange = @Exchange(value = PRACTITIONER, type = ExchangeTypes.TOPIC), key = {UPDATE}))
+    public void updatePractitioner(String id) {
+        log.info("practitioner create for id = {}", id);
+    }
+
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
+            exchange = @Exchange(value = PRACTITIONER, type = ExchangeTypes.TOPIC), key = {DELETE}))
+    public void deletePractitioner(String id) {
+        log.info("practitioner create for id = {}", id);
     }
 }
