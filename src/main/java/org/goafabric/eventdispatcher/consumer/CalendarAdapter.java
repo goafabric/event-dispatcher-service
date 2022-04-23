@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class CalendarAdapter {
+    private static final String QUEUE_NAME = "CalendarQueue";
+
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "CalendarQueue"),
+            value = @Queue(name = QUEUE_NAME),
             exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"CREATE"}
     ))
     public void createPatient(String id) {
@@ -20,7 +22,7 @@ public class CalendarAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "CalendarQueue"),
+            value = @Queue(name = QUEUE_NAME),
             exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"UPDATE"}
     ))
     public void updatePatient(String id) {
@@ -28,7 +30,7 @@ public class CalendarAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "CalendarQueue"),
+            value = @Queue(name = QUEUE_NAME),
             exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"DELETE"}
     ))
     public void deletePatient(String id) {
@@ -36,7 +38,7 @@ public class CalendarAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "CalendarQueue"),
+            value = @Queue(name = QUEUE_NAME),
             exchange = @Exchange(value = "organization", type = ExchangeTypes.TOPIC), key = {"CREATE"}
     ))
     public void createOrganization(String id) {
