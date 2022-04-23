@@ -12,34 +12,26 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 public class CalendarAdapter {
     private static final String QUEUE_NAME = "CalendarQueue";
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = QUEUE_NAME),
-            exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"CREATE"}
-    ))
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
+            exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"CREATE"}))
     public void createPatient(String id) {
         log.info("patient create for id = {}", id);
     }
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = QUEUE_NAME),
-            exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"UPDATE"}
-    ))
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
+            exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"UPDATE"}))
     public void updatePatient(String id) {
         log.info("patient update for id = {}", id);
     }
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = QUEUE_NAME),
-            exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"DELETE"}
-    ))
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
+            exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"DELETE"}))
     public void deletePatient(String id) {
         log.info("patient delete for id = {}", id);
     }
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = QUEUE_NAME),
-            exchange = @Exchange(value = "organization", type = ExchangeTypes.TOPIC), key = {"CREATE"}
-    ))
+    @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
+            exchange = @Exchange(value = "organization", type = ExchangeTypes.TOPIC), key = {"CREATE"}))
     public void createOrganization(String id) {
         log.info("organization create for id = {}", id);
     }
