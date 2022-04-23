@@ -12,9 +12,10 @@ import org.springframework.messaging.handler.annotation.Header;
 //@Component
 @Slf4j
 public class LoggerAdapter {
+    private static final String QUEUE_NAME = "LoggingQueue";
 
     @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(name = "LoggingQueue", durable = "false"),
+        value = @Queue(name = QUEUE_NAME, durable = "false"),
         exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC),
         key = { "#" }
     ))
@@ -24,7 +25,7 @@ public class LoggerAdapter {
 
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "LoggingQueue", durable = "false"),
+            value = @Queue(name = QUEUE_NAME, durable = "false"),
             exchange = @Exchange(value = "employee", type = ExchangeTypes.TOPIC),
             key = { "#" }
     ))
@@ -33,7 +34,7 @@ public class LoggerAdapter {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(name = "LoggingQueue", durable = "false"),
+        value = @Queue(name = QUEUE_NAME, durable = "false"),
         exchange = @Exchange(value = "organization", type = ExchangeTypes.TOPIC),
         key = { "#" }
     ))
