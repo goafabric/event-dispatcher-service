@@ -10,28 +10,36 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class PatientAdapter {
+public class CalendarAdapter {
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "PatientQueue"),
+            value = @Queue(name = "CalendarQueue"),
             exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"CREATE"}
     ))
-    public void create(String id) {
+    public void createPatient(String id) {
         log.info("patient create for id = {}", id);
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "PatientQueue"),
+            value = @Queue(name = "CalendarQueue"),
             exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"UPDATE"}
     ))
-    public void update(String id) {
+    public void updatePatient(String id) {
         log.info("patient update for id = {}", id);
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "PatientQueue"),
+            value = @Queue(name = "CalendarQueue"),
             exchange = @Exchange(value = "patient", type = ExchangeTypes.TOPIC), key = {"DELETE"}
     ))
-    public void delete(String id) {
+    public void deletePatient(String id) {
         log.info("patient delete for id = {}", id);
+    }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "CalendarQueue"),
+            exchange = @Exchange(value = "organization", type = ExchangeTypes.TOPIC), key = {"CREATE"}
+    ))
+    public void createOrganization(String id) {
+        log.info("organization create for id = {}", id);
     }
 }
