@@ -16,5 +16,15 @@ public class EventDispatcherService {
     public void dispatch(@RequestBody ChangeEvent changeEvent) {
         eventDispatcherLogic.dispatch(changeEvent);
     }
+
+    @GetMapping(value = "createpatient")
+    public void createPatient() {
+        eventDispatcherLogic.createPatient();
+    }
+
+    @GetMapping(value = "updatepatient")
+    public void updatePatient() {
+        eventDispatcherLogic.updatePatient();
+    }
 }
 
