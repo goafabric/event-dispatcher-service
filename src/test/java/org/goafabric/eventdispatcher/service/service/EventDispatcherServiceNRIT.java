@@ -1,5 +1,7 @@
 package org.goafabric.eventdispatcher.service.service;
 
+import org.goafabric.eventdispatcher.service.service.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.service.dto.DbOperation;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
