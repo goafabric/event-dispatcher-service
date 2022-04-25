@@ -22,7 +22,7 @@ public class FHIRAdapter {
                             .resource(Patient.class)
                             .withId(id).execute();
 
-            log.info(FhirContext.forR4().newJsonParser().encodeResourceToString(patient));
+            log.info(FhirContext.forR4().newJsonParser().setPrettyPrint(false).encodeResourceToString(patient));
             return patient;
         } catch (Exception e) {
             log.info("error during retrieval of patient");
@@ -38,7 +38,7 @@ public class FHIRAdapter {
                             .withId(id).execute();
 
             log.info("retrieving practitioner via FHIR");
-            log.info(FhirContext.forR4().newJsonParser().encodeResourceToString(practitioner));
+            log.info(FhirContext.forR4().newJsonParser().setPrettyPrint(false).encodeResourceToString(practitioner));
             return practitioner;
         } catch (Exception e) {
             log.info("error during retrieval of practitioner");
