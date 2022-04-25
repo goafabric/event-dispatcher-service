@@ -14,7 +14,10 @@
     <groupId>org.goafabric</groupId>
     <artifactId>event-dispatcher-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    
+
+    <properties>
+        <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
+    </properties>
     <dependencies>
         <!-- web -->
         <dependency>
@@ -32,12 +35,7 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-native</artifactId>
-        </dependency>
-
+        
         <!-- code generation -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -57,10 +55,12 @@
         </dependency>
 
         <!-- native -->
+        <!--
         <dependency>
             <groupId>org.springframework.experimental</groupId>
             <artifactId>spring-native</artifactId>
         </dependency>
+        -->
 
         <!-- test *-->
         <dependency>
