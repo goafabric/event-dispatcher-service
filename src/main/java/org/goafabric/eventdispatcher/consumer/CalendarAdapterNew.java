@@ -38,18 +38,18 @@ public class CalendarAdapterNew {
     }
 
     private void createPatient(String id) {
-        log.info("create patient");
+        log.info("calendar; create patient");
     }
 
     private void updatePatient(String id) {
-        log.info("update patient");
+        log.info("calendar; update patient");
     }
 
     private void updatePractitioner(String id) {
-        log.info("update practitioner");
+        log.info("calendar; update practitioner");
     }
 
     private void createPractitioner(String id) {
-        log.info("create practitioner");
+        log.info("calendar; create practitioner");
     }
 }

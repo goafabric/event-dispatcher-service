@@ -26,5 +26,15 @@ public class EventDispatcherService {
     public void updatePatient() {
         eventDispatcherLogic.updatePatient();
     }
+
+    @GetMapping(value = "createpractitioner")
+    public void createPractitioner() {
+        eventDispatcherLogic.createPractitioner();
+    }
+
+    @GetMapping(value = "updatepractitioner")
+    public void updatePractitioner() {
+        eventDispatcherLogic.updatePractitioner();
+    }
 }
 

@@ -33,6 +33,14 @@ public class EventDispatcherLogic {
         eventProducer.produce(createEvent("Patient", DbOperation.UPDATE));
     }
 
+    public void createPractitioner() {
+        eventProducer.produce(createEvent("Employee", DbOperation.CREATE));
+    }
+
+    public void updatePractitioner() {
+        eventProducer.produce(createEvent("Employee", DbOperation.UPDATE));
+    }
+
     private ChangeEvent createEvent(String typeName, DbOperation operation) {
         return ChangeEvent.builder()
                 .id(UUID.randomUUID().toString())
