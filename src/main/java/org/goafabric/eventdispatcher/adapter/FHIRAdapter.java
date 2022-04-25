@@ -5,14 +5,23 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Practitioner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 @Component
 @Slf4j
 public class FHIRAdapter {
-    final IGenericClient client = FhirContext.forR4().newRestfulGenericClient(
-            "http://localhost:50300/fhir/r4");
+    private IGenericClient client = null;
 
+    @Value("${adapter.fhir.url}")
+    private String fhirUrl;
+
+    @PostConstruct
+    public void init() {
+        client = FhirContext.forR4().newRestfulGenericClient(fhirUrl);
+    }
 
     public Patient getPatient(String id) {
         log.info("retrieving patient via FHIR");
@@ -25,7 +34,7 @@ public class FHIRAdapter {
             log.info(FhirContext.forR4().newJsonParser().setPrettyPrint(false).encodeResourceToString(patient));
             return patient;
         } catch (Exception e) {
-            log.info("error during retrieval of patient");
+            log.error("error during retrieval of patient", e);
             return null;
         }
     }
@@ -41,7 +50,7 @@ public class FHIRAdapter {
             log.info(FhirContext.forR4().newJsonParser().setPrettyPrint(false).encodeResourceToString(practitioner));
             return practitioner;
         } catch (Exception e) {
-            log.info("error during retrieval of practitioner");
+            log.error("error during retrieval of practitioner", e);
             return null;
         }
     }
