@@ -1,3 +1,4 @@
+/*
 package org.goafabric.eventdispatcher.consumer;
 
 import lombok.extern.slf4j.Slf4j;
@@ -59,3 +60,4 @@ public class CalendarAdapter {
         log.info("organization create for id = {}", id);
     }
 }
+*/
