@@ -11,4 +11,8 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=admin
+    volumes:
+      - rabbitdata:/var/lib/rabbitmq
+volumes:
+  rabbitdata:
 
