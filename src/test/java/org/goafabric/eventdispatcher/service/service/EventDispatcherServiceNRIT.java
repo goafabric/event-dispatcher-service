@@ -34,6 +34,10 @@ class EventDispatcherServiceNRIT {
         dispatch(createEvent(new Patient(), DbOperation.UPDATE));
         dispatch(createEvent(new Patient(), DbOperation.DELETE));
 
+        dispatch(createEvent(new Patient(), DbOperation.CREATE));
+        dispatch(createEvent(new Patient(), DbOperation.UPDATE));
+        dispatch(createEvent(new Patient(), DbOperation.DELETE));
+        /*
         dispatch(createEvent(new Employee(), DbOperation.CREATE));
         dispatch(createEvent(new Employee(), DbOperation.UPDATE));
         dispatch(createEvent(new Employee(), DbOperation.DELETE));
@@ -41,6 +45,8 @@ class EventDispatcherServiceNRIT {
         dispatch(createEvent(new Organization(), DbOperation.CREATE));
         dispatch(createEvent(new Organization(), DbOperation.UPDATE));
         dispatch(createEvent(new Organization(), DbOperation.DELETE));
+
+         */
     }
 
     private void dispatch(ChangeEvent changeEvent)  {

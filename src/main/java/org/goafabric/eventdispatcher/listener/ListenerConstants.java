@@ -8,4 +8,6 @@ public class ListenerConstants {
     public static final String PATIENT = "patient";
     public static final String PRACTITIONER = "practitioner";
     public static final String ORGANIZATION = "organization";
+
+    public static final String MAIN_TOPIC_EXCHANGE = "main.topic";
 }
