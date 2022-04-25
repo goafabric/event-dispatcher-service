@@ -14,7 +14,7 @@ import static org.goafabric.eventdispatcher.listener.ListenerConstants.MAIN_TOPI
 
 @Slf4j
 @Component
-public class CalendarAdapterNew {
+public class CalendarAdapter {
     private static final String QUEUE_NAME = "CalendarQueue";
 
     @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
@@ -38,18 +38,18 @@ public class CalendarAdapterNew {
     }
 
     private void createPatient(String id) {
-        log.info("calendar; create patient");
+        log.info("create patient; id = {}", id);
     }
 
     private void updatePatient(String id) {
-        log.info("calendar; update patient");
+        log.info("update patient; id = {}", id);
     }
 
     private void updatePractitioner(String id) {
-        log.info("calendar; update practitioner");
+        log.info("update practitioner; id = {}", id);
     }
 
     private void createPractitioner(String id) {
-        log.info("calendar; create practitioner");
+        log.info("create practitioner; id = {}", id);
     }
 }

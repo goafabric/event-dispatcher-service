@@ -38,18 +38,18 @@ public class LoggerAdapter {
     }
 
     private void createPatient(String id) {
-        log.info("logger; create patient");
+        log.info("create patient; id = {}", id);
     }
 
     private void updatePatient(String id) {
-        log.info("logger; update patient");
+        log.info("update patient; id = {}", id);
     }
 
     private void updatePractitioner(String id) {
-        log.info("logger; update practitioner");
+        log.info("update practitioner; id = {}", id);
     }
 
     private void createPractitioner(String id) {
-        log.info("logger; create practitioner");
+        log.info("create practitioner; id = {}", id);
     }
 }
