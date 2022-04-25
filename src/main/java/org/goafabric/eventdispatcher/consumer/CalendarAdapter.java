@@ -17,8 +17,7 @@ import static org.goafabric.eventdispatcher.listener.ListenerConstants.MAIN_TOPI
 @Slf4j
 @Component
 public class CalendarAdapter {
-    @Autowired
-    private FHIRAdapter fhirAdapter;
+    @Autowired private FHIRAdapter fhirAdapter;
 
     private static final String QUEUE_NAME = "CalendarQueue";
 
