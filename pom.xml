@@ -65,14 +65,7 @@
             <version>5.5.0</version>
             <optional>true</optional>
         </dependency>
-
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-structures-dstu3</artifactId>
-            <version>5.5.0</version>
-            <optional>true</optional>
-        </dependency>
-
+        
         <!-- native -->
         <dependency>
             <groupId>org.springframework.experimental</groupId>
