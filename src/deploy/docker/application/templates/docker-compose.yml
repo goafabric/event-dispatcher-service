@@ -4,6 +4,7 @@ services:
   event-dispatcher-service:
     container_name: ${_Values_root_name}-application
     image:  ${_Values_image_repository}:${_Values_image_tag}
+#    image:  ${_Values_image_repository}-native:${_Values_image_tag}
     restart: 'no'
     ports:
       - "${_Values_service_port}:${_Values_service_port}"
