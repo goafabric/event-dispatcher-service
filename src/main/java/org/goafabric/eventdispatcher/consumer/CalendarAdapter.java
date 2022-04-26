@@ -1,14 +1,12 @@
 package org.goafabric.eventdispatcher.consumer;
 
 import lombok.extern.slf4j.Slf4j;
-import org.goafabric.eventdispatcher.adapter.FHIRAdapter;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +15,6 @@ import static org.goafabric.eventdispatcher.listener.ListenerConstants.MAIN_TOPI
 @Slf4j
 @Component
 public class CalendarAdapter {
-    @Autowired private FHIRAdapter fhirAdapter;
-
     private static final String QUEUE_NAME = "CalendarQueue";
 
     @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
@@ -47,7 +43,6 @@ public class CalendarAdapter {
 
     private void updatePatient(String id) {
         log.info("update patient; id = {}", id);
-        fhirAdapter.getPatient(id);
     }
 
     private void createPractitioner(String id) {
@@ -56,7 +51,6 @@ public class CalendarAdapter {
 
     private void updatePractitioner(String id) {
         log.info("update practitioner; id = {}", id);
-        fhirAdapter.getPractitioner(id);
     }
 
 }

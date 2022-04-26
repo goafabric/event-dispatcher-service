@@ -38,21 +38,15 @@ class EventDispatcherServiceNRIT {
         dispatch(createEvent(new Patient(), DbOperation.UPDATE));
         dispatch(createEvent(new Patient(), DbOperation.DELETE));
 
+        dispatch(createEvent(new Employee(), DbOperation.CREATE));
+        dispatch(createEvent(new Employee(), DbOperation.UPDATE));
+        dispatch(createEvent(new Employee(), DbOperation.DELETE));
 
         dispatch(createEvent(new Organization(), DbOperation.CREATE));
         dispatch(createEvent(new Organization(), DbOperation.UPDATE));
         dispatch(createEvent(new Organization(), DbOperation.DELETE));
 
-
-        /*
-        dispatch(createEvent(new Employee(), DbOperation.CREATE));
-        dispatch(createEvent(new Employee(), DbOperation.UPDATE));
-        dispatch(createEvent(new Employee(), DbOperation.DELETE));
-
-         */
-
-        Thread.sleep(2000);
-
+        Thread.sleep(1000);
     }
 
     private void dispatch(ChangeEvent changeEvent)  {
