@@ -19,7 +19,7 @@ public class EventProducer {
     private HashMap<String, String> exchanges;
 
     public void produce(ChangeEvent changeEvent) {
-        //log.info(changeEvent.toString());
+        log.debug(changeEvent.toString());
         final String type = exchanges.get(changeEvent.getType());
         if (type != null) {
             rabbitTemplate.convertAndSend(
