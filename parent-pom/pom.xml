@@ -398,7 +398,7 @@
                                             </env>
                                             <pullPolicy>IF_NOT_PRESENT</pullPolicy>
                                             <buildpacks>
-                                                <buildpack>gcr.io/paketo-buildpacks/java-native-image:5.12.0</buildpack>
+                                                <buildpack>gcr.io/paketo-buildpacks/java-native-image:7.18.0</buildpack>
                                             </buildpacks>
                                         </image>
                                     </configuration>
