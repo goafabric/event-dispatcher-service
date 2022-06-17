@@ -397,6 +397,9 @@
                                                 <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-J-Xmx6000m</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                                             </env>
                                             <pullPolicy>IF_NOT_PRESENT</pullPolicy>
+                                            <buildpacks>
+                                                <buildpack>gcr.io/paketo-buildpacks/java-native-image:5.12.0</buildpack>
+                                            </buildpacks>
                                         </image>
                                     </configuration>
                                 </execution>
