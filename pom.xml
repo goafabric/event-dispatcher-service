@@ -54,13 +54,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-
-        <!-- native -->
-        <dependency>
-            <groupId>org.springframework.experimental</groupId>
-            <artifactId>spring-native</artifactId>
-        </dependency>
-
+        
         <!-- test *-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
