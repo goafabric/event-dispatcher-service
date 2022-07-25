@@ -13,6 +13,12 @@ management:
         exposure:
           include: "health,prometheus,heapdump"
 
+#jaeger / zipkin
+spring.zipkin.service.name: "event-dispatcher"
+spring.zipkin.enabled: true
+spring.sleuth.enabled: ${spring.zipkin.enabled}
+logging.level.zipkin2: "FATAL"
+
 #rabbitmq
 spring:
   rabbitmq:
