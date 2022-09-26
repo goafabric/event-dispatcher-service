@@ -13,9 +13,13 @@
 
     <groupId>org.goafabric</groupId>
     <artifactId>event-dispatcher-service</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <properties>
+        <spring.boot.version>3.0.0-M5</spring.boot.version>
+        <spring.cloud.version>2022.0.0-M4</spring.cloud.version>
+        <java.version>17</java.version>
+
         <spring.native.buildpack.version>gcr.io/paketo-buildpacks/java-native-image:5.12.0</spring.native.buildpack.version>
     </properties>
     
@@ -36,18 +40,6 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-
-        <!--
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-        </dependency>
-        -->
         
         <!-- code generation -->
         <dependency>
@@ -102,6 +94,7 @@
     </build>
 
     <!-- native application build -->
+    <!--
     <profiles>
         <profile>
             <id>docker-image-native</id>
@@ -119,4 +112,40 @@
             </build>
         </profile>
     </profiles>
+    -->
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshot</id>
+            <name>Spring Snapshot Repository</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            <releases><enabled>false</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
