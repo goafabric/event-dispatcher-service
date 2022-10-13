@@ -39,7 +39,6 @@ public class Application {
         }
 
         private void registerReflection(Class clazz, RuntimeHints hints) {
-            System.out.println("!!yo");
             Arrays.stream(clazz.getDeclaredConstructors()).forEach(
                     r -> hints.reflection().registerConstructor(r, ExecutableMode.INVOKE));
             Arrays.stream(clazz.getDeclaredMethods()).forEach(
