@@ -1,6 +1,6 @@
 package org.goafabric.eventdispatcher;
 
-import org.springframework.aot.hint.ExecutableMode;
+import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import org.springframework.boot.CommandLineRunner;
@@ -10,8 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportRuntimeHints;
-
-import java.util.Arrays;
 
 
 /**
@@ -32,18 +30,10 @@ public class Application {
     }
 
     static class ApplicationRuntimeHints implements RuntimeHintsRegistrar {
-
         @Override
         public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-            registerReflection(RabbitHealthIndicator.class, hints);
+            hints.reflection().registerType(RabbitHealthIndicator.class,
+                    MemberCategory.INVOKE_DECLARED_CONSTRUCTORS, MemberCategory.INVOKE_DECLARED_METHODS);
         }
-
-        private void registerReflection(Class clazz, RuntimeHints hints) {
-            Arrays.stream(clazz.getDeclaredConstructors()).forEach(
-                    r -> hints.reflection().registerConstructor(r, ExecutableMode.INVOKE));
-            Arrays.stream(clazz.getDeclaredMethods()).forEach(
-                    r -> hints.reflection().registerMethod(r, ExecutableMode.INVOKE));
-        }
-
     }
 }
