@@ -1,0 +1,3 @@
+Caused by: java.lang.NoSuchMethodException: org.springframework.boot.actuate.amqp.RabbitHealthIndicator.<init>(org.springframework.amqp.rabbit.core.RabbitTemplate)
+        at java.lang.Class.getConstructor0(DynamicHub.java:3585) ~[event-dispatcher-service:na]
+        at java.lang.Class.getDeclaredConstructor(DynamicHub.java:2754) ~[event-dispatcher-service:na]
