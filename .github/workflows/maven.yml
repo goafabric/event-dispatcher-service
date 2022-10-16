@@ -14,12 +14,24 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}   
     - uses: actions/checkout@v2
-    - name: Set up JDK 
+    - name: Set up JDK
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
         java-version: '17'
-    - name: JVM Build
-      run: mvn -B clean deploy -P docker-image --file pom.xml
+        
+#    - name: JVM Build
+#      run: mvn -B clean deploy -P docker-image --file pom.xml
 #    - name: Native Build
 #      run: mvn -B clean deploy -P docker-image-native --file pom.xml
+   
+    - name: Multiarch Image
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 7.4
+        arguments: jib jib
+    - name: Native Image
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 7.4
+        arguments: bootBuildImage dockerPush
