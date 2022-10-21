@@ -1,6 +1,5 @@
 package org.goafabric.eventdispatcher;
 
-import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import org.springframework.boot.CommandLineRunner;
@@ -31,8 +30,11 @@ public class Application {
     static class ApplicationRuntimeHints implements RuntimeHintsRegistrar {
         @Override
         public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
+            /*
             hints.reflection().registerType(org.springframework.boot.actuate.amqp.RabbitHealthIndicator.class,
                     MemberCategory.INVOKE_DECLARED_CONSTRUCTORS, MemberCategory.INVOKE_DECLARED_METHODS);
+                    
+             */
         }
     }
 }
