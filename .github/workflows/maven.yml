@@ -30,8 +30,8 @@ jobs:
       with:
         gradle-version: 7.4
         arguments: jib jib
- #   - name: Native Image
- #     uses: gradle/gradle-build-action@v2
- #     with:
- #       gradle-version: 7.4
- #       arguments: bootBuildImage dockerPush
+    - name: Native Image
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 7.4
+        arguments: bootBuildImage dockerPush
