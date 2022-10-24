@@ -1,14 +1,14 @@
-package org.goafabric.eventdispatcher.service.service;
+package org.goafabric.eventdispatcher.service.controller;
 
 import org.goafabric.eventdispatcher.service.logic.EventDispatcherLogic;
-import org.goafabric.eventdispatcher.service.service.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "events", produces = MediaType.APPLICATION_JSON_VALUE)
-public class EventDispatcherService {
+public class EventDispatcherController {
     @Autowired
     EventDispatcherLogic eventDispatcherLogic;
 

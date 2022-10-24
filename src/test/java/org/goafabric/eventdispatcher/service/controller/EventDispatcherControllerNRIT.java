@@ -1,7 +1,7 @@
-package org.goafabric.eventdispatcher.service.service;
+package org.goafabric.eventdispatcher.service.controller;
 
-import org.goafabric.eventdispatcher.service.service.dto.ChangeEvent;
-import org.goafabric.eventdispatcher.service.service.dto.DbOperation;
+import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class EventDispatcherServiceNRIT {
+class EventDispatcherControllerNRIT {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String DISPATCH_URL = "http://localhost:50500/events/dispatch";
 

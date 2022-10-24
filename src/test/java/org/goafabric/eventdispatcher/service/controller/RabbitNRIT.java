@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.service.service;
+package org.goafabric.eventdispatcher.service.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

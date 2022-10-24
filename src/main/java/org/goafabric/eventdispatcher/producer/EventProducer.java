@@ -2,7 +2,7 @@ package org.goafabric.eventdispatcher.producer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.goafabric.eventdispatcher.listener.ListenerConstants;
-import org.goafabric.eventdispatcher.service.service.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

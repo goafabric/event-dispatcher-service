@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.service.service.dto;
+package org.goafabric.eventdispatcher.service.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

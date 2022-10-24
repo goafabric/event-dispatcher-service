@@ -2,8 +2,8 @@ package org.goafabric.eventdispatcher.service.logic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.goafabric.eventdispatcher.producer.EventProducer;
-import org.goafabric.eventdispatcher.service.service.dto.ChangeEvent;
-import org.goafabric.eventdispatcher.service.service.dto.DbOperation;
+import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
