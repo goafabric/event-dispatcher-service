@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  event-dispatcher-service:
+  application:
     container_name: ${_Values_root_name}-application
     image:  ${_Values_image_repository}${_Values_image_native}:${_Values_image_tag}
     restart: 'no'
