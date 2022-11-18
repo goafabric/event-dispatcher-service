@@ -30,7 +30,7 @@ services:
       - management.endpoint.health.show-details=always
       - management.endpoints.web.exposure.include=health,prometheus,heapdump
       #rabbit
-      - spring.rabbitmq.host=host.docker.internal
+      - spring.rabbitmq.host=${_Values_root_name}-rabbitmq
       #log levels
       - logging.level.root=WARN
       - logging.level.org.springframework=INFO
@@ -41,9 +41,28 @@ services:
       - logging.file.max-size=10MB
       - logging.file.name=/usr/share/logs/application.log
 
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    container_name: ${_Values_root_name}-rabbitmq
+    image: rabbitmq:3.11.1-management
+    restart: 'no'
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    volumes:
+      - rabbitdata:/var/lib/rabbitmq
+    networks:
+      - ${_Values_root_name}-net
+
 volumes:
     tmp:
     applogs:
+    rabbitdata:
 
 networks:
   event-dispatcher-service-net:
