@@ -19,11 +19,13 @@ public class EventDispatcherController {
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
+    //dispatch event to be called from external rest clients
     @PostMapping(value = "dispatch", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void dispatch(@RequestBody ChangeEvent changeEvent) {
         eventDispatcherLogic.dispatch(changeEvent);
     }
 
+    //events to be called from html page
     @GetMapping("createpatient")
     @MessageMapping("createpatient")
     public void createPatient() {
