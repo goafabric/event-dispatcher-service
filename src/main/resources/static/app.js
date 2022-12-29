@@ -6,11 +6,9 @@ function connectSocket() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        /*
-        stompClient.subscribe('/topic/chat/public', function (chatMessage) {
-            showGreeting(JSON.parse(chatMessage.body).content);
+        stompClient.subscribe('/topic/chat/public', function (socketMessage) {
+            console.log(JSON.parse(socketMessage.body).message);
         });
-        */
     });
 }
 
