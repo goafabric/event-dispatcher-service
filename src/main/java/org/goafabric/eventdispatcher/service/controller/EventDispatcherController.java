@@ -18,23 +18,27 @@ public class EventDispatcherController {
     }
 
     @GetMapping(value = "createpatient")
-    public void createPatient() {
+    public String createPatient() {
         eventDispatcherLogic.createPatient();
+        return "patient created";
     }
 
     @GetMapping(value = "updatepatient")
-    public void updatePatient() {
+    public String updatePatient() {
         eventDispatcherLogic.updatePatient();
+        return "patient updated";
     }
 
     @GetMapping(value = "createpractitioner")
-    public void createPractitioner() {
+    public String createPractitioner() {
         eventDispatcherLogic.createPractitioner();
+        return "practitioner created";
     }
 
     @GetMapping(value = "updatepractitioner")
-    public void updatePractitioner() {
+    public String updatePractitioner() {
         eventDispatcherLogic.updatePractitioner();
+        return "practitioner updated";
     }
 }
 
