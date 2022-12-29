@@ -25,20 +25,24 @@ public class EventDispatcherLogic {
         eventProducer.produce(changeEvent);
     }
 
-    public void createPatient() {
+    public String createPatient() {
         eventProducer.produce(createEvent("Patient", DbOperation.CREATE));
+        return "patient created";
     }
 
-    public void updatePatient() {
+    public String updatePatient() {
         eventProducer.produce(createEvent("Patient", DbOperation.UPDATE));
+        return "patient updated";
     }
 
-    public void createPractitioner() {
+    public String createPractitioner() {
         eventProducer.produce(createEvent("Employee", DbOperation.CREATE));
+        return "practitioner created";
     }
 
-    public void updatePractitioner() {
+    public String updatePractitioner() {
         eventProducer.produce(createEvent("Employee", DbOperation.UPDATE));
+        return "practitioner updated";
     }
 
     private ChangeEvent createEvent(String typeName, DbOperation operation) {

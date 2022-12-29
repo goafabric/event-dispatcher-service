@@ -25,35 +25,30 @@ public class EventDispatcherController {
 
     @GetMapping("createpatient")
     @MessageMapping("createpatient")
-    public String createPatient() {
-        eventDispatcherLogic.createPatient();
-        messagingTemplate.convertAndSend("/topic/chat/public",
-                SocketMessage.builder().message("patient.created").build());
-        return "patient created";
+    public void createPatient() {
+        final String message = eventDispatcherLogic.createPatient();
+        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
     }
 
     @GetMapping("updatepatient")
     @MessageMapping("updatepatient")
-    public String updatePatient() {
-        eventDispatcherLogic.updatePatient();
-        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message("patient.created").build());
-        return "patient updated";
+    public void updatePatient() {
+        final String message = eventDispatcherLogic.updatePatient();
+        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
     }
 
     @GetMapping("createpractitioner")
     @MessageMapping("createpractitioner")
-    public String createPractitioner() {
-        eventDispatcherLogic.createPractitioner();
-        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message("patient.created").build());
-        return "practitioner created";
+    public void createPractitioner() {
+        final String message = eventDispatcherLogic.createPractitioner();
+        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
     }
 
     @GetMapping("updatepractitioner")
     @MessageMapping("updatepractitioner")
-    public String updatePractitioner() {
-        eventDispatcherLogic.updatePractitioner();
-        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message("patient.created").build());
-        return "practitioner updated";
+    public void updatePractitioner() {
+        final String message = eventDispatcherLogic.updatePractitioner();
+        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
     }
 }
 
