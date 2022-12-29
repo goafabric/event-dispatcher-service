@@ -1,10 +1,11 @@
 package org.goafabric.eventdispatcher.service.controller.dto;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
-@Value
 @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SocketMessage {
     private String message;
 }
