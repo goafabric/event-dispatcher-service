@@ -57,12 +57,14 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
+
+        <!-- Javascript webjars, not working with native image so we serve static copied javascript -->
+        <!--
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator-core</artifactId>
         </dependency>
 
-        <!-- Javascript -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>sockjs-client</artifactId>
@@ -74,6 +76,7 @@
             <artifactId>stomp-websocket</artifactId>
             <version>2.3.3</version>
         </dependency>
+        -->
 
         <!-- test *-->
         <dependency>
