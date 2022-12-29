@@ -10,15 +10,13 @@ import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import static org.goafabric.eventdispatcher.listener.ListenerConstants.MAIN_TOPIC_EXCHANGE;
-
 @Slf4j
 @Component
 public class CalendarAdapter {
     private static final String QUEUE_NAME = "CalendarQueue";
 
     @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
-            exchange = @Exchange(value = MAIN_TOPIC_EXCHANGE, type = ExchangeTypes.TOPIC), key = {"patient.*", "practitioner.*"}))
+            exchange = @Exchange(value = "main.topic", type = ExchangeTypes.TOPIC), key = {"patient.*", "practitioner.*"}))
     public void process(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String key, String id) {
         if (key.equals("patient.create")) {
             createPatient(id);
