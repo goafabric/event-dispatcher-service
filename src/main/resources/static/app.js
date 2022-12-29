@@ -20,18 +20,18 @@ function disconnectSocket() {
 }
 
 function createPatient() {
-    stompClient.send("/app/createpatient", {}, "");
+    stompClient.send("/createpatient", {}, "");
 }
 
 function updatePatient() {
-    stompClient.send("/app/updatepatient", {}, "");
+    stompClient.send("/updatepatient", {}, "");
 }
 
 function createPractitioner() {
-    stompClient.send("/app/createpractitioner", {}, "");
+    stompClient.send("/createpractitioner", {}, "");
 }
 
 function updatePractitioner() {
-    stompClient.send("/app/updatepractitioner", {}, "");
+    stompClient.send("/updatepractitioner", {}, "");
 }
 
