@@ -4,6 +4,7 @@ import org.goafabric.eventdispatcher.service.logic.EventDispatcherLogic;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,25 +18,29 @@ public class EventDispatcherController {
         eventDispatcherLogic.dispatch(changeEvent);
     }
 
-    @GetMapping(value = "createpatient")
+    @GetMapping("createpatient")
+    @MessageMapping("/createpatient")
     public String createPatient() {
         eventDispatcherLogic.createPatient();
         return "patient created";
     }
 
-    @GetMapping(value = "updatepatient")
+    @GetMapping("updatepatient")
+    @MessageMapping("updatepatient")
     public String updatePatient() {
         eventDispatcherLogic.updatePatient();
         return "patient updated";
     }
 
-    @GetMapping(value = "createpractitioner")
+    @GetMapping("createpractitioner")
+    @MessageMapping("createpractitioner")
     public String createPractitioner() {
         eventDispatcherLogic.createPractitioner();
         return "practitioner created";
     }
 
-    @GetMapping(value = "updatepractitioner")
+    @GetMapping("updatepractitioner")
+    @MessageMapping("updatepractitioner")
     public String updatePractitioner() {
         eventDispatcherLogic.updatePractitioner();
         return "practitioner updated";

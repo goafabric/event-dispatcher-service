@@ -55,6 +55,9 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct'
 	annotationProcessor 'org.mapstruct:mapstruct-processor'
 
+	//websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
