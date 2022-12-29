@@ -6,8 +6,8 @@ function connectSocket() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/chat/public', function (socketMessage) {
-            console.log(JSON.parse(socketMessage.body).message);
+        stompClient.subscribe('/public', function (socketMessage) {
+            console.log("Got Socket Message : " + JSON.parse(socketMessage.body).message);
         });
     });
 }
@@ -20,18 +20,18 @@ function disconnectSocket() {
 }
 
 function createPatient() {
-    stompClient.send("/createpatient", {}, "");
+    stompClient.send("/events/createpatient", {}, "");
 }
 
 function updatePatient() {
-    stompClient.send("/updatepatient", {}, "");
+    stompClient.send("/events/updatepatient", {}, "");
 }
 
 function createPractitioner() {
-    stompClient.send("/createpractitioner", {}, "");
+    stompClient.send("/events/createpractitioner", {}, "");
 }
 
 function updatePractitioner() {
-    stompClient.send("/updatepractitioner", {}, "");
+    stompClient.send("/events/updatepractitioner", {}, "");
 }
 

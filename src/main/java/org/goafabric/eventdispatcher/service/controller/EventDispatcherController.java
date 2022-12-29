@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "events", produces = MediaType.APPLICATION_JSON_VALUE)
+@MessageMapping(value = "events")
 public class EventDispatcherController {
     @Autowired
     EventDispatcherLogic eventDispatcherLogic;
@@ -27,28 +28,28 @@ public class EventDispatcherController {
     @MessageMapping("createpatient")
     public void createPatient() {
         final String message = eventDispatcherLogic.createPatient();
-        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
+        messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
     }
 
     @GetMapping("updatepatient")
     @MessageMapping("updatepatient")
     public void updatePatient() {
         final String message = eventDispatcherLogic.updatePatient();
-        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
+        messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
     }
 
     @GetMapping("createpractitioner")
     @MessageMapping("createpractitioner")
     public void createPractitioner() {
         final String message = eventDispatcherLogic.createPractitioner();
-        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
+        messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
     }
 
     @GetMapping("updatepractitioner")
     @MessageMapping("updatepractitioner")
     public void updatePractitioner() {
         final String message = eventDispatcherLogic.updatePractitioner();
-        messagingTemplate.convertAndSend("/topic/chat/public", SocketMessage.builder().message(message).build());
+        messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
     }
 }
 
