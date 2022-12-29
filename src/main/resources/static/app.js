@@ -2,7 +2,7 @@ var stompClient = null;
 
 
 function connectSocket() {
-    var socket = new SockJS(window.location + 'websocket');
+    var socket = new SockJS(window.location.href.replace('#', '') + 'websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
