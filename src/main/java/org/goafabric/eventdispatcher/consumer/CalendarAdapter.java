@@ -18,20 +18,11 @@ public class CalendarAdapter {
     @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
             exchange = @Exchange(value = "main.topic", type = ExchangeTypes.TOPIC), key = {"patient.*", "practitioner.*"}))
     public void process(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String key, String id) {
-        if (key.equals("patient.create")) {
-            createPatient(id);
-        }
-
-        if (key.equals("patient.update")) {
-            updatePatient(id);
-        }
-
-        if (key.equals("practitioner.create")) {
-            createPractitioner(id);
-        }
-
-        if (key.equals("practitioner.update")) {
-            updatePractitioner(id);
+        switch (key) {
+            case "patient.create" : createPatient(id); break;
+            case "patient.update" : updatePatient(id); break;
+            case "practitioner.create" : createPractitioner(id); break;
+            case "practitioner.update" : updatePractitioner(id); break;
         }
     }
 
