@@ -29,34 +29,30 @@ public class EventDispatcherController {
     //events to be called from html page
     @GetMapping("createpatient")
     @MessageMapping("createpatient")
-    public String createPatient() {
+    public void createPatient() {
         final String message = eventDispatcherLogic.createPatient();
         messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
-        return message;
     }
 
     @GetMapping("updatepatient")
     @MessageMapping("updatepatient")
-    public String updatePatient() {
+    public void updatePatient() {
         final String message = eventDispatcherLogic.updatePatient();
         messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
-        return message;
     }
 
     @GetMapping("createpractitioner")
     @MessageMapping("createpractitioner")
-    public String createPractitioner() {
+    public void createPractitioner() {
         final String message = eventDispatcherLogic.createPractitioner();
         messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
-        return message;
     }
 
     @GetMapping("updatepractitioner")
     @MessageMapping("updatepractitioner")
-    public String updatePractitioner() {
+    public void updatePractitioner() {
         final String message = eventDispatcherLogic.updatePractitioner();
         messagingTemplate.convertAndSend("/public", SocketMessage.builder().message(message).build());
-        return message;
     }
 }
 
