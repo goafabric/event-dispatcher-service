@@ -1,3 +1,4 @@
+/*
 package org.goafabric.eventdispatcher.service.controller;
 
 import org.junit.jupiter.api.Test;
@@ -16,3 +17,6 @@ public class RabbitNRIT {
         int x = 5;
     }
 }
+
+
+ */
