@@ -44,7 +44,7 @@ services:
       - logging.file.max-size=10MB
       - logging.file.name=/usr/share/logs/application.log
       #profile
-      - spring.profiles.active=kafka
+      - spring.profiles.active=rabbit
 
     depends_on:
       - rabbitmq
