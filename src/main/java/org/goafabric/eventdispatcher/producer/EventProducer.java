@@ -30,7 +30,7 @@ public class EventProducer {
     }
 
     private void send(@NonNull String type, @NonNull String operation, @NonNull String referenceId) {
-        kafkaTemplate.send("main.topic", "##id " + referenceId);
+        kafkaTemplate.send("main.topic", type + "." + operation, "##id " + referenceId);
         //rabbitTemplate.convertAndSend("main.topic", type + "."  + operation, referenceId);
     }
 

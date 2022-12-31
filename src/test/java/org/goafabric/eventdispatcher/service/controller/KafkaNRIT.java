@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.KafkaTemplate;
 
 @SpringBootTest
-public class KafkaIT {
+public class KafkaNRIT {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 

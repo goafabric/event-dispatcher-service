@@ -1,5 +1,6 @@
 https://developer.confluent.io/quickstart/kafka-docker/
 https://www.baeldung.com/ops/kafka-docker-setup
+https://docs.spring.io/spring-kafka/docs/current/reference/html/#quick-tour
 
 # create topic
 docker exec broker \
