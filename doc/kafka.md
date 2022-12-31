@@ -3,20 +3,20 @@ https://www.baeldung.com/ops/kafka-docker-setup
 https://docs.spring.io/spring-kafka/docs/current/reference/html/#quick-tour
 
 # create topic
-docker exec broker \
-kafka-topics --bootstrap-server broker:9092 \
+docker exec kafka \
+kafka-topics --bootstrap-server host.docker.internal:9092 \
 --create \
 --topic quickstart
               
 # listen to topics
-docker exec --interactive --tty broker \
-kafka-console-consumer --bootstrap-server broker:9092 \
+docker exec --interactive --tty kafka \
+kafka-console-consumer --bootstrap-server host.docker.internal:9092 \
 --topic quickstart \
 --from-beginning
 
 # write to topics
-docker exec --interactive --tty broker \
-kafka-console-producer --bootstrap-server broker:9092 \
+docker exec --interactive --tty kafka \
+kafka-console-producer --bootstrap-server host.docker.internal:9092 \
 --topic quickstart
 
 # kafkaui 
