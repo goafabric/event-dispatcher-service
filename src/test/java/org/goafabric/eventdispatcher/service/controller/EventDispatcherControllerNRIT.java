@@ -1,8 +1,10 @@
 package org.goafabric.eventdispatcher.service.controller;
 
+import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +18,9 @@ class EventDispatcherControllerNRIT {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String DISPATCH_URL = "http://localhost:50500/events/dispatch";
 
+    @Autowired
+    private EventProducer eventProducer;
+
     private static class Patient {
         private final String id = "44";
     }
@@ -26,6 +31,11 @@ class EventDispatcherControllerNRIT {
 
     private static class Organization {
         private final String id = "48";
+    }
+
+    @Test
+    public void testProduce() {
+        eventProducer.produce(createEvent(new Patient(), DbOperation.CREATE));
     }
 
     @Test
