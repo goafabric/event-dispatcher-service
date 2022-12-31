@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class EventProducer {
     //@Autowired private RabbitTemplate rabbitTemplate;
 
-    @Autowired
+    //@Autowired
     private KafkaTemplate kafkaTemplate;
 
     @Autowired

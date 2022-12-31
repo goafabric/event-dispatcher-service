@@ -34,6 +34,12 @@ spring:
 
 adapter.fhir.url: "http://localhost:50300/fhir/r4"
 
+#activate mongodb or elasticsearch by excluding the other
+rabbit.configuration: "org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration"
+kafka.configuration: "org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration"
+
+spring.autoconfigure.exclude: ${rabbit.configuration}
+
 #logging
 logging.level.root: "WARN"
 logging.level.org.springframework: "INFO"

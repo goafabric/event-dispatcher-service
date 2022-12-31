@@ -1,6 +1,12 @@
 package org.goafabric.eventdispatcher.consumer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -11,13 +17,18 @@ import org.springframework.stereotype.Component;
 public class LoggerAdapter {
     private static final String QUEUE_NAME = "LoggerQueue";
 
-    /*
     @RabbitListener(bindings = @QueueBinding(value = @Queue(name = QUEUE_NAME),
             exchange = @Exchange(value = "main.topic", type = ExchangeTypes.TOPIC), key = {"patient.*", "practitioner.*"}))
-    public void process(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String key, String id) {
-     */
-    @KafkaListener(id = "logger", topics = "main.topic")
-    public void process(@Header(KafkaHeaders.RECEIVED_KEY) String key, String id) {
+    public void processRabbit(@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String key, String id) {
+        process(key,id);
+    }
+
+    @KafkaListener(id = QUEUE_NAME, topics = "main.topic")
+    public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, String id) {
+        process(key,id);
+    }
+
+    private void process(String key, String id) {
         switch (key) {
             case "patient.create" : createPatient(id); break;
             case "patient.update" : updatePatient(id); break;
