@@ -27,6 +27,11 @@ spring:
     username: admin
     password: admin
 
+
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+
 adapter.fhir.url: "http://localhost:50300/fhir/r4"
 
 #logging

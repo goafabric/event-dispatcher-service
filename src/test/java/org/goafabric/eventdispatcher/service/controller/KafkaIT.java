@@ -12,7 +12,7 @@ public class KafkaIT {
 
     @Test
     public void test() throws InterruptedException {
-        kafkaTemplate.send("topic1", "test");
+        kafkaTemplate.send("topic1", "#hit me baby one more time");
         Thread.sleep(1000);
     }
 }
