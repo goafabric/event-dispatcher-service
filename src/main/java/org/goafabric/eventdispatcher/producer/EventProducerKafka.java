@@ -1,20 +1,21 @@
 package org.goafabric.eventdispatcher.producer;
 
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-@Profile("org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration")
+@Profile("kafka")
+@Import(KafkaAutoConfiguration.class)
 @Component
-@Slf4j
 public class EventProducerKafka implements EventProducer {
 
     @Autowired

@@ -35,11 +35,7 @@ spring:
 adapter.fhir.url: "http://localhost:50300/fhir/r4"
 
 #enable kafka or rabbit
-spring.profiles.active: ${spring.autoconfigure.exclude}
-rabbit.configuration: "org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration"
-kafka.configuration: "org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration"
-spring.autoconfigure.exclude: ${rabbit.configuration}
-
+spring.profiles.active: rabbit
 
 #logging
 logging.level.root: "WARN"
