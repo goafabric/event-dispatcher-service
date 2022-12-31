@@ -33,6 +33,7 @@ services:
       - management.endpoints.web.exposure.include=health,prometheus,heapdump
       #rabbit
       - spring.rabbitmq.host=${_Values_root_name}-rabbitmq
+      - spring.kafka.bootstrap-servers=kafka:9092
       #log levels
       - logging.level.root=WARN
       - logging.level.org.springframework=INFO
@@ -42,13 +43,16 @@ services:
       #log file settings
       - logging.file.max-size=10MB
       - logging.file.name=/usr/share/logs/application.log
+      #profile
+      - spring.profiles.active=rabbit
 
     depends_on:
       - rabbitmq
+      - kafka
 
   rabbitmq:
     container_name: ${_Values_root_name}-rabbitmq
-    image: rabbitmq:3.11.1-management
+    image: rabbitmq:3.11.5-management
     restart: 'no'
     ports:
       - 15672:15672
@@ -58,6 +62,33 @@ services:
       - RABBITMQ_DEFAULT_PASS=admin
     volumes:
       - rabbitdata:/var/lib/rabbitmq
+    networks:
+      - ${_Values_root_name}-net
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.1
+    container_name: ${_Values_root_name}-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - ${_Values_root_name}-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.1
+    container_name: ${_Values_root_name}-kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
       - ${_Values_root_name}-net
 
