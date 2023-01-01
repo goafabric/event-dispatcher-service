@@ -26,8 +26,8 @@ public class EventProducerRabbit implements EventProducer {
         send(type + "."  + changeEvent.getOperation().toString().toLowerCase(), changeEvent.getReferenceId());
     }
 
-    private void send(@NonNull String routingKey, @NonNull String referenceId) {
-        rabbitTemplate.convertAndSend("main.topic", routingKey, referenceId);
+    private void send(@NonNull String key, @NonNull String referenceId) {
+        rabbitTemplate.convertAndSend("main.topic", key, referenceId);
     }
 
 }
