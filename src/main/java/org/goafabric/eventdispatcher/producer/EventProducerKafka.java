@@ -26,11 +26,11 @@ public class EventProducerKafka implements EventProducer {
 
     public void produce(ChangeEvent changeEvent) {
         final String type = eventTypeMapping.get(changeEvent.getType());
-        send(type, changeEvent.getOperation().toString().toLowerCase(), changeEvent.getReferenceId());
+        send(type + "."  + changeEvent.getOperation().toString().toLowerCase(), changeEvent.getReferenceId());
     }
 
-    private void send(@NonNull String type, @NonNull String operation, @NonNull String referenceId) {
-        kafkaTemplate.send("main.topic", type + "." + operation, referenceId);
+    private void send(@NonNull String key, @NonNull String referenceId) {
+        kafkaTemplate.send("main.topic", key, referenceId);
     }
 
     @Bean
