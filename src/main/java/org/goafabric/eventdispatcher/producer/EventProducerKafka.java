@@ -24,15 +24,15 @@ public class EventProducerKafka implements EventProducer {
     private HashMap<String, String> eventTypeMapping;
 
     public void produce(ChangeEvent changeEvent) {
-        final String type = eventTypeMapping.get(changeEvent.getType());
-        send(type + "."  + changeEvent.getOperation().toString().toLowerCase(), changeEvent.getReferenceId());
+        send(eventTypeMapping.get(changeEvent.getType()) + "."  + changeEvent.getOperation().toString().toLowerCase(),
+                changeEvent.getReferenceId());
     }
 
     private void send(@NonNull String key, @NonNull String referenceId) {
         kafkaTemplate.send("main.topic", key, EventData.builder().referenceId(referenceId).build());
     }
 
-    @Bean
+    @Bean //creates topic inside kafka broker
     public NewTopic topic() {
         return TopicBuilder.name("main.topic").partitions(10).replicas(1).build();
     }

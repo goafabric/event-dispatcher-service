@@ -21,8 +21,8 @@ public class EventProducerRabbit implements EventProducer {
     private HashMap<String, String> eventTypeMapping;
 
     public void produce(ChangeEvent changeEvent) {
-        final String type = eventTypeMapping.get(changeEvent.getType());
-        send(type + "."  + changeEvent.getOperation().toString().toLowerCase(), changeEvent.getReferenceId());
+        send(eventTypeMapping.get(changeEvent.getType()) + "."  + changeEvent.getOperation().toString().toLowerCase(),
+                changeEvent.getReferenceId());
     }
 
     private void send(@NonNull String key, @NonNull String referenceId) {

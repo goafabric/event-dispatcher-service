@@ -11,7 +11,7 @@ docker run --pull always --name event-dispatcher-service-native --rm -p50500:505
 docker run --pull always --name event-dispatcher-service-native-arm64v8 --rm -p50500:50500 -e spring.rabbitmq.host=host.docker.internal goafabric/event-dispatcher-service-native-arm64v8:3.0.1-SNAPSHOT -Xmx32m
                                               
 # rabbitmq
-docker run --rm -p15672:15672 -p5672:5672 --name rabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3.11.1-management
+docker run --rm -p15672:15672 -p5672:5672 --name rabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3.11.5-management
 
 # kafka
 docker run --rm --name zookeeper -p 2181:2181 -e 'ZOOKEEPER_CLIENT_PORT=2181' -e'ZOOKEEPER_TICK_TIME=2000' confluentinc/cp-zookeeper:7.3.1 &;\
