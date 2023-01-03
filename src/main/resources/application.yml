@@ -21,22 +21,20 @@ logging.level.zipkin2: "FATAL"
 
 #rabbitmq
 spring:
+
   rabbitmq:
     host: localhost
     port: 5672
     username: admin
     password: admin
 
-
   kafka:
     bootstrap-servers:
       - localhost:9092
     producer:
-#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       properties.spring.json.trusted.packages: "*"
- #     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
 adapter.fhir.url: "http://localhost:50300/fhir/r4"
