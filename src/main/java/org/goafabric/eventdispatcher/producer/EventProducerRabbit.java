@@ -27,7 +27,7 @@ public class EventProducerRabbit implements EventProducer {
     }
 
     private void send(@NonNull String key, @NonNull String referenceId) {
-        rabbitTemplate.convertAndSend("main.topic", key, referenceId);
+        rabbitTemplate.convertAndSend("main.topic", key, EventData.builder().referenceId(referenceId).build());
     }
 
 }

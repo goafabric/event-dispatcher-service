@@ -30,7 +30,7 @@ public class EventProducerKafka implements EventProducer {
     }
 
     private void send(@NonNull String key, @NonNull String referenceId) {
-        kafkaTemplate.send("main.topic", key, referenceId);
+        kafkaTemplate.send("main.topic", key, EventData.builder().referenceId(referenceId).build());
     }
 
     @Bean

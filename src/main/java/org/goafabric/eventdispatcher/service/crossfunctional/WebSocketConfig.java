@@ -1,6 +1,9 @@
 package org.goafabric.eventdispatcher.service.crossfunctional;
 
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -12,6 +15,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket").withSockJS();
+    }
+
+    @Bean
+    @Profile("rabbit")
+    public Jackson2JsonMessageConverter jsonConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
 }
