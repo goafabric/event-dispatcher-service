@@ -20,7 +20,6 @@ public class EventProducerKafka implements EventProducer {
 
     @Autowired
     private KafkaTemplate kafkaTemplate;
-
     @Autowired
     private HashMap<String, String> eventTypeMapping;
 
@@ -37,4 +36,5 @@ public class EventProducerKafka implements EventProducer {
     public NewTopic topic() {
         return TopicBuilder.name("main.topic").partitions(10).replicas(1).build();
     }
+
 }

@@ -17,7 +17,6 @@ import java.util.HashMap;
 public class EventProducerRabbit implements EventProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
     @Autowired
     private HashMap<String, String> eventTypeMapping;
 
