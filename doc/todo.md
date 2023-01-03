@@ -1,1 +1,0 @@
-- integration tests with embedded rabbit / kafka
