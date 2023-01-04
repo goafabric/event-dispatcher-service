@@ -40,7 +40,7 @@ spring:
 adapter.fhir.url: "http://localhost:50300/fhir/r4"
 
 #enable kafka or rabbit
-spring.profiles.active: rabbit
+spring.profiles.active: kafka
 
 #logging
 logging.level.root: "WARN"
