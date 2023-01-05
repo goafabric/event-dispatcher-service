@@ -32,7 +32,7 @@ services:
       - management.endpoint.health.show-details=always
       - management.endpoints.web.exposure.include=health,prometheus,heapdump
       #rabbit
-      - spring.rabbitmq.host=${_Values_root_name}-rabbit
+      - spring.rabbitmq.host=${_Values_root_name}-rabbitmq
       - spring.kafka.bootstrap-servers=kafka:9092
       #log levels
       - logging.level.root=WARN
@@ -50,8 +50,8 @@ services:
 #      - rabbitmq
 #      - kafka
 
-  rabbit:
-    container_name: ${_Values_root_name}-rabbit
+  rabbitmq:
+    container_name: ${_Values_root_name}-rabbitmq
     image: rabbitmq:3.11.5-management
     restart: 'no'
     ports:

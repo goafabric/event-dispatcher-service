@@ -22,7 +22,7 @@ public class EventTypeMapping {
     }
 
     @Bean
-    @Profile("rabbit")
+    @Profile("rabbitmq")
     public Jackson2JsonMessageConverter jsonConverter() {
         return new Jackson2JsonMessageConverter();
     }

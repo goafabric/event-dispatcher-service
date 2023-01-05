@@ -35,7 +35,7 @@ elif [ "${COMMAND}" = "update" ]
 then
     func_compose down --volumes
     func_compose pull
-    func_compose up -d
+    func_compose up -d application ${_Values_profile}
 else
     echo Doing nothing !
 fi

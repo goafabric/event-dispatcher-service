@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
-@Profile("rabbit")
+@Profile("rabbitmq")
 @Import(RabbitAutoConfiguration.class)
 @Component
 public class EventProducerRabbit implements EventProducer {
