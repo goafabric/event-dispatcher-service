@@ -20,7 +20,7 @@ then
 elif [ "${COMMAND}" = "restart" ]
 then
     func_compose down
-    func_compose up -d
+    func_compose up -d application nginx ${_Values_profile}
 elif [ "${COMMAND}" = "pull" ]
 then
     func_compose down
