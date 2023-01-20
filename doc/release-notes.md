@@ -1,6 +1,7 @@
 # 3.0.2
 - upgrade to Spring Boot 3.0.2
 - websocket added
+- profile added to either use rabbitmq or kafka
 
 # 3.0.0
 - upgrade to Spring Boot 3.0.0
