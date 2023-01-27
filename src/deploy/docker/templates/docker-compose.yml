@@ -22,33 +22,29 @@ services:
       - ${_Values_root_name}-net
     environment:
       #application
-      - TZ=Europe/Berlin
-      - server.port=${_Values_service_port}
-      - tomcat.max-threads=20
-      - security.authentication.enabled=false
-      #forwarding sub url
-#      - server.forward-headers-strategy=FRAMEWORK
-      #monitoring
-      - management.endpoint.health.show-details=always
-      - management.endpoints.web.exposure.include=health,prometheus,heapdump
-      #rabbit
-      - spring.rabbitmq.host=${_Values_root_name}-rabbitmq
-      - spring.kafka.bootstrap-servers=kafka:9092
-      #log levels
-      - logging.level.root=WARN
-      - logging.level.org.springframework=INFO
-      - logging.level.org.goafabric=INFO
-      - logging.level.org.flywaydb.core="INFO"
-      - logging.level.org.hibernate.SQL="INFO"
-      #log file settings
-      - logging.file.max-size=10MB
-      - logging.file.name=/usr/share/logs/application.log
-      #profile
-      - spring.profiles.active=${_Values_profile}
+      TZ: Europe/Berlin
+      server.port: "${_Values_service_port}"
+      server.tomcat.threads.max: "20"
+      server.forward-headers-strategy: FRAMEWORK
 
-#    depends_on:
-#      - rabbitmq
-#      - kafka
+      #security
+      security.authentication.enabled: "false"
+
+      #monitoring
+      management.endpoint.health.show-details: always
+      management.endpoints.web.exposure.include: "health,heapdump,circuitbreakers,prometheus"
+
+      #broker
+      spring.rabbitmq.host: "${_Values_root_name}-rabbitmq"
+      spring.kafka.bootstrap-servers: "kafka:9092"
+
+      #profile
+      spring.profiles.active: "${_Values_profile}"
+
+      #log levels
+      logging.level.root: "WARN"
+      logging.level.org.goafabric: "INFO"
+      logging.level.org.springframework: "INFO"
 
   rabbitmq:
     container_name: ${_Values_root_name}-rabbitmq
@@ -58,8 +54,9 @@ services:
       - 15672:15672
       - 5672:5672
     environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin
+      #secrets
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
     volumes:
       - rabbitdata:/var/lib/rabbitmq
     networks:
@@ -69,8 +66,8 @@ services:
     image: confluentinc/cp-zookeeper:7.3.1
     container_name: zookeeper
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_CLIENT_PORT: "2181"
+      ZOOKEEPER_TICK_TIME: "2000"
     networks:
       - ${_Values_root_name}-net
 
@@ -82,13 +79,13 @@ services:
     depends_on:
       - zookeeper
     environment:
-      KAFKA_BROKER_ID: 1
+      KAFKA_BROKER_ID: "1"
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:29092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:29092"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
     networks:
       - ${_Values_root_name}-net
 
@@ -103,7 +100,8 @@ services:
     volumes:
       - ./nginx/:/etc/nginx/
     depends_on:
-      - application
+      application:
+        condition: service_started
 
 volumes:
     tmp:
