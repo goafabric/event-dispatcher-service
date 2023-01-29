@@ -15,14 +15,14 @@ function func_compose {
 
 if [ "${COMMAND}" = "up" ]
 then
-    func_compose up -d
+    func_compose up -d application nginx ${_Values_profile}
 elif [ "${COMMAND}" = "down" ]
 then
     func_compose down
 elif [ "${COMMAND}" = "restart" ]
 then
     func_compose down
-    func_compose up -d
+    func_compose up -d application nginx ${_Values_profile}
 elif [ "${COMMAND}" = "pull" ]
 then
     func_compose down
@@ -37,7 +37,7 @@ elif [ "${COMMAND}" = "update" ]
 then
     func_compose down --volumes
     func_compose pull
-    func_compose up -d
+    func_compose up -d application nginx ${_Values_profile}
 else
     echo Doing nothing !
 fi
