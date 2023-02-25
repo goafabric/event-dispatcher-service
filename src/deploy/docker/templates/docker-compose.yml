@@ -7,7 +7,7 @@ services:
     restart: 'no'
     ports:
       - "${_Values_service_port}:${_Values_service_port}"
-    command: ["-Xmx${_Values_resources_requests_memory}"]
+    entrypoint: ${_Values_resources_entrypoint}
 
 #    we cannot active the healthcheck because base native images does not have curl
 #    healthcheck:
