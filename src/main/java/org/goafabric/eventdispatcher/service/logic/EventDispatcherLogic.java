@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -13,10 +12,8 @@ import java.util.UUID;
 @Component
 @Slf4j
 public class EventDispatcherLogic {
-    @Autowired
-    private EventProducer eventProducer;
+    private final EventProducer eventProducer;
 
-    @Autowired
     public EventDispatcherLogic(EventProducer eventProducer) {
         this.eventProducer = eventProducer;
     }

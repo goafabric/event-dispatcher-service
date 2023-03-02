@@ -3,7 +3,6 @@ package org.goafabric.eventdispatcher.service.controller;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
 import org.goafabric.eventdispatcher.service.logic.EventDispatcherLogic;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -13,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "events", produces = MediaType.APPLICATION_JSON_VALUE)
 @MessageMapping(value = "events")
 public class EventDispatcherController {
-    @Autowired
-    EventDispatcherLogic eventDispatcherLogic;
+    private final EventDispatcherLogic eventDispatcherLogic;
+
+    public EventDispatcherController(EventDispatcherLogic eventDispatcherLogic) {
+        this.eventDispatcherLogic = eventDispatcherLogic;
+    }
 
     //dispatch event to be called from external rest clients
     @PostMapping(value = "dispatch", consumes = MediaType.APPLICATION_JSON_VALUE)
