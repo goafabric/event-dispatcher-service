@@ -1,7 +1,8 @@
 package org.goafabric.eventdispatcher.consumer;
 
-import lombok.extern.slf4j.Slf4j;
 import org.goafabric.eventdispatcher.producer.EventData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -10,11 +11,12 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 @RabbitListener(bindings = @QueueBinding(value = @Queue(name = CalendarConsumer.CONSUMER_NAME),
         exchange = @Exchange(value = "main.topic", type = ExchangeTypes.TOPIC), key = {"patient.*", "practitioner.*"}))
 public class CalendarConsumer {
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     static final String CONSUMER_NAME = "Calendar";
 
     @RabbitHandler
