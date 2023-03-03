@@ -2,7 +2,6 @@ package org.goafabric.eventdispatcher.producer;
 
 import lombok.NonNull;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
@@ -15,10 +14,14 @@ import java.util.HashMap;
 @Component
 public class EventProducerKafka implements EventProducer {
 
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
-    @Autowired
-    private HashMap<String, String> eventTypeMapping;
+    private final KafkaTemplate kafkaTemplate;
+
+    private final HashMap<String, String> eventTypeMapping;
+
+    public EventProducerKafka(KafkaTemplate kafkaTemplate, HashMap<String, String> eventTypeMapping) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.eventTypeMapping = eventTypeMapping;
+    }
 
     public void produce(ChangeEvent changeEvent) {
         send(eventTypeMapping.get(changeEvent.getType()) + "."  + changeEvent.getOperation().toString().toLowerCase(),

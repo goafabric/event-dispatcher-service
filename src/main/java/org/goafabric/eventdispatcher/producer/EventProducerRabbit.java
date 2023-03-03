@@ -3,7 +3,6 @@ package org.goafabric.eventdispatcher.producer;
 import lombok.NonNull;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
@@ -15,10 +14,14 @@ import java.util.HashMap;
 @Import(RabbitAutoConfiguration.class)
 @Component
 public class EventProducerRabbit implements EventProducer {
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-    @Autowired
-    private HashMap<String, String> eventTypeMapping;
+    private final RabbitTemplate rabbitTemplate;
+
+    private final HashMap<String, String> eventTypeMapping;
+
+    public EventProducerRabbit(RabbitTemplate rabbitTemplate, HashMap<String, String> eventTypeMapping) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.eventTypeMapping = eventTypeMapping;
+    }
 
     public void produce(ChangeEvent changeEvent) {
         send(eventTypeMapping.get(changeEvent.getType()) + "."  + changeEvent.getOperation().toString().toLowerCase(),
