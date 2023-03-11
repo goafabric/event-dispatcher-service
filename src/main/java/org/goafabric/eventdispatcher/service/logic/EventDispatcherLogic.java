@@ -41,14 +41,14 @@ public class EventDispatcherLogic {
     }
 
     private ChangeEvent createEvent(String typeName, DbOperation operation) {
-        return ChangeEvent.builder()
-                .id(UUID.randomUUID().toString())
-                .tenantId("0")
-                .referenceId(UUID.randomUUID().toString())
-                .operation(operation)
-                .type(typeName)
-                .origin("secret-service")
-                .build();
+        return new ChangeEvent(
+                UUID.randomUUID().toString(),
+                "0",
+                UUID.randomUUID().toString(),
+                typeName,
+                operation,
+                "secret-service"
+        );
     }
 
 }

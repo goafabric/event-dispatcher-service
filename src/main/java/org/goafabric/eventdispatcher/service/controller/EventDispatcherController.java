@@ -31,7 +31,7 @@ public class EventDispatcherController {
     @SendTo("/public")
     public SocketMessage createPatient() {
         final String message = eventDispatcherLogic.createPatient();
-        return SocketMessage.builder().message(message).build();
+        return new SocketMessage(message);
     }
 
     @GetMapping("updatepatient")
@@ -39,7 +39,7 @@ public class EventDispatcherController {
     @SendTo("/public")
     public SocketMessage updatePatient() {
         final String message = eventDispatcherLogic.updatePatient();
-        return SocketMessage.builder().message(message).build();
+        return new SocketMessage(message);
     }
 
     @GetMapping("createpractitioner")
@@ -47,7 +47,7 @@ public class EventDispatcherController {
     @SendTo("/public")
     public SocketMessage createPractitioner() {
         final String message = eventDispatcherLogic.createPractitioner();
-        return SocketMessage.builder().message(message).build();
+        return new SocketMessage(message);
     }
 
     @GetMapping("updatepractitioner")
@@ -55,7 +55,7 @@ public class EventDispatcherController {
     @SendTo("/public")
     public SocketMessage updatePractitioner() {
         final String message = eventDispatcherLogic.updatePractitioner();
-        return SocketMessage.builder().message(message).build();
+        return new SocketMessage(message);
     }
 }
 

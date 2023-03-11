@@ -66,15 +66,13 @@ class EventDispatcherControllerNRIT {
     }
 
     private ChangeEvent createEvent(Object object, DbOperation operation) {
-        return ChangeEvent.builder()
-                .id(UUID.randomUUID().toString())
-                .tenantId("0")
-                .referenceId(UUID.randomUUID().toString())
-                .operation(operation)
-                .type(object.getClass().getSimpleName())
-                .origin("secret-service")
-                .build();
+        return new ChangeEvent(
+                UUID.randomUUID().toString(),
+                "0",
+                UUID.randomUUID().toString(),
+                object.getClass().getSimpleName(),
+                operation,
+                "secret-service"
+        );
     }
-
-
 }

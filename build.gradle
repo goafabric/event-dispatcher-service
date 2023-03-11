@@ -44,14 +44,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.kafka:spring-kafka'
 
-	//code generation
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
-
-	implementation 'org.mapstruct:mapstruct'
-	annotationProcessor 'org.mapstruct:mapstruct-processor'
-
 	//websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 

@@ -1,6 +1,5 @@
 package org.goafabric.eventdispatcher.producer;
 
-import lombok.NonNull;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Import;
@@ -24,12 +23,12 @@ public class EventProducerKafka implements EventProducer {
     }
 
     public void produce(ChangeEvent changeEvent) {
-        send(eventTypeMapping.get(changeEvent.getType()) + "."  + changeEvent.getOperation().toString().toLowerCase(),
-                changeEvent.getReferenceId());
+        send(eventTypeMapping.get(changeEvent.type()) + "."  + changeEvent.operation().toString().toLowerCase(),
+                changeEvent.referenceId());
     }
 
-    private void send(@NonNull String key, @NonNull String referenceId) {
-        kafkaTemplate.send("main.topic", key, EventData.builder().referenceId(referenceId).build());
+    private void send(String key, String referenceId) {
+        kafkaTemplate.send("main.topic", key, new EventData(referenceId));
     }
 
 }

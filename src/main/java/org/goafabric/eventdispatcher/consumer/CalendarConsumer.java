@@ -31,10 +31,10 @@ public class CalendarConsumer {
 
     private void process(String key, EventData eventData) {
         switch (key) {
-            case "patient.create" : createPatient(eventData.getReferenceId()); break;
-            case "patient.update" : updatePatient(eventData.getReferenceId()); break;
-            case "practitioner.create" : createPractitioner(eventData.getReferenceId()); break;
-            case "practitioner.update" : updatePractitioner(eventData.getReferenceId()); break;
+            case "patient.create" : createPatient(eventData.referenceId()); break;
+            case "patient.update" : updatePatient(eventData.referenceId()); break;
+            case "practitioner.create" : createPractitioner(eventData.referenceId()); break;
+            case "practitioner.update" : updatePractitioner(eventData.referenceId()); break;
         }
     }
 
