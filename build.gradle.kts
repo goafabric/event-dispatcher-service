@@ -79,6 +79,4 @@ tasks.named<BootBuildImage>("bootBuildImage") {
 	}
 }
 
-graalvmNative { //https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html#configuration-options
-	binaries.named("main") { quickBuild.set(true) }
-}
+graalvmNative { binaries.named("main") { quickBuild.set(true) } }
