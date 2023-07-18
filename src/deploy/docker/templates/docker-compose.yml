@@ -64,7 +64,7 @@ services:
       - ${_Values_root_name}-net
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.1
+    image: confluentinc/cp-zookeeper:7.4.1
     container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: "2181"
@@ -73,7 +73,7 @@ services:
       - ${_Values_root_name}-net
 
   kafka:
-    image: confluentinc/cp-kafka:7.3.1
+    image: confluentinc/cp-kafka:7.4.1
     container_name: kafka
     ports:
       - "9092:9092"
