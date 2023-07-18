@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.service.crossfunctional;
+package org.goafabric.eventdispatcher.service.extensions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

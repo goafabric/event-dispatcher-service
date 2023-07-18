@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.service.crossfunctional;
+package org.goafabric.eventdispatcher.service.extensions;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
