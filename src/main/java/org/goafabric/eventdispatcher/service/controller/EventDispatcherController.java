@@ -1,7 +1,7 @@
 package org.goafabric.eventdispatcher.service.controller;
 
-import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
-import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
+import org.goafabric.eventdispatcher.service.controller.vo.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.vo.SocketMessage;
 import org.goafabric.eventdispatcher.service.logic.EventDispatcherLogic;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;

@@ -1,8 +1,8 @@
 package org.goafabric.eventdispatcher.service.logic;
 
 import org.goafabric.eventdispatcher.producer.EventProducerRabbit;
-import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
-import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
+import org.goafabric.eventdispatcher.service.controller.vo.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.vo.DbOperation;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
