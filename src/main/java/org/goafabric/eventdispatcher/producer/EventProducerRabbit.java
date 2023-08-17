@@ -23,7 +23,7 @@ public class EventProducerRabbit implements EventProducer {
     }
 
     public void produce(ChangeEvent changeEvent) {
-        send(changeEvent.type() + "."  + changeEvent.operation().toString().toLowerCase(),
+        send(changeEvent.type().toLowerCase() + "."  + changeEvent.operation().toString().toLowerCase(),
                 changeEvent.referenceId());
     }
 
