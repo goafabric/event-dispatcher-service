@@ -31,12 +31,12 @@ public class EventDispatcherLogic {
     }
 
     public String createPractitioner() {
-        eventProducer.produce(createEvent("Employee", DbOperation.CREATE));
+        eventProducer.produce(createEvent("Practitioner", DbOperation.CREATE));
         return "practitioner created";
     }
 
     public String updatePractitioner() {
-        eventProducer.produce(createEvent("Employee", DbOperation.UPDATE));
+        eventProducer.produce(createEvent("Practitioner", DbOperation.UPDATE));
         return "practitioner updated";
     }
 
