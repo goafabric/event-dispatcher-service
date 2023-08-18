@@ -15,7 +15,7 @@ import static org.goafabric.eventdispatcher.consumer.LoggerConsumer.CONSUMER_NAM
 
 @Component
 @RabbitListener(bindings = @QueueBinding(value = @Queue(name = CONSUMER_NAME),
-        exchange = @Exchange(value = "main.topic", type = ExchangeTypes.TOPIC), key = {"*.*"}))
+        exchange = @Exchange(value = "main.topic", type = ExchangeTypes.TOPIC), key = {"*"}))
 public class LoggerConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -32,29 +32,7 @@ public class LoggerConsumer {
     }
 
     private void process(String key, EventData eventData) {
-        switch (key) {
-            case "patient.create" : createPatient(eventData.referenceId()); break;
-            case "patient.update" : updatePatient(eventData.referenceId()); break;
-            case "practitioner.create" : createPractitioner(eventData.referenceId()); break;
-            case "practitioner.update" : updatePractitioner(eventData.referenceId()); break;
-            default : log.info("unhandled event: {}; id = {}", key, eventData.referenceId());
-        }
+        log.info("logging event: {}; id = {}", key, eventData.referenceId());
     }
 
-
-    private void createPatient(String id) {
-        log.info("create patient; id = {}", id);
-    }
-
-    private void updatePatient(String id) {
-        log.info("update patient; id = {}", id);
-    }
-
-    private void updatePractitioner(String id) {
-        log.info("update practitioner; id = {}", id);
-    }
-
-    private void createPractitioner(String id) {
-        log.info("create practitioner; id = {}", id);
-    }
 }
