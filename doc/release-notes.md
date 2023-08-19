@@ -1,3 +1,6 @@
+# 3.1.3
+- version upgrade
+
 # 3.1.2
 - upgrade to Spring Boot 3.1.2
 - maven build (re) moved to doc/maven in favour of gradle
