@@ -2,6 +2,7 @@
 server:
   port: 50500
   tomcat.threads.max: 20
+  forward-headers-strategy: FRAMEWORK
 
 #monitoring
 management:
@@ -13,15 +14,14 @@ management:
         exposure:
           include: "health,prometheus,heapdump"
 
-#jaeger / zipkin
-spring.zipkin.service.name: "event-dispatcher"
-spring.zipkin.enabled: true
-spring.sleuth.enabled: ${spring.zipkin.enabled}
-logging.level.zipkin2: "FATAL"
+#tracing
+spring.application.name: event-dispatcher
+management.tracing.sampling.probability: "1.0"
+logging.level.io.opentelemetry.exporter: "OFF"
+management.otlp.tracing.endpoint: "http://localhost:4318/v1/traces"
 
 #rabbitmq
 spring:
-
   rabbitmq:
     host: localhost
     port: 5672
