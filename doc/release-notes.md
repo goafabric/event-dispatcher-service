@@ -3,6 +3,7 @@
 - maven build (re) moved to doc/maven in favour of gradle
 - kicked lombok in favour of java records
 - java 20 compatibility + jvm baseimage updated to java 20
+- tracing implementation
 
 # 3.0.3
 - upgrade to Spring Boot 3.0.3
