@@ -1,5 +1,5 @@
-# 3.1.1-SNAPSHOT
-- upgrade to Spring Boot 3.1.1-SNAPSHOT
+# 3.1.2
+- upgrade to Spring Boot 3.1.2
 - maven build (re) moved to doc/maven in favour of gradle
 - kicked lombok in favour of java records
 - java 20 compatibility + jvm baseimage updated to java 20
