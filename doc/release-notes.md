@@ -1,5 +1,6 @@
 # 3.1.3
-- version upgrade
+- upgrade to Spring Boot 3.1.3
+- various dependency upgrades
 
 # 3.1.2
 - upgrade to Spring Boot 3.1.2
