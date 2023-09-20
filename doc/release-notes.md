@@ -1,4 +1,5 @@
 # 3.1.3
+- java21 upgrade
 - upgrade to Spring Boot 3.1.3
 - various dependency upgrades
 
