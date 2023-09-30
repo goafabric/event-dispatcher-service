@@ -25,3 +25,6 @@ kafka-console-producer --bootstrap-server host.docker.internal:9092 \
 
 # kafkaui 
 docker run --rm --name kafkaui -e 'KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=host.docker.internal:29092' -p8080:8080 provectuslabs/kafka-ui:latest
+                  
+# native
+docker run --rm quay.io/ogunalp/kafka-native:0.4.0-kafka-3.5.1
