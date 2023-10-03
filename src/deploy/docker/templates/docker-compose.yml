@@ -70,7 +70,7 @@ services:
       - ${_Values_root_name}-net
 
   kafka:
-    image: bitnami/kafka:3.4.1
+    image: bitnami/kafka:3.5.1
     container_name: kafka
     ports:
       - "9092:9092"
