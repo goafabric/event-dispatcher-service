@@ -1,8 +1,8 @@
 package org.goafabric.eventdispatcher.service.controller;
 
 import org.goafabric.eventdispatcher.producer.EventProducer;
-import org.goafabric.eventdispatcher.service.controller.vo.ChangeEvent;
-import org.goafabric.eventdispatcher.service.controller.vo.DbOperation;
+import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

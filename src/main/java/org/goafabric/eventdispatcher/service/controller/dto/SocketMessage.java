@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.service.controller.vo;
+package org.goafabric.eventdispatcher.service.controller.dto;
 
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 

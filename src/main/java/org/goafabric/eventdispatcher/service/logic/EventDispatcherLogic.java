@@ -1,8 +1,8 @@
 package org.goafabric.eventdispatcher.service.logic;
 
 import org.goafabric.eventdispatcher.producer.EventProducer;
-import org.goafabric.eventdispatcher.service.controller.vo.ChangeEvent;
-import org.goafabric.eventdispatcher.service.controller.vo.DbOperation;
+import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 

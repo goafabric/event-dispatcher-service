@@ -1,6 +1,6 @@
 package org.goafabric.eventdispatcher.producer;
 
-import org.goafabric.eventdispatcher.service.controller.vo.ChangeEvent;
+import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
