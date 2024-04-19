@@ -2,8 +2,11 @@ var stompClient = null;
 
 
 function connectSocket() {
-    var socket = new SockJS('/websocket');
-    stompClient = Stomp.over(socket);
+    var websocketPath = "/websocket";
+    if (window.location.pathname.startsWith('/event')) {
+        websocketPath = "/event/websocket";
+    }
+    var socket = new SockJS(websocketPath);    stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/public', function (socketMessage) {
