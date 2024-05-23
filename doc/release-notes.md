@@ -1,8 +1,9 @@
 # 3.2.10
+- switched default to kafka
 
 # 3.2.5
 - release plugin added
-- upgrade to Spring Boot 3.2.4
+- upgrade to Spring Boot 3.2.5
 
 # 3.2.4
 - upgrade to Spring Boot 3.2.4
