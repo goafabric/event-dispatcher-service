@@ -37,7 +37,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
 #enable kafka or rabbitmq
-spring.profiles.active: kafka
+spring.profiles.active: kafka #rabbitmq
 
 #logging
 logging.level.root: "WARN"
