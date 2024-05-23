@@ -36,8 +36,6 @@ spring:
       properties.spring.json.trusted.packages: "*"
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
-adapter.fhir.url: "http://localhost:50300/fhir/r4"
-
 #enable kafka or rabbitmq
 spring.profiles.active: rabbitmq
 
