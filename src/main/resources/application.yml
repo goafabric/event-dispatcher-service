@@ -40,6 +40,8 @@ spring:
 spring.profiles.active: kafka #rabbitmq
 
 #logging
+logging.pattern.level: "%5p tenantId=%X{tenantId:-}"
+
 logging.level.root: "WARN"
 logging.level.org.springframework: "INFO"
 
