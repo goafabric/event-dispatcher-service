@@ -35,6 +35,11 @@ spring:
     consumer:
       properties.spring.json.trusted.packages: "*"
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    template:
+      observation-enabled: true
+    listener:
+      observation-enabled: true
+
 
 #enable kafka or rabbitmq
 spring.profiles.active: kafka #rabbitmq
