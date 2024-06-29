@@ -39,19 +39,19 @@ public class CalendarConsumer {
     }
 
     private void createPatient(String id) {
-        log.info("create patient; id = {}", id);
+        log.info("calendar create patient; id = {}", id);
     }
 
     private void updatePatient(String id) {
-        log.info("update patient; id = {}", id);
+        log.info("calendar update patient; id = {}", id);
     }
 
     private void createPractitioner(String id) {
-        log.info("create practitioner; id = {}", id);
+        log.info("calendar create practitioner; id = {}", id);
     }
 
     private void updatePractitioner(String id) {
-        log.info("update practitioner; id = {}", id);
+        log.info("calendar update practitioner; id = {}", id);
     }
 
 }

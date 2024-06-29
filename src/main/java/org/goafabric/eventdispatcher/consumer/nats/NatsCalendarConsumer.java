@@ -20,8 +20,10 @@ public class NatsCalendarConsumer {
 
     public NatsCalendarConsumer(Connection natsConnection, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        natsConnection.createDispatcher().subscribe("main.topic", CONSUMER_NAME, //we would probably rather user separate topics for patient, practitioner
-                msg -> process(msg.getHeaders().get("key").getFirst(), getEvent(msg.getData())));
+        var dispatcher = natsConnection.createDispatcher();
+
+        dispatcher.subscribe("patient.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
+        dispatcher.subscribe("practitioner.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
     }
 
     private void process(String key, EventData eventData) {
@@ -34,19 +36,19 @@ public class NatsCalendarConsumer {
     }
 
     private void createPatient(String id) {
-        log.info("create patient; id = {}", id);
+        log.info("calendar create patient; id = {}", id);
     }
 
     private void updatePatient(String id) {
-        log.info("update patient; id = {}", id);
+        log.info("calendar update patient; id = {}", id);
     }
 
     private void createPractitioner(String id) {
-        log.info("create practitioner; id = {}", id);
+        log.info("calendar create practitioner; id = {}", id);
     }
 
     private void updatePractitioner(String id) {
-        log.info("update practitioner; id = {}", id);
+        log.info("calendar update practitioner; id = {}", id);
     }
 
     private EventData getEvent(byte[] eventData) {

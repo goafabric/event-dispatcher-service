@@ -3,7 +3,6 @@ package org.goafabric.eventdispatcher.producer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
-import io.nats.client.impl.Headers;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -26,7 +25,7 @@ public class EventProducerNats implements EventProducer {
     }
 
     private void send(String key, String referenceId) {
-        natsConnection.publish("main.topic", new Headers().put("key", key), createEvent(new EventData(referenceId)));
+        natsConnection.publish(key, createEvent(new EventData(referenceId)));
     }
 
     private byte[] createEvent(EventData eventData) {

@@ -20,8 +20,10 @@ public class NatsLoggerConsumer {
 
     public NatsLoggerConsumer(Connection natsConnection, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        natsConnection.createDispatcher().subscribe("main.topic", CONSUMER_NAME,
-                msg -> process(msg.getHeaders().get("key").getFirst(), getEvent(msg.getData())));
+        var dispatcher = natsConnection.createDispatcher();
+
+        dispatcher.subscribe("patient.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
+        dispatcher.subscribe("practitioner.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
     }
 
     private void process(String key, EventData eventData) {
