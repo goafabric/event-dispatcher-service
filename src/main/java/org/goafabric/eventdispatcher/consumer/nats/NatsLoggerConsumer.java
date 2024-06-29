@@ -19,7 +19,7 @@ public class NatsLoggerConsumer {
 
     private final ObjectMapper objectMapper;
 
-    public NatsLoggerConsumer(Connection natsConnection, ObjectMapper objectMapper) {
+    public NatsLoggerConsumer(Connection natsConnection) {
         this.objectMapper = new ObjectMapper(new CBORFactory());
         var dispatcher = natsConnection.createDispatcher();
 
