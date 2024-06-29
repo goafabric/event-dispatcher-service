@@ -42,6 +42,7 @@ services:
       #broker
       spring.rabbitmq.host: "${_Values_root_name}-rabbitmq"
       spring.kafka.bootstrap-servers: kafka:9092
+      nats.spring.server: "nats:4222"
 
       #profile
       spring.profiles.active: "${_Values_profile}"
@@ -52,6 +53,8 @@ services:
       logging.level.org.springframework: "INFO"
 
   rabbitmq:
+    profiles:
+      - rabbitmq
     container_name: ${_Values_root_name}-rabbitmq
     image: rabbitmq:3.13.1-management
     restart: 'no'
@@ -68,6 +71,8 @@ services:
       - ${_Values_root_name}-net
 
   kafka:
+    profiles:
+      - kafka
     image: bitnami/kafka:3.7.0
     container_name: kafka
     ports:
@@ -84,6 +89,19 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
 
       #KAFKA_HEAP_OPTS: "-Xmx256m"
+    networks:
+      - ${_Values_root_name}-net
+
+  nats:
+    profiles:
+      - nats
+    container_name: ${_Values_root_name}-nats
+    image: nats:2.10.16
+    restart: 'no'
+    ports:
+      - 4222:4222
+      - 6222:6222
+      - 8222:8222
     networks:
       - ${_Values_root_name}-net
 
