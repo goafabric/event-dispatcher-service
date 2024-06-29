@@ -2,6 +2,7 @@ package org.goafabric.eventdispatcher.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.springframework.context.annotation.Profile;
@@ -13,9 +14,9 @@ public class EventProducerNats implements EventProducer {
     private final Connection natsConnection;
     private final ObjectMapper objectMapper;
 
-    public EventProducerNats(Connection natsConnection, ObjectMapper objectMapper) {
+    public EventProducerNats(Connection natsConnection) {
         this.natsConnection = natsConnection;
-        this.objectMapper = objectMapper;
+        this.objectMapper = new ObjectMapper(new CBORFactory());
     }
 
 

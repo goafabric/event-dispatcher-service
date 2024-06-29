@@ -1,6 +1,7 @@
 package org.goafabric.eventdispatcher.consumer.nats;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class NatsLoggerConsumer {
     private final ObjectMapper objectMapper;
 
     public NatsLoggerConsumer(Connection natsConnection, ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+        this.objectMapper = new ObjectMapper(new CBORFactory());
         var dispatcher = natsConnection.createDispatcher();
 
         dispatcher.subscribe("patient.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
