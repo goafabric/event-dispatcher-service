@@ -51,6 +51,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("io.nats:jnats:2.19.0")
+	//implementation("io.nats:nats-spring-boot-starter:0.5.7")
 
 	//crosscuting
 	implementation("org.springframework.boot:spring-boot-starter-aop")

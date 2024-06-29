@@ -27,7 +27,7 @@ public class NatsConfiguration {
                         .connectionListener((connection, event) -> log.info("Connection Event: " + event))
                         .build());
             } catch (Exception e) {
-                log.error("cannot connect to nats server, will retry {}", e.getMessage());
+                log.warn("cannot connect to nats server, will retry {}", e.getMessage());
                 Thread.sleep(1000);
             }
         }
