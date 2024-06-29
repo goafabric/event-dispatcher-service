@@ -24,26 +24,17 @@ public class NatsLoggerConsumer {
     public NatsLoggerConsumer(Connection natsConnection) throws Exception {
         this.objectMapper = new ObjectMapper(new CBORFactory());
 
-        ConsumerConfiguration consumerConfig = ConsumerConfiguration.builder()
-                .durable(CONSUMER_NAME)
-                .deliverSubject("my-subject")
-                .build();
-
-        PushSubscribeOptions options = PushSubscribeOptions.builder()
-                .configuration(consumerConfig)
-                .build();
+        var options = PushSubscribeOptions.builder()
+                .configuration(ConsumerConfiguration.builder()
+                        .durable(CONSUMER_NAME).deliverSubject("my-subject")
+                        .build()
+                ).build();
 
 
         var dispatcher = natsConnection.createDispatcher();
 
-        natsConnection.jetStream().subscribe("patient.*", dispatcher,
+        natsConnection.jetStream().subscribe("*.*", dispatcher,
                 msg -> process(msg.getSubject(), getEvent(msg.getData())), true, options);
-
-        /*
-        natsConnection.jetStream().subscribe("practitioner.*", dispatcher,
-                msg -> process(msg.getSubject(), getEvent(msg.getData())), false, options);
-
-         */
     }
 
     private void process(String key, EventData eventData) {
