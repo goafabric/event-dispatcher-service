@@ -20,7 +20,7 @@ public class NatsCalendarConsumer {
 
     public NatsCalendarConsumer(Connection natsConnection, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        natsConnection.createDispatcher().subscribe("main.topic", CONSUMER_NAME,
+        natsConnection.createDispatcher().subscribe("main.topic", CONSUMER_NAME, //we would probably rather user separate topics for patient, practitioner
                 msg -> process(msg.getHeaders().get("key").getFirst(), getEvent(msg.getData())));
     }
 
