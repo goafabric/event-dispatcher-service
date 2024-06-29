@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.consumer;
+package org.goafabric.eventdispatcher.consumer.kafka;
 
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;

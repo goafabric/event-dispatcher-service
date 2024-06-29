@@ -40,9 +40,12 @@ spring:
     listener:
       observation-enabled: true
 
+nats:
+  spring:
+    server: "localhost:4222"
 
 #enable kafka or rabbitmq
-spring.profiles.active: kafka #rabbitmq
+spring.profiles.active: rabbitmq #rabbitmq
 
 #logging
 logging.pattern.level: "%5p tenantId=%X{tenantId:-}"

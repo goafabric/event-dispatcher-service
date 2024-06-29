@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.consumer;
+package org.goafabric.eventdispatcher.consumer.kafka;
 
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;
@@ -11,7 +11,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import static org.goafabric.eventdispatcher.consumer.LoggerConsumer.CONSUMER_NAME;
+import static org.goafabric.eventdispatcher.consumer.kafka.LoggerConsumer.CONSUMER_NAME;
 
 @Component
 @RabbitListener(bindings = @QueueBinding(value = @Queue(name = CONSUMER_NAME),

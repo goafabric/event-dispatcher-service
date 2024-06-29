@@ -50,6 +50,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.kafka:spring-kafka")
+	implementation("io.nats:jnats:2.19.0")
 
 	//crosscuting
 	implementation("org.springframework.boot:spring-boot-starter-aop")
