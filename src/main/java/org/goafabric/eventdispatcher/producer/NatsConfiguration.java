@@ -1,8 +1,11 @@
 package org.goafabric.eventdispatcher.producer;
 
 import io.nats.client.Connection;
+import io.nats.client.JetStreamManagement;
 import io.nats.client.Nats;
 import io.nats.client.Options;
+import io.nats.client.api.StreamConfiguration;
+import io.nats.client.api.StreamInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
@@ -33,5 +36,29 @@ public class NatsConfiguration {
         }
         System.exit(0);
         return null;
+    }
+
+    @Bean
+    public JetStreamManagement jetStreamManagement(Connection connection) throws Exception {
+        if (true) {
+            return null;
+        }
+        JetStreamManagement jsm = connection.jetStreamManagement();
+
+        // Define the stream configuration
+        StreamConfiguration streamConfig = StreamConfiguration.builder()
+                .name("all")
+                .subjects("*.*")
+                .build();
+
+        // Add or get the stream
+        try {
+            jsm.addStream(streamConfig);
+        } catch (Exception e) {
+            // Stream might already exist, handle exception
+            StreamInfo info = jsm.getStreamInfo("all");
+            System.out.println("Stream already exists: " + info);
+        }
+        return jsm;
     }
 }

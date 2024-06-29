@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@Profile("nats")
+@Profile("natsx")
 public class NatsCalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     static final String CONSUMER_NAME = "Calendar";

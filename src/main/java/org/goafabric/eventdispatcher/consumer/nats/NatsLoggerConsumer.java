@@ -3,6 +3,8 @@ package org.goafabric.eventdispatcher.consumer.nats;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
+import io.nats.client.PushSubscribeOptions;
+import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +21,30 @@ public class NatsLoggerConsumer {
 
     private final ObjectMapper objectMapper;
 
-    public NatsLoggerConsumer(Connection natsConnection) {
+    public NatsLoggerConsumer(Connection natsConnection) throws Exception {
         this.objectMapper = new ObjectMapper(new CBORFactory());
+
+        ConsumerConfiguration consumerConfig = ConsumerConfiguration.builder()
+                .durable(CONSUMER_NAME)
+                .deliverSubject("my-subject")
+                //.ackPolicy(AckPolicy.Explicit)
+                .build();
+
+        PushSubscribeOptions options = PushSubscribeOptions.builder()
+                .configuration(consumerConfig)
+                .build();
+
+
         var dispatcher = natsConnection.createDispatcher();
 
-        dispatcher.subscribe("patient.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
-        dispatcher.subscribe("practitioner.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
+        natsConnection.jetStream().subscribe("patient.*", dispatcher,
+                msg -> process(msg.getSubject(), getEvent(msg.getData())), false, options);
+
+        /*
+        natsConnection.jetStream().subscribe("practitioner.*", dispatcher,
+                msg -> process(msg.getSubject(), getEvent(msg.getData())), false, options);
+
+         */
     }
 
     private void process(String key, EventData eventData) {
