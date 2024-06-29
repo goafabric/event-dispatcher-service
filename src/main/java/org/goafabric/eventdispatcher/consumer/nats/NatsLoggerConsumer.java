@@ -27,7 +27,6 @@ public class NatsLoggerConsumer {
         ConsumerConfiguration consumerConfig = ConsumerConfiguration.builder()
                 .durable(CONSUMER_NAME)
                 .deliverSubject("my-subject")
-                //.ackPolicy(AckPolicy.Explicit)
                 .build();
 
         PushSubscribeOptions options = PushSubscribeOptions.builder()
@@ -38,7 +37,7 @@ public class NatsLoggerConsumer {
         var dispatcher = natsConnection.createDispatcher();
 
         natsConnection.jetStream().subscribe("patient.*", dispatcher,
-                msg -> process(msg.getSubject(), getEvent(msg.getData())), false, options);
+                msg -> process(msg.getSubject(), getEvent(msg.getData())), true, options);
 
         /*
         natsConnection.jetStream().subscribe("practitioner.*", dispatcher,
