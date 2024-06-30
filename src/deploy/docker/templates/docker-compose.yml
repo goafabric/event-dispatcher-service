@@ -97,6 +97,8 @@ services:
       - nats
     container_name: ${_Values_root_name}-nats
     image: nats:2.10.16
+    command:
+      - -jetstream
     restart: 'no'
     ports:
       - 4222:4222
@@ -104,6 +106,8 @@ services:
       - 8222:8222
     networks:
       - ${_Values_root_name}-net
+    volumes:
+      - natsdata:/tmp/nats/jetstream
 
   nginx:
     container_name: ${_Values_root_name}-nginx
@@ -125,6 +129,7 @@ volumes:
     tmp:
     applogs:
     rabbitdata:
+    natsdata:
 
 networks:
   event-dispatcher-service-net:
