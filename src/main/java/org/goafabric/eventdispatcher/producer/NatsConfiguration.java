@@ -49,7 +49,7 @@ public class NatsConfiguration {
         // Define the stream configuration
         StreamConfiguration streamConfig = StreamConfiguration.builder()
                 .name("all")
-                .subjects("*.*")
+                .subjects("patient.*", "practitioner.*")
                 .storageType(StorageType.File)
                 .build();
 

@@ -1,31 +1,24 @@
 package org.goafabric.eventdispatcher.consumer.nats;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
-import io.nats.client.PushSubscribeOptions;
-import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.getEvent;
+import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.subscribe;
 
 @Component
 @Profile("nats")
 public class NatsLoggerConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    static final String CONSUMER_NAME = "Logger";
+    private static final String CONSUMER_NAME = "Logger";
 
-    private final ObjectMapper objectMapper;
-
-    public NatsLoggerConsumer(Connection natsConnection) throws Exception {
-        this.objectMapper = new ObjectMapper(new CBORFactory());
-
-        natsConnection.jetStream().subscribe("*.*", natsConnection.createDispatcher(),
-                msg -> process(msg.getSubject(), getEvent(msg.getData())), true, createDurableOptions());
+    public NatsLoggerConsumer(Connection natsConnection) {
+        subscribe(natsConnection, CONSUMER_NAME, "*.*",
+                msg -> process(msg.getSubject(), getEvent(msg.getData())));
     }
 
     private void process(String key, EventData eventData) {
@@ -33,15 +26,5 @@ public class NatsLoggerConsumer {
         //msg.ack();
     }
 
-    private EventData getEvent(byte[] eventData) {
-        try { return objectMapper.readValue(eventData, EventData.class); } catch (IOException e) { throw new IllegalStateException(e); }
-    }
 
-    private PushSubscribeOptions createDurableOptions() { //creates a durable consumer which msg being delivered even if consumer is not running
-        return PushSubscribeOptions.builder()
-                .configuration(ConsumerConfiguration.builder()
-                        .durable(CONSUMER_NAME).deliverSubject(CONSUMER_NAME + "-deliver")
-                        .build()
-                ).build();
-    }
 }

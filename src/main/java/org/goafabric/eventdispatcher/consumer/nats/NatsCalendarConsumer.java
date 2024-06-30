@@ -1,7 +1,5 @@
 package org.goafabric.eventdispatcher.consumer.nats;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;
@@ -9,22 +7,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.getEvent;
+import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.subscribe;
 
 @Component
-@Profile("natsx")
+@Profile("nats")
 public class NatsCalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    static final String CONSUMER_NAME = "Calendar";
-
-    private final ObjectMapper objectMapper;
+    private static final String CONSUMER_NAME = "Calendar";
 
     public NatsCalendarConsumer(Connection natsConnection) {
-        this.objectMapper = new ObjectMapper(new CBORFactory());
-        var dispatcher = natsConnection.createDispatcher();
+        subscribe(natsConnection, CONSUMER_NAME + "-patient", "patient.*",
+                msg -> process(msg.getSubject(), getEvent(msg.getData())));
 
-        dispatcher.subscribe("patient.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
-        dispatcher.subscribe("practitioner.*", CONSUMER_NAME, msg -> process(msg.getSubject(), getEvent(msg.getData())));
+        subscribe(natsConnection, CONSUMER_NAME + "-practitioner", "practitioner.*",
+                msg -> process(msg.getSubject(), getEvent(msg.getData())));
     }
 
     private void process(String key, EventData eventData) {
@@ -50,9 +47,5 @@ public class NatsCalendarConsumer {
 
     private void updatePractitioner(String id) {
         log.info("calendar update practitioner; id = {}", id);
-    }
-
-    private EventData getEvent(byte[] eventData) {
-        try { return objectMapper.readValue(eventData, EventData.class); } catch (IOException e) { throw new IllegalStateException(e); }
     }
 }
