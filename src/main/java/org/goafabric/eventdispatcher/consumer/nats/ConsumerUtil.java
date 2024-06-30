@@ -16,6 +16,8 @@ public class ConsumerUtil {
     private ConsumerUtil() {
     }
 
+    //creates a durable consumer which msg being delivered even if consumer is not running,
+    //autoAck will automatically remove from queue when delivered, when renaming the consumer, it will just create a new one !
     public static void subscribe(Connection natsConnection, String consumerName, String subject, MessageHandler handler ) {
         try {
             natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(), handler, true, createDurableOptions(consumerName));
@@ -24,11 +26,11 @@ public class ConsumerUtil {
         }
     }
 
-    //creates a durable consumer which msg being delivered even if consumer is not running, autoAck above will automatically remove from queue when delivered
     public static PushSubscribeOptions createDurableOptions(String consumerName) {
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
-                        .durable(consumerName).deliverSubject(consumerName+ "-deliver")
+                        .durable(consumerName)
+                        .deliverSubject(consumerName+ "-deliver") //must be set otherwise exception
                         .build()
                 ).build();
     }
