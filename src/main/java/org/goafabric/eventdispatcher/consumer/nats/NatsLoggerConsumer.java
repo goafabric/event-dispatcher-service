@@ -24,17 +24,8 @@ public class NatsLoggerConsumer {
     public NatsLoggerConsumer(Connection natsConnection) throws Exception {
         this.objectMapper = new ObjectMapper(new CBORFactory());
 
-        var options = PushSubscribeOptions.builder()
-                .configuration(ConsumerConfiguration.builder()
-                        .durable(CONSUMER_NAME).deliverSubject("my-subject")
-                        .build()
-                ).build();
-
-
-        var dispatcher = natsConnection.createDispatcher();
-
-        natsConnection.jetStream().subscribe("*.*", dispatcher,
-                msg -> process(msg.getSubject(), getEvent(msg.getData())), true, options);
+        natsConnection.jetStream().subscribe("*.*", natsConnection.createDispatcher(),
+                msg -> process(msg.getSubject(), getEvent(msg.getData())), true, createDurableOptions());
     }
 
     private void process(String key, EventData eventData) {
@@ -44,5 +35,13 @@ public class NatsLoggerConsumer {
 
     private EventData getEvent(byte[] eventData) {
         try { return objectMapper.readValue(eventData, EventData.class); } catch (IOException e) { throw new IllegalStateException(e); }
+    }
+
+    private PushSubscribeOptions createDurableOptions() { //creates a durable consumer which msg being delivered even if consumer is not running
+        return PushSubscribeOptions.builder()
+                .configuration(ConsumerConfiguration.builder()
+                        .durable(CONSUMER_NAME).deliverSubject(CONSUMER_NAME + "-deliver")
+                        .build()
+                ).build();
     }
 }
