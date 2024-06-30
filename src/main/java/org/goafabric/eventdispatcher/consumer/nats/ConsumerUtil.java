@@ -16,7 +16,6 @@ public class ConsumerUtil {
     private ConsumerUtil() {
     }
 
-    //be careful with the consumername here, if you change it, a new consumer will be created and the old will not be removeed
     public static void subscribe(Connection natsConnection, String consumerName, String subject, MessageHandler handler ) {
         try {
             natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(), handler, true, createDurableOptions(consumerName));

@@ -41,8 +41,8 @@ public class NatsConfiguration {
 
     private void createStreams(Connection connection) throws Exception {
         var streamConfig = StreamConfiguration.builder()
-                .name("all")
-                .subjects("*.*") //""patient.*", "practitioner.*")
+                .name("all") //only for testing, for production it could be one stream per subject
+                .subjects("*.*") //"patient.*", "practitioner.*")
                 .storageType(StorageType.File)
                 .build();
 
