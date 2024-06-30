@@ -29,10 +29,10 @@ public class NatsCalendarConsumer {
 
     private void process(String key, EventData eventData) {
         switch (key) {
-            case "patient.create" : createPatient(eventData.referenceId()); break;
-            case "patient.update" : updatePatient(eventData.referenceId()); break;
-            case "practitioner.create" : createPractitioner(eventData.referenceId()); break;
-            case "practitioner.update" : updatePractitioner(eventData.referenceId()); break;
+            case "patient.create" -> createPatient(eventData.referenceId());
+            case "patient.update" -> updatePatient(eventData.referenceId());
+            case "practitioner.create" -> createPractitioner(eventData.referenceId());
+            case "practitioner.update" -> updatePractitioner(eventData.referenceId());
         }
     }
 

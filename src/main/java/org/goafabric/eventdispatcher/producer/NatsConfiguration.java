@@ -4,6 +4,7 @@ import io.nats.client.Connection;
 import io.nats.client.JetStreamManagement;
 import io.nats.client.Nats;
 import io.nats.client.Options;
+import io.nats.client.api.StorageType;
 import io.nats.client.api.StreamConfiguration;
 import io.nats.client.api.StreamInfo;
 import org.slf4j.Logger;
@@ -49,6 +50,7 @@ public class NatsConfiguration {
         StreamConfiguration streamConfig = StreamConfiguration.builder()
                 .name("all")
                 .subjects("*.*")
+                .storageType(StorageType.File)
                 .build();
 
         // Add or get the stream

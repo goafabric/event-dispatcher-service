@@ -39,6 +39,7 @@ public class NatsLoggerConsumer {
 
     private void process(String key, EventData eventData) {
         log.info("logging event: {}; id = {}", key, eventData.referenceId());
+        //msg.ack();
     }
 
     private EventData getEvent(byte[] eventData) {
