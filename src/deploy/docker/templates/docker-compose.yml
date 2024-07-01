@@ -1,5 +1,8 @@
 services:
   application:
+    depends_on:
+      nats:
+        condition: service_started
     container_name: ${_Values_root_name}-application
     image:  ${_Values_image_repository}${_Values_image_native}:${_Values_image_tag}
     restart: 'no'
@@ -52,24 +55,6 @@ services:
       logging.level.org.goafabric: "INFO"
       logging.level.org.springframework: "INFO"
 
-  rabbitmq:
-    profiles:
-      - rabbitmq
-    container_name: ${_Values_root_name}-rabbitmq
-    image: rabbitmq:3.13.1-management
-    restart: 'no'
-    ports:
-      - 15672:15672
-      - 5672:5672
-    environment:
-      #secrets
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "admin"
-    volumes:
-      - rabbitdata:/var/lib/rabbitmq
-    networks:
-      - ${_Values_root_name}-net
-
   kafka:
     profiles:
       - kafka
@@ -93,8 +78,8 @@ services:
       - ${_Values_root_name}-net
 
   nats:
-    profiles:
-      - nats
+#    profiles:
+#      - nats
     container_name: ${_Values_root_name}-nats
     image: nats:2.10.16
     command: ["-js", "-m", "8222"]
