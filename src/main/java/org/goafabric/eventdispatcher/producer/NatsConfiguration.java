@@ -22,7 +22,7 @@ public class NatsConfiguration {
 
     @Bean
     public Connection connection(@Value("${nats.spring.server}") String serverUrl) throws InterruptedException {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             try {
                 var con = Nats.connect(new Options.Builder()
                         .server(serverUrl)
