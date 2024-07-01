@@ -31,6 +31,7 @@ public class ConsumerUtil {
                 .configuration(ConsumerConfiguration.builder()
                         .durable(consumerName)
                         .deliverSubject(consumerName+ "-deliver") //must be set otherwise exception
+                        .deliverGroup(consumerName+ "-group")
                         .build()
                 ).build();
     }
