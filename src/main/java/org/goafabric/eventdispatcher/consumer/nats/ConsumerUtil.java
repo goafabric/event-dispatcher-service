@@ -31,7 +31,7 @@ public class ConsumerUtil {
                 .configuration(ConsumerConfiguration.builder()
                         .durable(consumerName)
                         .deliverSubject(consumerName+ "-deliver") //must be set otherwise exception
-                        .deliverGroup(consumerName+ "-group")
+                        .deliverGroup(consumerName+ "-group") //must be set to be deployable as replica
                         .build()
                 ).build();
     }

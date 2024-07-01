@@ -22,21 +22,18 @@ public class NatsConfiguration {
 
     @Bean
     public Connection connection(@Value("${nats.spring.server}") String serverUrl) throws InterruptedException {
-        for (int i = 0; i < 1; i++) {
-            try {
-                var con = Nats.connect(new Options.Builder()
-                        .server(serverUrl)
-                        .connectionListener((connection, event) -> log.info("Connection Event: " + event))
-                        .build());
-                createStreams(con);
-                return con;
-            } catch (Exception e) {
-                log.warn("cannot connect to nats server, will retry {}", e.getMessage());
-                Thread.sleep(1000);
-            }
+        try {
+            var con = Nats.connect(new Options.Builder()
+                    .server(serverUrl)
+                    .connectionListener((connection, event) -> log.info("Connection Event: " + event))
+                    .build());
+            createStreams(con);
+            return con;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            System.exit(0);
+            return null;
         }
-        System.exit(0);
-        return null;
     }
 
     private void createStreams(Connection connection) throws Exception {
