@@ -43,7 +43,6 @@ services:
       management.otlp.tracing.endpoint: "http://host.docker.internal:4318/v1/traces"
 
       #broker
-      spring.rabbitmq.host: "${_Values_root_name}-rabbitmq"
       spring.kafka.bootstrap-servers: kafka:9092
       nats.spring.server: "nats:4222"
 

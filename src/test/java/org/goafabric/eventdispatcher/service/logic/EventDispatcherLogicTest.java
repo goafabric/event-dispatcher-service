@@ -1,6 +1,6 @@
 package org.goafabric.eventdispatcher.service.logic;
 
-import org.goafabric.eventdispatcher.producer.EventProducerRabbit;
+import org.goafabric.eventdispatcher.producer.EventProducerKafka;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 class EventDispatcherLogicTest {
     private EventDispatcherLogic eventDispatcherLogic =
-            new EventDispatcherLogic(Mockito.mock(EventProducerRabbit.class));
+            new EventDispatcherLogic(Mockito.mock(EventProducerKafka.class));
 
     private static class Patient {
         private final String id = "44";
