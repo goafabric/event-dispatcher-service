@@ -39,7 +39,7 @@ nats:
     server: "localhost:4222"
 
 #enable kafka or rabbitmq
-spring.profiles.active: nats #kafka
+spring.profiles.active: kafka #kafka
 
 #logging
 logging.pattern.level: "%5p tenantId=%X{tenantId:-}"

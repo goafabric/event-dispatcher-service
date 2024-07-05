@@ -28,7 +28,7 @@ public class EventProducerKafka implements EventProducer {
     }
 
     private void send(String key, String referenceId) {
-        kafkaTemplate.send("main.topic", key, new EventData(referenceId));
+        kafkaTemplate.send(key, new EventData(referenceId));
     }
 
 }
