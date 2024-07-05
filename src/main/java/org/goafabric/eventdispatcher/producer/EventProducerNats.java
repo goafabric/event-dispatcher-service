@@ -25,8 +25,8 @@ public class EventProducerNats implements EventProducer {
                 changeEvent.referenceId());
     }
 
-    private void send(String key, String referenceId) {
-        natsConnection.publish(key, createEvent(new EventData(referenceId)));
+    private void send(String subject, String referenceId) {
+        natsConnection.publish(subject, createEvent(new EventData(referenceId)));
     }
 
     private byte[] createEvent(EventData eventData) {
