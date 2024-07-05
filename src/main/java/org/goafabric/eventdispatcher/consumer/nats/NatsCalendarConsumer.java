@@ -18,10 +18,10 @@ public class NatsCalendarConsumer {
 
     public NatsCalendarConsumer(Connection natsConnection) {
         subscribe(natsConnection, CONSUMER_NAME, "patient.*",
-                msg -> process(msg.getSubject(), getEvent(msg.getData())));
+                (msg, eventData) -> process(msg.getSubject(), eventData));
 
         subscribe(natsConnection, CONSUMER_NAME, "practitioner.*",
-                msg -> process(msg.getSubject(), getEvent(msg.getData())));
+                (msg, eventData) -> process(msg.getSubject(), getEvent(msg.getData())));
     }
 
     private void process(String key, EventData eventData) {

@@ -18,7 +18,7 @@ public class NatsLoggerConsumer {
 
     public NatsLoggerConsumer(Connection natsConnection) {
         subscribe(natsConnection, CONSUMER_NAME, "*.*",
-                msg -> process(msg.getSubject(), getEvent(msg.getData())));
+                (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
     private void process(String key, EventData eventData) {

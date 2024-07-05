@@ -3,7 +3,6 @@ package org.goafabric.eventdispatcher.consumer.nats;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
-import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
@@ -18,10 +17,11 @@ public class ConsumerUtil {
 
     //creates a durable consumer which msg being delivered even if consumer is not running,
     //autoAck will automatically remove from queue when delivered, when renaming the consumer, it will just create a new one !
-    public static void subscribe(Connection natsConnection, String consumerName, String subject, MessageHandler handler ) {
+    public static void subscribe(Connection natsConnection, String consumerName, String subject, EventMessageHandler handler ) {
         try {
-            natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(), handler, true,
-                    createDurableOptions(consumerName, subject));
+            natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
+                    msg -> handler.onMessage(msg, getEvent(msg.getData())),
+                    true, createDurableOptions(consumerName, subject));
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
