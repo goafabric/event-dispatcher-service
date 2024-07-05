@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.getEvent;
 import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.subscribe;
 
 @Component
@@ -21,7 +20,7 @@ public class NatsCalendarConsumer {
                 (msg, eventData) -> process(msg.getSubject(), eventData));
 
         subscribe(natsConnection, CONSUMER_NAME, "practitioner.*",
-                (msg, eventData) -> process(msg.getSubject(), getEvent(msg.getData())));
+                (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
     private void process(String key, EventData eventData) {

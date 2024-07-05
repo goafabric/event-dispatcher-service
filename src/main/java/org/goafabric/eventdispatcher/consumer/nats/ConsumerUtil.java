@@ -3,11 +3,13 @@ package org.goafabric.eventdispatcher.consumer.nats;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
+import io.nats.client.Message;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
 
 import java.io.IOException;
+
 
 public class ConsumerUtil {
     private static final ObjectMapper objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
@@ -27,8 +29,8 @@ public class ConsumerUtil {
         }
     }
 
-    public static PushSubscribeOptions createDurableOptions(String consumerName, String subject) {
-        var name = consumerName + "-" + subject.replaceAll("[*.]", "");
+    private static PushSubscribeOptions createDurableOptions(String consumerName, String subject) {
+        var name = consumerName + "-" + subject.replaceAll("[*.]", ""); //unique consumer name per subject
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
                         .durable(name)
@@ -38,8 +40,12 @@ public class ConsumerUtil {
                 ).build();
     }
 
-    public static EventData getEvent(byte[] eventData) {
+    private static EventData getEvent(byte[] eventData) {
         try { return objectMapper.readValue(eventData, EventData.class); } catch (IOException e) { throw new IllegalStateException(e); }
+    }
+
+    public interface EventMessageHandler { // MessageHandler Proxy that takes care of deserializing the event
+        void onMessage(Message msg, EventData eventData) throws InterruptedException;
     }
 
 }

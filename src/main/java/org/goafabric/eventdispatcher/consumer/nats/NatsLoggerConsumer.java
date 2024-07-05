@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.getEvent;
 import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.subscribe;
 
 @Component
