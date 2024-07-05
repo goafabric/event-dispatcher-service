@@ -7,6 +7,7 @@ import io.nats.client.Message;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class NatsSubscription {
     private final Connection natsConnection;
     private final ObjectMapper objectMapper;
 
-    public NatsSubscription(Connection natsConnection) {
+    public NatsSubscription(@Autowired(required = false) Connection natsConnection) {
         this.natsConnection = natsConnection;
         this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
     }
@@ -26,9 +27,11 @@ public class NatsSubscription {
     //autoAck will automatically remove from queue when delivered, when renaming the consumer, it will just create a new one !
     public void create(String consumerName, String subject, EventMessageHandler handler ) {
         try {
-            natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
-                    msg -> handler.onMessage(msg, getEvent(msg.getData())),
-                    true, createDurableOptions(consumerName, subject));
+            if (natsConnection != null) {
+                natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
+                        msg -> handler.onMessage(msg, getEvent(msg.getData())),
+                        true, createDurableOptions(consumerName, subject));
+            }
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

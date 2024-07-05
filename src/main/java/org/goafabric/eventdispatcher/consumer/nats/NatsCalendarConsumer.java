@@ -12,13 +12,9 @@ public class NatsCalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private static final String CONSUMER_NAME = "Calendar";
 
-
     public NatsCalendarConsumer(NatsSubscription natsSubscription) {
-        natsSubscription.create(CONSUMER_NAME, "patient.*",
-                (msg, eventData) -> process(msg.getSubject(), eventData));
-
-        natsSubscription.create(CONSUMER_NAME, "practitioner.*",
-                (msg, eventData) -> process(msg.getSubject(), eventData));
+        natsSubscription.create(CONSUMER_NAME, "patient.*", (msg, eventData) -> process(msg.getSubject(), eventData));
+        natsSubscription.create(CONSUMER_NAME, "practitioner.*", (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
     private void process(String key, EventData eventData) {

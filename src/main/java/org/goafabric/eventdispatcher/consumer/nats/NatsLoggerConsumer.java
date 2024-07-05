@@ -13,8 +13,7 @@ public class NatsLoggerConsumer {
     private static final String CONSUMER_NAME = "Logger";
 
     public NatsLoggerConsumer(NatsSubscription natsSubscription) {
-        natsSubscription.create(CONSUMER_NAME, "*.*",
-                (msg, eventData) -> process(msg.getSubject(), eventData));
+        natsSubscription.create(CONSUMER_NAME, "*.*", (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
     private void process(String key, EventData eventData) {
