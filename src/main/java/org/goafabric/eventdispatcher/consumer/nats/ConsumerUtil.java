@@ -7,19 +7,24 @@ import io.nats.client.Message;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 
+@Component
 public class ConsumerUtil {
-    private static final ObjectMapper objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
+    private final Connection natsConnection;
+    private final ObjectMapper objectMapper;
 
-    private ConsumerUtil() {
+    public ConsumerUtil(Connection natsConnection) {
+        this.natsConnection = natsConnection;
+        this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
     }
 
     //creates a durable consumer which msg being delivered even if consumer is not running,
     //autoAck will automatically remove from queue when delivered, when renaming the consumer, it will just create a new one !
-    public static void subscribe(Connection natsConnection, String consumerName, String subject, EventMessageHandler handler ) {
+    public void subscribe(String consumerName, String subject, EventMessageHandler handler ) {
         try {
             natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
                     msg -> handler.onMessage(msg, getEvent(msg.getData())),
@@ -40,7 +45,7 @@ public class ConsumerUtil {
                 ).build();
     }
 
-    private static EventData getEvent(byte[] eventData) {
+    private EventData getEvent(byte[] eventData) {
         try { return objectMapper.readValue(eventData, EventData.class); } catch (IOException e) { throw new IllegalStateException(e); }
     }
 

@@ -1,13 +1,10 @@
 package org.goafabric.eventdispatcher.consumer.nats;
 
-import io.nats.client.Connection;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import static org.goafabric.eventdispatcher.consumer.nats.ConsumerUtil.subscribe;
 
 @Component
 @Profile("nats")
@@ -15,11 +12,12 @@ public class NatsCalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private static final String CONSUMER_NAME = "Calendar";
 
-    public NatsCalendarConsumer(Connection natsConnection) {
-        subscribe(natsConnection, CONSUMER_NAME, "patient.*",
+
+    public NatsCalendarConsumer(ConsumerUtil consumerUtil) {
+        consumerUtil.subscribe(CONSUMER_NAME, "patient.*",
                 (msg, eventData) -> process(msg.getSubject(), eventData));
 
-        subscribe(natsConnection, CONSUMER_NAME, "practitioner.*",
+        consumerUtil.subscribe(CONSUMER_NAME, "practitioner.*",
                 (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
