@@ -14,8 +14,8 @@ public class LoggerConsumer {
 
     static final String CONSUMER_NAME = "Logger";
 
-    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*\\..*")
-    public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String key, EventData eventData) {
+    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
+    public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, EventData eventData) {
         process(key, eventData);
     }
 
