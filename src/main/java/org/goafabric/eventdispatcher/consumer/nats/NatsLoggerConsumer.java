@@ -12,8 +12,8 @@ public class NatsLoggerConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private static final String CONSUMER_NAME = "Logger";
 
-    public NatsLoggerConsumer(ConsumerUtil consumerUtil) {
-        consumerUtil.subscribe(CONSUMER_NAME, "*.*",
+    public NatsLoggerConsumer(NatsSubscription natsSubscription) {
+        natsSubscription.create(CONSUMER_NAME, "*.*",
                 (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 

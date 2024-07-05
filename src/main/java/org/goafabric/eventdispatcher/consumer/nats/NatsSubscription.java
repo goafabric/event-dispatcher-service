@@ -13,18 +13,18 @@ import java.io.IOException;
 
 
 @Component
-public class ConsumerUtil {
+public class NatsSubscription {
     private final Connection natsConnection;
     private final ObjectMapper objectMapper;
 
-    public ConsumerUtil(Connection natsConnection) {
+    public NatsSubscription(Connection natsConnection) {
         this.natsConnection = natsConnection;
         this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
     }
 
     //creates a durable consumer which msg being delivered even if consumer is not running,
     //autoAck will automatically remove from queue when delivered, when renaming the consumer, it will just create a new one !
-    public void subscribe(String consumerName, String subject, EventMessageHandler handler ) {
+    public void create(String consumerName, String subject, EventMessageHandler handler ) {
         try {
             natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
                     msg -> handler.onMessage(msg, getEvent(msg.getData())),

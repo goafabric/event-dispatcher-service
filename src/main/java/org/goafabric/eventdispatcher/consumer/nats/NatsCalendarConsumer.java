@@ -13,11 +13,11 @@ public class NatsCalendarConsumer {
     private static final String CONSUMER_NAME = "Calendar";
 
 
-    public NatsCalendarConsumer(ConsumerUtil consumerUtil) {
-        consumerUtil.subscribe(CONSUMER_NAME, "patient.*",
+    public NatsCalendarConsumer(NatsSubscription natsSubscription) {
+        natsSubscription.create(CONSUMER_NAME, "patient.*",
                 (msg, eventData) -> process(msg.getSubject(), eventData));
 
-        consumerUtil.subscribe(CONSUMER_NAME, "practitioner.*",
+        natsSubscription.create(CONSUMER_NAME, "practitioner.*",
                 (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
