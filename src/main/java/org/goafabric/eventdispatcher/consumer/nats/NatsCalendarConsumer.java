@@ -17,10 +17,10 @@ public class NatsCalendarConsumer {
     private static final String CONSUMER_NAME = "Calendar";
 
     public NatsCalendarConsumer(Connection natsConnection) {
-        subscribe(natsConnection, CONSUMER_NAME + "-patient", "patient.*",
+        subscribe(natsConnection, CONSUMER_NAME, "patient.*",
                 msg -> process(msg.getSubject(), getEvent(msg.getData())));
 
-        subscribe(natsConnection, CONSUMER_NAME + "-practitioner", "practitioner.*",
+        subscribe(natsConnection, CONSUMER_NAME, "practitioner.*",
                 msg -> process(msg.getSubject(), getEvent(msg.getData())));
     }
 
