@@ -22,7 +22,7 @@ public class NatsConfiguration {
 
     @Bean
     public Connection connection(
-            @Value("${nats.spring.server}") String serverUrl, @Value("${nats.spring.username}") String userName, @Value("${nats.spring.password}") String password) throws InterruptedException {
+            @Value("${nats.spring.server}") String serverUrl, @Value("${nats.spring.username:}") String userName, @Value("${nats.spring.password:}") String password) throws InterruptedException {
         try {
             var con = Nats.connect(new Options.Builder()
                     .server(serverUrl)
