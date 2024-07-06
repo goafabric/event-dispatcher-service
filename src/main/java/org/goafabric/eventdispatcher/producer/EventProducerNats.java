@@ -9,8 +9,8 @@ import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Component
 @Profile("nats")
+@Component
 public class EventProducerNats implements EventProducer {
     private final Connection natsConnection;
     private final ObjectMapper objectMapper;

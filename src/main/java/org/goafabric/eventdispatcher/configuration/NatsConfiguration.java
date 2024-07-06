@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 //https://gcore.com/learning/nats-rabbitmq-nsq-kafka-comparison/
-@Configuration
 @Profile("nats")
+@Configuration
 @RegisterReflectionForBinding(EventData.class)
 public class NatsConfiguration {
     private static Logger log = LoggerFactory.getLogger(NatsConfiguration.class);
