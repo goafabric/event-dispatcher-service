@@ -1,3 +1,8 @@
+# 3.3.1
+- upgrade to Spring Boot 3.3.1
+- rabbitmq removed
+- nats added
+
 # 3.3.0
 - upgrade to Spring Boot 3.3.0
 - switched default to kafka

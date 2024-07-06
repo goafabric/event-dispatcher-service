@@ -5,18 +5,20 @@ val version: String by project
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 val dockerRegistry = "goafabric"
-val nativeBuilder = "dashaun/builder:20240403"
-val baseImage = "ibm-semeru-runtimes:open-21.0.1_12-jre-focal@sha256:24d43669156684f7bc28536b22537a7533ab100bf0a5a89702b987ebb53215be"
+val nativeBuilder = "paketobuildpacks/java-native-image:9.5.0"
+val baseImage = "ibm-semeru-runtimes:open-21.0.3_9-jre-focal@sha256:5cb19afa9ee0daeecb7c31be8253fecbbf6b5f6dcfb06883c41f045cb893bcec"
 
 plugins {
 	java
 	jacoco
-	id("org.springframework.boot") version "3.3.0"
+	id("org.springframework.boot") version "3.3.1"
 	id("io.spring.dependency-management") version "1.1.5"
 	id("org.graalvm.buildtools.native") version "0.10.2"
 
-	id("com.google.cloud.tools.jib") version "3.4.2"
+	id("com.google.cloud.tools.jib") version "3.4.3"
 	id("net.researchgate.release") version "3.0.2"
+	id("org.sonarqube") version "5.0.0.4638"
+	id("org.owasp.dependencycheck") version "9.1.0"
 }
 
 repositories {
@@ -27,7 +29,7 @@ repositories {
 
 dependencies {
 	constraints {
-		implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+		implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 		implementation("org.mapstruct:mapstruct:1.5.5.Final")
 		annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 		implementation("io.github.resilience4j:resilience4j-spring-boot3:2.1.0")
@@ -46,8 +48,11 @@ dependencies {
 
 	//messageing
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
-	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.kafka:spring-kafka")
+	implementation("io.nats:jnats:2.19.0")
+
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor")
+	//implementation("io.nats:nats-spring-boot-starter:0.5.7")
 
 	//crosscuting
 	implementation("org.springframework.boot:spring-boot-starter-aop")
@@ -74,7 +79,8 @@ jib {
 tasks.register("dockerImageNative") { group = "build"; dependsOn("bootBuildImage") }
 tasks.named<BootBuildImage>("bootBuildImage") {
 	val nativeImageName = "${dockerRegistry}/${project.name}-native" + (if (System.getProperty("os.arch").equals("aarch64")) "-arm64v8" else "") + ":${project.version}"
-	builder.set(nativeBuilder)
+	builder.set("paketobuildpacks/builder-jammy-buildpackless-tiny")
+	buildpacks.add(nativeBuilder)
 	imageName.set(nativeImageName)
 	environment.set(mapOf("BP_NATIVE_IMAGE" to "true", "BP_JVM_VERSION" to "21", "BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to "-J-Xmx5000m -march=compatibility"))
 	doLast {
