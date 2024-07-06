@@ -21,10 +21,12 @@ public class NatsConfiguration {
     private static Logger log = LoggerFactory.getLogger(NatsConfiguration.class);
 
     @Bean
-    public Connection connection(@Value("${nats.spring.server}") String serverUrl) throws InterruptedException {
+    public Connection connection(
+            @Value("${nats.spring.server}") String serverUrl, @Value("${nats.spring.username}") String userName, @Value("${nats.spring.password}") String password) throws InterruptedException {
         try {
             var con = Nats.connect(new Options.Builder()
                     .server(serverUrl)
+                    .userInfo(userName, password)
                     .connectionListener((connection, event) -> log.info("Connection Event: " + event))
                     .build());
             createStreams(con);

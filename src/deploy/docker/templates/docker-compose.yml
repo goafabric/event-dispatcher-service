@@ -45,6 +45,8 @@ services:
       #broker
       spring.kafka.bootstrap-servers: kafka:9092
       nats.spring.server: "nats:4222"
+      nats.spring.username: "nats"
+      nats.spring.password: "nats"
 
       #profile
       spring.profiles.active: "${_Values_profile}"
@@ -81,7 +83,7 @@ services:
 #      - nats
     container_name: ${_Values_root_name}-nats
     image: nats:2.10.16
-    command: ["-js", "-m", "8222"]
+    command: ["-js", "-m", "8222", "-user", "nats", "-pass", "nats"]
     restart: 'no'
     ports:
       - 4222:4222
