@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
 import io.nats.client.Message;
+import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
@@ -25,20 +26,24 @@ public class NatsSubscription {
         this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
     }
 
-    public void create(String consumerName, String subject, EventMessageHandler handler ) {
+    public void create(String consumerName, String subject, EventMessageHandler eventHandler) {
         try {
             if (natsConnection != null) {
                 natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
-                        msg -> {
-                            MDC.put("tenantId", TenantContext.getTenantId());
-                            handler.onMessage(msg, getEvent(msg.getData()));
-                            MDC.remove("tenantId");
-                        },
+                        createMessageHandler(eventHandler),
                         true, createDurableOptions(consumerName, subject));
             }
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
+        return msg -> {
+            MDC.put("tenantId", TenantContext.getTenantId());
+            eventHandler.onMessage(msg, getEvent(msg.getData()));
+            MDC.remove("tenantId");
+        };
     }
 
     private static PushSubscribeOptions createDurableOptions(String consumerName, String subject) {
