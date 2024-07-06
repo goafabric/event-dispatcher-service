@@ -38,7 +38,7 @@ nats:
   spring:
     server: "localhost:4222"
 
-#enable kafka or rabbitmq
+#enable nats or kafka
 spring.profiles.active: kafka #kafka
 
 #logging
