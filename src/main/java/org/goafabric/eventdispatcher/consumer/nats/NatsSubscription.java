@@ -7,6 +7,8 @@ import io.nats.client.Message;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
 import org.goafabric.eventdispatcher.producer.EventData;
+import org.goafabric.eventdispatcher.service.extensions.TenantContext;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,13 +25,15 @@ public class NatsSubscription {
         this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
     }
 
-    //creates a durable consumer which msg being delivered even if consumer is not running,
-    //autoAck will automatically remove from queue when delivered, when renaming the consumer, it will just create a new one !
     public void create(String consumerName, String subject, EventMessageHandler handler ) {
         try {
             if (natsConnection != null) {
                 natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
-                        msg -> handler.onMessage(msg, getEvent(msg.getData())),
+                        msg -> {
+                            MDC.put("tenantId", TenantContext.getTenantId());
+                            handler.onMessage(msg, getEvent(msg.getData()));
+                            MDC.remove("tenantId");
+                        },
                         true, createDurableOptions(consumerName, subject));
             }
         } catch (Exception e) {
