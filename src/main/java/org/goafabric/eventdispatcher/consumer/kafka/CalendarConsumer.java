@@ -1,6 +1,7 @@
 package org.goafabric.eventdispatcher.consumer.kafka;
 
 import org.goafabric.eventdispatcher.producer.EventData;
+import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -17,6 +18,7 @@ public class CalendarConsumer {
     @KafkaListener(groupId = CONSUMER_NAME, topics = "patient")
     @KafkaListener(groupId = CONSUMER_NAME, topics = "practitioner")
     public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, EventData eventData) {
+        TenantContext.setContext(eventData.tenantInfos());
         process(key, eventData);
     }
 

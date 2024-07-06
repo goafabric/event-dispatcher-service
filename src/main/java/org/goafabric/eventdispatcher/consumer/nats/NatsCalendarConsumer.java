@@ -1,6 +1,7 @@
 package org.goafabric.eventdispatcher.consumer.nats;
 
 import org.goafabric.eventdispatcher.producer.EventData;
+import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -18,6 +19,7 @@ public class NatsCalendarConsumer {
     }
 
     private void process(String key, EventData eventData) {
+        TenantContext.setContext(eventData.tenantInfos());
         switch (key) {
             case "patient.create" -> createPatient(eventData.referenceId());
             case "patient.update" -> updatePatient(eventData.referenceId());
