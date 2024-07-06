@@ -14,8 +14,7 @@ public class CalendarConsumer {
 
     static final String CONSUMER_NAME = "Calendar";
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = "patient")
-    @KafkaListener(groupId = CONSUMER_NAME, topics = "practitioner")
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"})
     public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, EventData eventData) {
         process(key, eventData);
     }
