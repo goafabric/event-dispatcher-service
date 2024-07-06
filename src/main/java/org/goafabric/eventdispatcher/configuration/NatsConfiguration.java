@@ -1,10 +1,11 @@
-package org.goafabric.eventdispatcher.producer;
+package org.goafabric.eventdispatcher.configuration;
 
 import io.nats.client.Connection;
 import io.nats.client.Nats;
 import io.nats.client.Options;
 import io.nats.client.api.StorageType;
 import io.nats.client.api.StreamConfiguration;
+import org.goafabric.eventdispatcher.producer.EventData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
