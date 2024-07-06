@@ -17,11 +17,11 @@ public class LoggerConsumer {
 
     @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
     public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, EventData eventData) {
-        TenantContext.setContext(eventData.tenantInfos());
         process(key, eventData);
     }
 
     private void process(String key, EventData eventData) {
+        log.info("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
         log.info("logging event: {}; id = {}", key, eventData.referenceId());
     }
 

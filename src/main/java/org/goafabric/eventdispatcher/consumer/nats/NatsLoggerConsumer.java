@@ -18,7 +18,7 @@ public class NatsLoggerConsumer {
     }
 
     private void process(String key, EventData eventData) {
-        TenantContext.setContext(eventData.tenantInfos());
+        log.info("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
         log.info("logging event: {}; id = {}", key, eventData.referenceId());
         //msg.ack();
     }

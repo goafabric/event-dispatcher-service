@@ -19,7 +19,6 @@ public class NatsCalendarConsumer {
     }
 
     private void process(String key, EventData eventData) {
-        TenantContext.setContext(eventData.tenantInfos());
         switch (key) {
             case "patient.create" -> createPatient(eventData.referenceId());
             case "patient.update" -> updatePatient(eventData.referenceId());
