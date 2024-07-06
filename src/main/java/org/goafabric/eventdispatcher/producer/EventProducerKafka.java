@@ -1,6 +1,7 @@
 package org.goafabric.eventdispatcher.producer;
 
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
@@ -28,7 +29,7 @@ public class EventProducerKafka implements EventProducer {
     }
 
     private void send(String topic, String key, String referenceId) {
-        kafkaTemplate.send(topic, key, new EventData(referenceId));
+        kafkaTemplate.send(topic, key, new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null));
     }
 
 }

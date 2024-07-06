@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.nats.client.Connection;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
+import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ public class EventProducerNats implements EventProducer {
     }
 
     private void send(String subject, String referenceId) {
-        natsConnection.publish(subject, createEvent(new EventData(referenceId)));
+        natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null)));
     }
 
     private byte[] createEvent(EventData eventData) {
