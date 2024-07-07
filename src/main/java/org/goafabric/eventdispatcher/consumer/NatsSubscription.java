@@ -7,7 +7,9 @@ import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Context;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.slf4j.MDC;
@@ -50,16 +52,16 @@ public class NatsSubscription {
 
     private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
         return msg -> {
-            MDC.put("tenantId", TenantContext.getTenantId());
-            var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan();
-            try {
-                span.setAttribute("subject", msg.getSubject());
-                span.setAttribute("tenant.id", TenantContext.getTenantId());
-                eventHandler.onMessage(msg, getEvent(msg.getData()));
-            } finally {
-                span.end();
-            }
-            MDC.remove("tenantId");
+            withTenantInfos(() -> {
+                var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan();
+                try {
+                    span.setAttribute("subject", msg.getSubject());
+                    span.setAttribute("tenant.id", TenantContext.getTenantId());
+                    eventHandler.onMessage(msg, getEvent(msg.getData()));
+                } finally {
+                    span.end();
+                }
+            });
         };
     }
 
@@ -79,7 +81,17 @@ public class NatsSubscription {
     }
 
     public interface EventMessageHandler { // MessageHandler Proxy that takes care of deserializing the event
-        void onMessage(Message msg, EventData eventData) throws InterruptedException;
+        void onMessage(Message msg, EventData eventData);
+    }
+
+    public static void withTenantInfos(Runnable runnable) {
+        Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
+        MDC.put("tenantId", TenantContext.getTenantId());
+        try {
+            runnable.run();
+        } finally {
+            MDC.remove("tenantId");
+        }
     }
 
 }

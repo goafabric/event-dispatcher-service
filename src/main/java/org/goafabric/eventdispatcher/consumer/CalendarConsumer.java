@@ -8,6 +8,8 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
+import static org.goafabric.eventdispatcher.consumer.NatsSubscription.withTenantInfos;
+
 @Component
 public class CalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -21,7 +23,7 @@ public class CalendarConsumer {
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"})
     public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, EventData eventData) {
-        process(key, eventData);
+        withTenantInfos(() -> process(key, eventData));
     }
 
     private void process(String key, EventData eventData) {
