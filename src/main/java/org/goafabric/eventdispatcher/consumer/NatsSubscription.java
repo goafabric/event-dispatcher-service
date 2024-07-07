@@ -53,10 +53,9 @@ public class NatsSubscription {
     private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
         return msg -> {
             withTenantInfos(() -> {
-                var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan();
+                var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan()
+                        .setAttribute("subject", msg.getSubject()).setAttribute("tenant.id", TenantContext.getTenantId());
                 try {
-                    span.setAttribute("subject", msg.getSubject());
-                    span.setAttribute("tenant.id", TenantContext.getTenantId());
                     eventHandler.onMessage(msg, getEvent(msg.getData()));
                 } finally {
                     span.end();

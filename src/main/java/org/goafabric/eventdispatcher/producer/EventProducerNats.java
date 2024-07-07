@@ -30,10 +30,9 @@ public class EventProducerNats implements EventProducer {
     }
 
     private void send(String subject, String referenceId) {
-        var span = tracer.spanBuilder(subject + " send").startSpan();
+        var span = tracer.spanBuilder(subject + " send").startSpan()
+                .setAttribute("subject",subject).setAttribute("tenant.id", TenantContext.getTenantId());
         try {
-            span.setAttribute("subject",subject);
-            span.setAttribute("tenant.id", TenantContext.getTenantId());
             natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null)));
         } finally {
             span.end();
