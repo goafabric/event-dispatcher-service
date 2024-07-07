@@ -51,7 +51,7 @@ public class NatsSubscription {
     private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
         return msg -> {
             MDC.put("tenantId", TenantContext.getTenantId());
-            var span = tracer.spanBuilder("nats subscribe " + msg.getSubject()).startSpan();
+            var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan();
             try {
                 span.setAttribute("subject", msg.getSubject());
                 span.setAttribute("tenant.id", TenantContext.getTenantId());

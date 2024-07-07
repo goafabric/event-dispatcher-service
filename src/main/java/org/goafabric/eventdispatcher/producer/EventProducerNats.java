@@ -30,7 +30,7 @@ public class EventProducerNats implements EventProducer {
     }
 
     private void send(String subject, String referenceId) {
-        var span = tracer.spanBuilder("nats publish " + subject).startSpan();
+        var span = tracer.spanBuilder(subject + " send").startSpan();
         try {
             span.setAttribute("subject",subject);
             span.setAttribute("tenant.id", TenantContext.getTenantId());
