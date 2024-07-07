@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 @Component
@@ -27,15 +28,21 @@ public class NatsSubscription {
     }
 
     public void create(String consumerName, String subject, EventMessageHandler eventHandler) {
-        try {
-            if (natsConnection != null) {
-                natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
-                        createMessageHandler(eventHandler),
-                        true, createDurableOptions(consumerName, subject));
+        create(consumerName, new String[]{subject}, eventHandler);
+    }
+
+    public void create(String consumerName, String[] subjects, EventMessageHandler eventHandler) {
+        Arrays.stream(subjects).forEach(subject -> {
+            try {
+                if (natsConnection != null) {
+                    natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
+                            createMessageHandler(eventHandler),
+                            true, createDurableOptions(consumerName, subject));
+                }
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
             }
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+        });
     }
 
     private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {

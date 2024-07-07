@@ -15,8 +15,8 @@ public class CalendarConsumer {
     static final String CONSUMER_NAME = "Calendar";
 
     public CalendarConsumer(NatsSubscription natsSubscription) {
-        natsSubscription.create(CONSUMER_NAME, "patient.*", (msg, eventData) -> process(msg.getSubject(), eventData));
-        natsSubscription.create(CONSUMER_NAME, "practitioner.*", (msg, eventData) -> process(msg.getSubject(), eventData));
+        natsSubscription.create(CONSUMER_NAME,  new String[]{"patient.*", "practitioner.*"},
+                (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"})
