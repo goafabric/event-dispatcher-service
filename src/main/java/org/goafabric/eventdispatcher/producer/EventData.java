@@ -10,6 +10,6 @@ public record EventData (
     Object payload
 ) {
     public EventData {
-        TenantContext.setContext(tenantInfos);
+        TenantContext.setContext(tenantInfos); //little hacky, if the object is created on deserialization the tenantcontext will be set
     }
 }
