@@ -50,20 +50,6 @@ public class NatsSubscription {
         });
     }
 
-    private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
-        return msg -> {
-            withTenantInfos(() -> {
-                var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan()
-                        .setAttribute("subject", msg.getSubject()).setAttribute("tenant.id", TenantContext.getTenantId());
-                try {
-                    eventHandler.onMessage(msg, getEvent(msg.getData()));
-                } finally {
-                    span.end();
-                }
-            });
-        };
-    }
-
     private static PushSubscribeOptions createDurableOptions(String consumerName, String subject) {
         var name = consumerName + "-" + subject.replaceAll("[*.]", ""); //unique consumer name per subject
         return PushSubscribeOptions.builder()
@@ -73,6 +59,20 @@ public class NatsSubscription {
                         .deliverGroup(name + "-group") //must be set to be deployable as replica
                         .build()
                 ).build();
+    }
+
+    private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
+        return msg -> {
+            withTenantInfos(() -> { //currently the spans are not connected on sender and receiver
+                var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan()
+                        .setAttribute("subject", msg.getSubject()).setAttribute("tenant.id", TenantContext.getTenantId());
+                try {
+                    eventHandler.onMessage(msg, getEvent(msg.getData()));
+                } finally {
+                    span.end();
+                }
+            });
+        };
     }
 
     private EventData getEvent(byte[] eventData) {
