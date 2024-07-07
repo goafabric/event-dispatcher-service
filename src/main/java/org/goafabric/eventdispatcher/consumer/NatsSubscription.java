@@ -66,11 +66,8 @@ public class NatsSubscription {
             withTenantInfos(() -> { //currently the spans are not connected on sender and receiver
                 var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan()
                         .setAttribute("subject", msg.getSubject()).setAttribute("tenant.id", TenantContext.getTenantId());
-                try {
-                    eventHandler.onMessage(msg, getEvent(msg.getData()));
-                } finally {
-                    span.end();
-                }
+
+                try { eventHandler.onMessage(msg, getEvent(msg.getData())); } finally { span.end(); }
             });
         };
     }
@@ -86,11 +83,8 @@ public class NatsSubscription {
     public static void withTenantInfos(Runnable runnable) {
         Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
         MDC.put("tenantId", TenantContext.getTenantId());
-        try {
-            runnable.run();
-        } finally {
-            MDC.remove("tenantId");
-        }
+
+        try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 
 }
