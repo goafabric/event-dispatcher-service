@@ -3,9 +3,8 @@ package org.goafabric.eventdispatcher.producer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
-import io.micrometer.tracing.Span;
-import io.micrometer.tracing.Tracer;
 import io.nats.client.Connection;
+import io.opentelemetry.api.trace.Tracer;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +26,18 @@ public class EventProducerNats implements EventProducer {
     }
 
     public void produce(ChangeEvent changeEvent) {
-        Span newSpan = tracer. nextSpan().name("manualTraceExample").start();
-        try (io.micrometer.tracing.Tracer.SpanInScope ws = tracer.withSpan(newSpan.start())) {
-            // Add custom tags or logs if needed
-            newSpan.tag("customTag", "customValue");
-            send(changeEvent.type().toLowerCase() + "."  + changeEvent.operation().toString().toLowerCase(),
-                    changeEvent.referenceId());
-        } finally {
-            // End the span
-            newSpan.end();
-        }
+        send(changeEvent.type().toLowerCase() + "."  + changeEvent.operation().toString().toLowerCase(), changeEvent.referenceId());
     }
 
     private void send(String subject, String referenceId) {
-        natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null)));
+        var span = tracer.spanBuilder("nats publish " + subject).startSpan();
+        try {
+            span.setAttribute("subject",subject);
+            span.setAttribute("tenant.id", TenantContext.getTenantId());
+            natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null)));
+        } finally {
+            span.end();
+        }
     }
 
     private byte[] createEvent(EventData eventData) {

@@ -7,6 +7,7 @@ import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
+import io.opentelemetry.api.trace.Tracer;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.slf4j.MDC;
@@ -21,9 +22,11 @@ import java.util.Arrays;
 public class NatsSubscription {
     private final Connection natsConnection;
     private final ObjectMapper objectMapper;
+    private final Tracer tracer;
 
-    public NatsSubscription(@Autowired(required = false) Connection natsConnection) {
+    public NatsSubscription(@Autowired(required = false) Connection natsConnection, Tracer tracer) {
         this.natsConnection = natsConnection;
+        this.tracer = tracer;
         this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
     }
 
@@ -48,7 +51,14 @@ public class NatsSubscription {
     private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
         return msg -> {
             MDC.put("tenantId", TenantContext.getTenantId());
-            eventHandler.onMessage(msg, getEvent(msg.getData()));
+            var span = tracer.spanBuilder("nats subscribe " + msg.getSubject()).startSpan();
+            try {
+                span.setAttribute("subject", msg.getSubject());
+                span.setAttribute("tenant.id", TenantContext.getTenantId());
+                eventHandler.onMessage(msg, getEvent(msg.getData()));
+            } finally {
+                span.end();
+            }
             MDC.remove("tenantId");
         };
     }
