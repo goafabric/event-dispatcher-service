@@ -7,5 +7,6 @@ public record ChangeEvent (
     String referenceId,
     String type,
     DbOperation operation,
-    String origin
+    String origin,
+    Object payload
 ) {}

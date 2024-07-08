@@ -47,7 +47,7 @@ public class EventDispatcherLogic {
                 UUID.randomUUID().toString(),
                 typeName,
                 operation,
-                "secret-service"
+                "secret-service", null
         );
     }
 

@@ -25,10 +25,10 @@ public class EventProducerNats implements EventProducer {
     }
 
     public void produce(ChangeEvent changeEvent) {
-        send(changeEvent.type().toLowerCase() + "."  + changeEvent.operation().toString().toLowerCase(), changeEvent.referenceId());
+        send(changeEvent.type().toLowerCase() + "."  + changeEvent.operation().toString().toLowerCase(), changeEvent.referenceId(), changeEvent.payload());
     }
 
-    private void send(String subject, String referenceId) {
+    private void send(String subject, String referenceId, Object payload) {
         var observation = Observation.createNotStarted(subject + " send", this.observationRegistry)
                         .lowCardinalityKeyValue("subject", subject)
                         .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
