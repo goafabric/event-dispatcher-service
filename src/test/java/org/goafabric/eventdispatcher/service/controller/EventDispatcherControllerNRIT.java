@@ -68,7 +68,6 @@ class EventDispatcherControllerNRIT {
     private ChangeEvent createEvent(Object object, DbOperation operation) {
         return new ChangeEvent(
                 UUID.randomUUID().toString(),
-                "0",
                 UUID.randomUUID().toString(),
                 object.getClass().getSimpleName(),
                 operation,

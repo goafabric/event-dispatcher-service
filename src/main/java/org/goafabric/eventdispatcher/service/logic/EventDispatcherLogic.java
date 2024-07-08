@@ -43,7 +43,7 @@ public class EventDispatcherLogic {
     private ChangeEvent createEvent(String typeName, DbOperation operation) {
         return new ChangeEvent(
                 UUID.randomUUID().toString(),
-                "0",
+               // "0",
                 UUID.randomUUID().toString(),
                 typeName,
                 operation,
