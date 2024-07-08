@@ -1,4 +1,5 @@
 # 3.3.2
+- tracing and payload handling added
 
 # 3.3.1
 - upgrade to Spring Boot 3.3.1
