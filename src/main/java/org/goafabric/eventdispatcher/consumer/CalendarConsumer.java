@@ -21,7 +21,7 @@ public class CalendarConsumer {
                 (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"})
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
     public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, EventData eventData) {
         withTenantInfos(() -> process(key, eventData));
     }
