@@ -2,13 +2,14 @@ package org.goafabric.eventdispatcher.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import io.nats.client.Connection;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
 import io.nats.client.api.ConsumerConfiguration;
 import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Context;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
@@ -24,11 +25,12 @@ import java.util.Arrays;
 public class NatsSubscription {
     private final Connection natsConnection;
     private final ObjectMapper objectMapper;
-    private final Tracer tracer;
+    private final ObservationRegistry observationRegistry;
 
-    public NatsSubscription(@Autowired(required = false) Connection natsConnection, Tracer tracer) {
+
+    public NatsSubscription(@Autowired(required = false) Connection natsConnection, ObservationRegistry observationRegistry) {
         this.natsConnection = natsConnection;
-        this.tracer = tracer;
+        this.observationRegistry = observationRegistry;
         this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
     }
 
@@ -64,10 +66,10 @@ public class NatsSubscription {
     private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
         return msg -> {
             withTenantInfos(() -> { //currently the spans are not connected on sender and receiver
-                var span = tracer.spanBuilder(msg.getSubject() + " receive").startSpan()
-                        .setAttribute("subject", msg.getSubject()).setAttribute("tenant.id", TenantContext.getTenantId());
-
-                try { eventHandler.onMessage(msg, getEvent(msg.getData())); } finally { span.end(); }
+                var observation = Observation.createNotStarted(msg.getSubject() + " receive", this.observationRegistry)
+                        .lowCardinalityKeyValue("subject", msg.getSubject())
+                        .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
+                observation.observe(() -> eventHandler.onMessage(msg, getEvent(msg.getData())));
             });
         };
     }
@@ -83,7 +85,6 @@ public class NatsSubscription {
     public static void withTenantInfos(Runnable runnable) {
         Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
         MDC.put("tenantId", TenantContext.getTenantId());
-
         try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 

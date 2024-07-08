@@ -3,11 +3,11 @@ package org.goafabric.eventdispatcher.producer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import io.nats.client.Connection;
-import io.opentelemetry.api.trace.Tracer;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +16,11 @@ import org.springframework.stereotype.Component;
 public class EventProducerNats implements EventProducer {
     private final Connection natsConnection;
     private final ObjectMapper objectMapper;
-
-    @Autowired
-    Tracer tracer;
+    private final ObservationRegistry observationRegistry;
     
-    public EventProducerNats(Connection natsConnection) {
+    public EventProducerNats(Connection natsConnection, ObservationRegistry observationRegistry) {
         this.natsConnection = natsConnection;
+        this.observationRegistry = observationRegistry;
         this.objectMapper = new ObjectMapper(new CBORFactory());
     }
 
@@ -30,13 +29,10 @@ public class EventProducerNats implements EventProducer {
     }
 
     private void send(String subject, String referenceId) {
-        var span = tracer.spanBuilder(subject + " send").startSpan()
-                .setAttribute("subject",subject).setAttribute("tenant.id", TenantContext.getTenantId());
-        try {
-            natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null)));
-        } finally {
-            span.end();
-        }
+        var observation = Observation.createNotStarted(subject + " send", this.observationRegistry)
+                        .lowCardinalityKeyValue("subject", subject)
+                        .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
+        observation.observe(() -> natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null))));
     }
 
     private byte[] createEvent(EventData eventData) {
