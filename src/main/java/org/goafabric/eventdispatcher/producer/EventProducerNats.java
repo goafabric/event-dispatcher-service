@@ -32,7 +32,7 @@ public class EventProducerNats implements EventProducer {
         var observation = Observation.createNotStarted(subject + " send", this.observationRegistry)
                         .lowCardinalityKeyValue("subject", subject)
                         .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
-        observation.observe(() -> natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, null))));
+        observation.observe(() -> natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, payload))));
     }
 
     private byte[] createEvent(EventData eventData) {
