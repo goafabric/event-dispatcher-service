@@ -51,7 +51,8 @@ class EventDispatcherLogicTest {
                 UUID.randomUUID().toString(),
                 object.getClass().getSimpleName(),
                 operation,
-                "secret-service"
+                "secret-service",
+                null
         );
     }
 }
