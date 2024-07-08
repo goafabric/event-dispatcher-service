@@ -64,14 +64,12 @@ public class NatsSubscription {
     }
 
     private MessageHandler createMessageHandler(EventMessageHandler eventHandler) {
-        return msg -> {
-            withTenantInfos(() -> { //currently the spans are not connected on sender and receiver
-                var observation = Observation.createNotStarted(msg.getSubject() + " receive", this.observationRegistry)
-                        .lowCardinalityKeyValue("subject", msg.getSubject())
-                        .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
-                observation.observe(() -> eventHandler.onMessage(msg, getEvent(msg.getData())));
-            });
-        };
+        return msg -> withTenantInfos(() -> { //currently the spans are not connected on sender and receiver
+            var observation = Observation.createNotStarted(msg.getSubject() + " receive", this.observationRegistry)
+                    .lowCardinalityKeyValue("subject", msg.getSubject())
+                    .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
+            observation.observe(() -> eventHandler.onMessage(msg, getEvent(msg.getData())));
+        });
     }
 
     private EventData getEvent(byte[] eventData) {
