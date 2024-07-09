@@ -43,8 +43,7 @@ public class NatsConfiguration {
         //only for testing one stream for all, for production it could be one stream per subject
         var streamConfig = StreamConfiguration.builder()
                 .name("all")
-                .subjects("*")
-                //.subjects("patient", "practitioner") //"patient.*", "practitioner.*")
+                .subjects("*") //"patient.*", "practitioner.*")
                 .storageType(StorageType.File)
                 .build();
 
