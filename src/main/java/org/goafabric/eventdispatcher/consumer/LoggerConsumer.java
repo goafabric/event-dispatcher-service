@@ -18,7 +18,7 @@ public class LoggerConsumer {
     static final String CONSUMER_NAME = "Logger";
 
     public LoggerConsumer(NatsSubscription natsSubscription) {
-        //natsSubscription.create(CONSUMER_NAME, "*.*", (msg, eventData) -> process(msg.getSubject(), eventData));
+        natsSubscription.create(CONSUMER_NAME, "*", (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
     @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
