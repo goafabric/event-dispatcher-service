@@ -57,7 +57,7 @@ public class NatsSubscription {
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
                         .durable(name)
-                        .deliverSubject(name + "-deliver") //must be set otherwise exception
+                        //.deliverSubject(name + "-deliver") //must be set otherwise exception
                         .deliverGroup(name + "-group") //must be set to be deployable as replica
                         .build()
                 ).build();
