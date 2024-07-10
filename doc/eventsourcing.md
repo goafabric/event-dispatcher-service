@@ -38,7 +38,11 @@ The following sections will explain different scenarios
 - Order can be retainend by using the entity name for topic and the PK for the key
 - For multiple producers consumers Kafka should automatically take care, NATS might need extra Code and Configuration
 - One has to think twice for doing Rest Calls inside the Consumers as it imposes extra complexity for the ack.
-- For further details see the following sections
+
+- It also has to be considered if there is a big enough (performance value) for the extra complexity described here,
+because at the end of the day the bet is on that reading from a local database is much faster than rest calls
+
+For further details please see the following sections
 
 ## Single Producer Instance
 
