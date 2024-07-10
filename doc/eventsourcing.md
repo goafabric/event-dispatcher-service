@@ -33,7 +33,7 @@ The following sections will explain different scenarios
 
 # Scenarios      
 
-## Summary
+## Summary (upfront)
 
 - Order can be retainend by using the entity name for topic and the PK for the key
 - For multiple producers consumers Kafka should automatically take care, NATS might need extra Code and Configuration
