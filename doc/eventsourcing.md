@@ -71,6 +71,8 @@ For NATS that's also possible, but may have to be configured manually.
 Verification of this Scenario is possible inside Kubernetes, but should also be possible inside Docker Compose by just spawning
 two Instances of Consumer (in this case the Event Dispatcher Service)
 
+=> Current result: Kafka automatically assigns a specific consumer to a specific deployed instance, with nats with the current group config its not working
+
 ## Multiple Instances for Producers
 
 Now this is the part where things can get really tricky and the cookie might crumble
