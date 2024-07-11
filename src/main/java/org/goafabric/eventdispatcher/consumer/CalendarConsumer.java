@@ -27,16 +27,18 @@ public class CalendarConsumer {
     }
 
     private void process(String topic, EventData eventData) {
-        if (topic.equals("patient")) {
-            switch (eventData.operation()) {
-                case "create" -> createPatient(eventData.referenceId());
-                case "update" -> updatePatient(eventData.referenceId());
+        switch (topic) {
+            case "patient" -> {
+                switch (eventData.operation()) {
+                    case "create" -> createPatient(eventData.referenceId());
+                    case "update" -> updatePatient(eventData.referenceId());
+                }
             }
-        }
-        if (topic.equals("practitioner")) {
-            switch (eventData.operation()) {
-                case "create" -> createPractitioner(eventData.referenceId());
-                case "update" -> updatePractitioner(eventData.referenceId());
+            case "practitioner" -> {
+                switch (eventData.operation()) {
+                    case "create" -> createPractitioner(eventData.referenceId());
+                    case "update" -> updatePractitioner(eventData.referenceId());
+                }
             }
         }
     }
