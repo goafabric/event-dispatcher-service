@@ -19,12 +19,12 @@ public class EventProducerKafka implements EventProducer {
     }
 
     public void produce(ChangeEvent changeEvent) {
-        send(changeEvent.type().toLowerCase(), changeEvent.type().toLowerCase() + "."  + changeEvent.operation().toString().toLowerCase(),
+        send(changeEvent.type().toLowerCase(), changeEvent.operation().toString().toLowerCase(),
                 changeEvent.referenceId(), changeEvent.payload());
     }
 
-    private void send(String topic, String key, String referenceId, Object payload) {
-        kafkaTemplate.send(topic, key, new EventData(TenantContext.getAdapterHeaderMap(), referenceId, payload));
+    private void send(String topic, String operation, String referenceId, Object payload) {
+        kafkaTemplate.send(topic, referenceId, new EventData(TenantContext.getAdapterHeaderMap(), referenceId, operation, payload));
     }
 
 }

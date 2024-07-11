@@ -7,6 +7,7 @@ import java.util.Map;
 public record EventData (
     Map<String, String> tenantInfos,
     String referenceId,
+    String operation,
     Object payload
 ) {
     public EventData {
