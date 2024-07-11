@@ -80,6 +80,9 @@ Usually not only the Consumer side is replicated, but also the Producer side.
 
 ChatGPT claims that Kafka automatically takes care of that, with the Partitioning in the background,
 as long as we keep the TOPIC = entity pattern and send over the entity id as key (all of this is unverified!)
+                                
+There is however another article that recommends to have a manual timestamp in the key
+https://giulliano.medium.com/how-to-guarantee-ordering-in-a-kafka-topic-with-multiple-producers-a7f210b81105
 
 As for NATS at least the NATS documentation clearly states that a Order of Events **cannot be guarenteed**:
 https://docs.nats.io/reference/faq#does-nats-offer-any-guarantee-of-message-ordering
