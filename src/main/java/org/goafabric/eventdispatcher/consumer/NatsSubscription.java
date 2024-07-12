@@ -57,12 +57,12 @@ public class NatsSubscription {
 
     private PushSubscribeOptions createDurableOptions(String consumerName, String subject) {
         var subscriberName = consumerName + "-" + subject.replaceAll("[*.]", ""); //unique consumer name per subject
-        log.info("creating durable consumer {} with group {} ", subscriberName, subscriberName + "-group");
+        var groupName = subscriberName + "-group";
+        log.info("creating durable consumer {} with group {} ", subscriberName, groupName);
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
                         .durable(subscriberName)
-                        //.deliverSubject(name + "-deliver") //must be set otherwise exception
-                        .deliverGroup(subscriberName + "-group") //must be set to be deployable as replica
+                        .deliverGroup(groupName) //must be set to be deployable as replica
                         .build()
                 ).build();
     }
