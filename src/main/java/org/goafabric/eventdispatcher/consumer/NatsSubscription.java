@@ -8,6 +8,7 @@ import io.nats.client.Connection;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
+import io.nats.client.api.AckPolicy;
 import io.nats.client.api.ConsumerConfiguration;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
@@ -47,7 +48,7 @@ public class NatsSubscription {
                 if (natsConnection != null) {
                     natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
                             createMessageHandler(eventHandler),
-                            true, createDurableOptions(consumerName, subject));
+                            false, createDurableOptions(consumerName, subject));
                 }
             } catch (Exception e) {
                 throw new IllegalStateException(e);
@@ -61,6 +62,7 @@ public class NatsSubscription {
         log.info("creating durable consumer {} with group {} ", subscriberName, groupName);
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
+                        .ackPolicy(AckPolicy.Explicit)
                         .durable(subscriberName)
                         .deliverGroup(groupName) //must be set to be deployable as replica
                         .build()
@@ -73,6 +75,7 @@ public class NatsSubscription {
                     .lowCardinalityKeyValue("subject", msg.getSubject())
                     .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
             observation.observe(() -> eventHandler.onMessage(msg, getEvent(msg.getData())));
+            msg.ack();
         });
     }
 
