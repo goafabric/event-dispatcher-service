@@ -27,8 +27,8 @@ public class LoggerConsumer {
     }
 
     private void process(String topic, EventData eventData) {
-        log.info("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
-        log.info("logging event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
+        log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
+        log.debug("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
     }
 
 }

@@ -63,6 +63,7 @@ public class NatsSubscription {
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
                         .ackPolicy(AckPolicy.Explicit)
+                        .maxAckPending(1)
                         .durable(subscriberName)
                         .deliverGroup(groupName) //must be set to be deployable as replica
                         .build()
