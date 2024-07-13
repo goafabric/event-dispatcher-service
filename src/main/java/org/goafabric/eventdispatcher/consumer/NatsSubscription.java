@@ -1,7 +1,6 @@
 package org.goafabric.eventdispatcher.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import io.nats.client.Connection;
@@ -35,7 +34,7 @@ public class NatsSubscription {
     public NatsSubscription(@Autowired(required = false) Connection natsConnection, ObservationRegistry observationRegistry) {
         this.natsConnection = natsConnection;
         this.observationRegistry = observationRegistry;
-        this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
+        this.objectMapper = new ObjectMapper(); //binary serializer for performance
     }
 
     public void create(String consumerName, String subject, EventMessageHandler eventHandler) {
