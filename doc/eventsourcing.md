@@ -37,23 +37,22 @@ The following sections will explain different scenarios
 
 - Order can be retainend by using the entity name for topic and the PK for the key
 - For multiple producers consumers Kafka should automatically take care, NATS needs extra config: https://docs.nats.io/nats-concepts/subject_mapping
-- For multiple producers consumers Kafka should automatically take care, NATS states that this is not possible: https://docs.nats.io/reference/faq#does-nats-offer-any-guarantee-of-message-ordering
+- For multiple producers consumers Kafka an extra Timestamp can take care, NATS states that this is not possible: https://docs.nats.io/reference/faq#does-nats-offer-any-guarantee-of-message-ordering
 
 - Concerning performance NATS is about 2,5* faster for non ordered events, but 3* slower for ordered events than kafka
 - Nats also totally breaks down with a payload of 10k from 2600/s => 150/s, while kafka retains 8000/s => 3000/s (40%)
 
-- One has to think twice for doing Rest Calls inside the Consumers as it imposes extra complexity for the ack.
-- It also has to be considered if there is a big enough (performance value) for the extra complexity described here, because at the end of the day the bet is on that reading from a local database is much faster than rest calls
+- One has to think twice for doing Rest Calls inside the Consumers as it imposes extra complexity for the ack / It also has to be considered if there is a big enough (performance value) for the extra complexity described here, because at the end of the day the bet is on that reading from a local database is much faster than rest calls
                             
 ## Performance
 ### Nats
-- 10 sec, maxAck=1000, Patient : avg 20.000/s
-- 10 sec, maxAck=1, Patient : avg 2600/s
-- 10 sec, maxAck=1, 10K payload: avg 150/s
+- 10 sec, unordered (maxAck=1000), Patient : avg 20.000/s
+- 10 sec, ordered (maxAck=1), Patient : avg 2600/s
+- 10 sec, ordered (maxAck=1), 10K Payload: avg 150/s
 
 ### Kafka
-- 10 sec, simple Patient 8000/s
-- 10 sec, 10K Payload, 3000/s
+- 10 sec, ordered, simple Patient 8000/s
+- 10 sec, ordered, 10K Payload, 3000/s
 
 ## Single Producer Instance
 
