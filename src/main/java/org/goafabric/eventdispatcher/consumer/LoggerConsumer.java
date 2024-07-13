@@ -29,7 +29,7 @@ public class LoggerConsumer {
     }
 
     private void process(String topic, EventData eventData) {
-        log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
+        log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId()); //, eventData.payload() != null ? eventData.payload().toString() : "<none>");
         log.debug("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
         CONSUMER_COUNT++;
     }
