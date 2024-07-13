@@ -48,11 +48,11 @@ The following sections will explain different scenarios
 ### Nats
 - 10 sec, unordered (maxAck=1000), Patient : avg 20.000/s
 - 10 sec, ordered (maxAck=1), Patient : avg 2600/s
-- 10 sec, ordered (maxAck=1), 10K Payload: avg 2300/s
+- 10 sec, ordered (maxAck=1), 10K JSON Payload: avg 2300/s
 
 ### Kafka
 - 10 sec, ordered, simple Patient 8000/s
-- 10 sec, ordered, 10K Payload, 3000/s
+- 10 sec, ordered, 10K JSON Payload, 3000/s
 
 ## Single Producer Instance
 
