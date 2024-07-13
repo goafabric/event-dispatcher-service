@@ -37,7 +37,7 @@ The following sections will explain different scenarios
 
 - Order can be retainend by using the entity name for topic and the PK for the key
 - For multiple producers consumers Kafka should automatically take care, NATS needs extra config: https://docs.nats.io/nats-concepts/subject_mapping
-- For multiple producers consumers Kafka an extra Timestamp can take care, NATS states that this is not possible: https://docs.nats.io/reference/faq#does-nats-offer-any-guarantee-of-message-ordering
+- For multiple producers consumers Kafka sends events with the same id to the same partition, NATS states that ordering is not possible: https://docs.nats.io/reference/faq#does-nats-offer-any-guarantee-of-message-ordering
 
 - Concerning performance NATS is about 2,5* faster for non ordered events, but 3* slower for ordered events than kafka
 - With a payload of 10K both have very similar performance 2300/s (nats) vs 3000/s (kafka)
