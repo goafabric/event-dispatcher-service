@@ -16,6 +16,8 @@ public class LoggerConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final String CONSUMER_NAME = "Logger";
+    public static Long CONSUMER_COUNT = 0L;
+
 
     public LoggerConsumer(NatsSubscription natsSubscription) {
         natsSubscription.create(CONSUMER_NAME, "*", (msg, eventData) -> process(msg.getSubject(), eventData));
@@ -29,6 +31,7 @@ public class LoggerConsumer {
     private void process(String topic, EventData eventData) {
         log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
         log.debug("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
+        CONSUMER_COUNT++;
     }
 
 }

@@ -15,6 +15,7 @@ public class CalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final String CONSUMER_NAME = "Calendar";
+    public static Long CONSUMER_COUNT = 0L;
 
     public CalendarConsumer(NatsSubscription natsSubscription) {
         natsSubscription.create(CONSUMER_NAME, new String[]{"patient", "practitioner"},
@@ -41,6 +42,7 @@ public class CalendarConsumer {
                 }
             }
         }
+        CONSUMER_COUNT++;
     }
 
     private void createPatient(String id) {
