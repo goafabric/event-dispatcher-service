@@ -36,7 +36,8 @@ The following sections will explain different scenarios
 ## Summary (upfront)
 
 - Order can be retainend by using the entity name for topic and the PK for the key
-- For multiple producers consumers Kafka should automatically take care, NATS might need extra Code and Configuration
+- For multiple producers consumers Kafka should automatically take care, NATS needs extra config: https://docs.nats.io/nats-concepts/subject_mapping
+- For multiple producers consumers Kafka should automatically take care, NATS states that this is not possible: https://docs.nats.io/reference/faq#does-nats-offer-any-guarantee-of-message-ordering
 - One has to think twice for doing Rest Calls inside the Consumers as it imposes extra complexity for the ack.
 
 - It also has to be considered if there is a big enough (performance value) for the extra complexity described here,
@@ -65,8 +66,8 @@ If we have multiple instances for the Consumers, which we usually have in Kubern
 In this case we have to ensure that one specific consumer is only bound to on specific Instance.
 Because if beeing bound to all instances ... messages could be processed in parallel, without any guarantee of the order.
 
-The Kafka Spring Implementation seems to be automatically taking care of that by assigning specific partitions / groups.
-For NATS that's also possible, but may have to be configured manually.
+The Kafka Spring Implementation seems to be automatically taking care of that by assigning specific partitions.
+For NATS that's also possible, but may have to be configured manually: https://docs.nats.io/nats-concepts/subject_mapping
 
 Verification of this Scenario is possible inside Kubernetes, but should also be possible inside Docker Compose by just spawning
 two Instances of Consumer (in this case the Event Dispatcher Service)
