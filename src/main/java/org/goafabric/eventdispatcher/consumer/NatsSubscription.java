@@ -63,7 +63,7 @@ public class NatsSubscription {
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
                         .ackPolicy(AckPolicy.Explicit)
-                        .maxAckPending(1)
+                        .maxAckPending(1) //force multiple deployed consumer instances to wait for each other to retain order, kills performance
                         .durable(subscriberName)
                         .deliverGroup(groupName) //must be set to be deployable as replica
                         .build()
