@@ -1,3 +1,5 @@
+# 3.3.4
+
 # 3.3.3
 - back to kafka as default
 - reference_id provided as key to kafka
