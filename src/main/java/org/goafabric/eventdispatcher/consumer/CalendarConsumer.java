@@ -15,24 +15,34 @@ public class CalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final String CONSUMER_NAME = "Calendar";
+    public static Long CONSUMER_COUNT = 0L;
 
     public CalendarConsumer(NatsSubscription natsSubscription) {
-        natsSubscription.create(CONSUMER_NAME,  new String[]{"patient.*", "practitioner.*"},
+        natsSubscription.create(CONSUMER_NAME, new String[]{"patient", "practitioner"},
                 (msg, eventData) -> process(msg.getSubject(), eventData));
     }
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
-    public void processKafka(@Header(KafkaHeaders.RECEIVED_KEY) String key, EventData eventData) {
-        withTenantInfos(() -> process(key, eventData));
+    public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
+        withTenantInfos(() -> process(topic, eventData));
     }
 
-    private void process(String key, EventData eventData) {
-        switch (key) {
-            case "patient.create" : createPatient(eventData.referenceId()); break;
-            case "patient.update" : updatePatient(eventData.referenceId()); break;
-            case "practitioner.create" : createPractitioner(eventData.referenceId()); break;
-            case "practitioner.update" : updatePractitioner(eventData.referenceId()); break;
+    private void process(String topic, EventData eventData) {
+        switch (topic) {
+            case "patient" -> {
+                switch (eventData.operation()) {
+                    case "create" -> createPatient(eventData.referenceId());
+                    case "update" -> updatePatient(eventData.referenceId());
+                }
+            }
+            case "practitioner" -> {
+                switch (eventData.operation()) {
+                    case "create" -> createPractitioner(eventData.referenceId());
+                    case "update" -> updatePractitioner(eventData.referenceId());
+                }
+            }
         }
+        CONSUMER_COUNT++;
     }
 
     private void createPatient(String id) {

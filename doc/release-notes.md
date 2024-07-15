@@ -1,3 +1,8 @@
+# 3.3.3
+- back to kafka as default
+- reference_id provided as key to kafka
+- multiple smaller changes
+
 # 3.3.2
 - tracing and payload handling added
 

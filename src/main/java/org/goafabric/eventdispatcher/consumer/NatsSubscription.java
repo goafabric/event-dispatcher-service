@@ -1,18 +1,20 @@
 package org.goafabric.eventdispatcher.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import io.nats.client.Connection;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import io.nats.client.PushSubscribeOptions;
+import io.nats.client.api.AckPolicy;
 import io.nats.client.api.ConsumerConfiguration;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import org.goafabric.eventdispatcher.producer.EventData;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,11 +29,12 @@ public class NatsSubscription {
     private final ObjectMapper objectMapper;
     private final ObservationRegistry observationRegistry;
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public NatsSubscription(@Autowired(required = false) Connection natsConnection, ObservationRegistry observationRegistry) {
         this.natsConnection = natsConnection;
         this.observationRegistry = observationRegistry;
-        this.objectMapper = new ObjectMapper(new CBORFactory()); //binary serializer for performance
+        this.objectMapper = new ObjectMapper(); //binary serializer for performance
     }
 
     public void create(String consumerName, String subject, EventMessageHandler eventHandler) {
@@ -44,7 +47,7 @@ public class NatsSubscription {
                 if (natsConnection != null) {
                     natsConnection.jetStream().subscribe(subject, natsConnection.createDispatcher(),
                             createMessageHandler(eventHandler),
-                            true, createDurableOptions(consumerName, subject));
+                            false, createDurableOptions(consumerName, subject));
                 }
             } catch (Exception e) {
                 throw new IllegalStateException(e);
@@ -52,13 +55,16 @@ public class NatsSubscription {
         });
     }
 
-    private static PushSubscribeOptions createDurableOptions(String consumerName, String subject) {
-        var name = consumerName + "-" + subject.replaceAll("[*.]", ""); //unique consumer name per subject
+    private PushSubscribeOptions createDurableOptions(String consumerName, String subject) {
+        var subscriberName = consumerName + "-" + subject.replaceAll("[*.]", ""); //unique consumer name per subject
+        var groupName = subscriberName + "-group";
+        log.info("creating durable consumer {} with group {} ", subscriberName, groupName);
         return PushSubscribeOptions.builder()
                 .configuration(ConsumerConfiguration.builder()
-                        .durable(name)
-                        .deliverSubject(name + "-deliver") //must be set otherwise exception
-                        .deliverGroup(name + "-group") //must be set to be deployable as replica
+                        .ackPolicy(AckPolicy.Explicit)
+                        .maxAckPending(1) //force multiple deployed consumer instances to wait for each other to retain order, kills performance
+                        .durable(subscriberName)
+                        .deliverGroup(groupName) //must be set to be deployable as replica
                         .build()
                 ).build();
     }
@@ -69,6 +75,7 @@ public class NatsSubscription {
                     .lowCardinalityKeyValue("subject", msg.getSubject())
                     .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
             observation.observe(() -> eventHandler.onMessage(msg, getEvent(msg.getData())));
+            msg.ack();
         });
     }
 

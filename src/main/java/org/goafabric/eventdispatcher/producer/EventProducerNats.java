@@ -2,7 +2,6 @@ package org.goafabric.eventdispatcher.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import io.nats.client.Connection;
@@ -21,18 +20,18 @@ public class EventProducerNats implements EventProducer {
     public EventProducerNats(Connection natsConnection, ObservationRegistry observationRegistry) {
         this.natsConnection = natsConnection;
         this.observationRegistry = observationRegistry;
-        this.objectMapper = new ObjectMapper(new CBORFactory());
+        this.objectMapper = new ObjectMapper();
     }
 
     public void produce(ChangeEvent changeEvent) {
-        send(changeEvent.type().toLowerCase() + "."  + changeEvent.operation().toString().toLowerCase(), changeEvent.referenceId(), changeEvent.payload());
+        send(changeEvent.type().toLowerCase(), changeEvent.operation().toString().toLowerCase(), changeEvent.referenceId(), changeEvent.payload());
     }
 
-    private void send(String subject, String referenceId, Object payload) {
+    private void send(String subject, String operation, String referenceId, Object payload) {
         var observation = Observation.createNotStarted(subject + " send", this.observationRegistry)
                         .lowCardinalityKeyValue("subject", subject)
                         .lowCardinalityKeyValue("tenant.id", TenantContext.getTenantId());
-        observation.observe(() -> natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, payload))));
+        observation.observe(() -> natsConnection.publish(subject, createEvent(new EventData(TenantContext.getAdapterHeaderMap(), referenceId, operation, payload))));
     }
 
     private byte[] createEvent(EventData eventData) {
