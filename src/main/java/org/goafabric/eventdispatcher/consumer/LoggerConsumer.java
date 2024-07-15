@@ -1,6 +1,6 @@
 package org.goafabric.eventdispatcher.consumer;
 
-import org.goafabric.eventdispatcher.producer.EventData;
+import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

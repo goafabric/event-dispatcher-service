@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.producer;
+package org.goafabric.event;
 
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 
