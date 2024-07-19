@@ -1,4 +1,5 @@
 # 3.3.4
+- upgrade to Spring Boot 3.3.2
 
 # 3.3.3
 - back to kafka as default
