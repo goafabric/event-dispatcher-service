@@ -12,14 +12,18 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CountDownLatch;
+
 @Component
-public class CalendarConsumer {
+public class CalendarConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final String CONSUMER_NAME = "Calendar";
     public static Long CONSUMER_COUNT = 0L;
 
-    
+    private final CountDownLatch latch = new CountDownLatch(1);
+
+
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         withTenantInfos(() -> process(topic, eventData));
@@ -41,6 +45,7 @@ public class CalendarConsumer {
             }
         }
         CONSUMER_COUNT++;
+        latch.countDown();
     }
 
     private void createPatient(String id) {
@@ -63,5 +68,10 @@ public class CalendarConsumer {
         Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
         MDC.put("tenantId", TenantContext.getTenantId());
         try { runnable.run(); } finally { MDC.remove("tenantId"); }
+    }
+
+    @Override
+    public CountDownLatch getLatch() {
+        return latch;
     }
 }

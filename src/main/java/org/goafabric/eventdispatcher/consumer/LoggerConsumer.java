@@ -12,12 +12,15 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CountDownLatch;
+
 @Component
-public class LoggerConsumer {
+public class LoggerConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final String CONSUMER_NAME = "Logger";
     public static Long CONSUMER_COUNT = 0L;
+    private final CountDownLatch latch = new CountDownLatch(1);
 
     @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
@@ -28,6 +31,7 @@ public class LoggerConsumer {
         log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
         log.debug("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
         CONSUMER_COUNT++;
+        latch.countDown();
     }
 
     private static void withTenantInfos(Runnable runnable) {
@@ -36,4 +40,8 @@ public class LoggerConsumer {
         try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 
+    @Override
+    public CountDownLatch getLatch() {
+        return latch;
+    }
 }
