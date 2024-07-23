@@ -71,7 +71,5 @@ public class CalendarConsumer implements LatchConsumer {
     }
 
     @Override
-    public CountDownLatch getLatch() {
-        return latch;
-    }
+    public CountDownLatch getLatch() { return latch; }
 }

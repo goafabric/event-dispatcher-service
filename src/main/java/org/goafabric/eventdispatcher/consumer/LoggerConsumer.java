@@ -41,7 +41,5 @@ public class LoggerConsumer implements LatchConsumer {
     }
 
     @Override
-    public CountDownLatch getLatch() {
-        return latch;
-    }
+    public CountDownLatch getLatch() { return latch; }
 }
