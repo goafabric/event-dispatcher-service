@@ -48,10 +48,6 @@ dependencies {
 	//messageing
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.kafka:spring-kafka")
-	implementation("io.nats:jnats:2.19.0")
-
-	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor")
-	//implementation("io.nats:nats-spring-boot-starter:0.5.7")
 
 	//crosscuting
 	implementation("org.springframework.boot:spring-boot-starter-aop")

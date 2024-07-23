@@ -3,13 +3,8 @@ package org.goafabric.eventdispatcher.producer;
 import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
-import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-@Profile("kafka")
-@Import(KafkaAutoConfiguration.class)
 @Component
 public class EventProducerKafka implements EventProducer {
 
