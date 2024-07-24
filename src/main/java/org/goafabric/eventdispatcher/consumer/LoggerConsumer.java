@@ -22,7 +22,7 @@ public class LoggerConsumer implements LatchConsumer {
     public static Long CONSUMER_COUNT = 0L;
     private final CountDownLatch latch = new CountDownLatch(1);
 
-    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
+    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*", topics = {"patient", "practitioner", "condition", "chargeitem"})
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         withTenantInfos(() -> process(topic, eventData));
     }
