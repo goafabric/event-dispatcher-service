@@ -5,7 +5,7 @@ import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
 import org.goafabric.eventdispatcher.service.logic.EventDispatcherLogic;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @MessageMapping(value = "events")
 public class EventDispatcherController {
     private final EventDispatcherLogic eventDispatcherLogic;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public EventDispatcherController(EventDispatcherLogic eventDispatcherLogic) {
+    public EventDispatcherController(EventDispatcherLogic eventDispatcherLogic, SimpMessagingTemplate messagingTemplate) {
         this.eventDispatcherLogic = eventDispatcherLogic;
+        this.messagingTemplate = messagingTemplate;
     }
 
     //dispatch event to be called from external rest clients
@@ -28,34 +30,34 @@ public class EventDispatcherController {
     //events to be called from html page
     @GetMapping("createpatient")
     @MessageMapping("createpatient")
-    @SendTo("/public")
-    public SocketMessage createPatient() {
+    public void createPatient() {
         final String message = eventDispatcherLogic.createPatient();
-        return new SocketMessage(message);
+        broadcastToClients(message);
+    }
+
+    private void broadcastToClients(String message) {
+        messagingTemplate.convertAndSend("/public", new SocketMessage(message));
     }
 
     @GetMapping("updatepatient")
     @MessageMapping("updatepatient")
-    @SendTo("/public")
-    public SocketMessage updatePatient() {
+    public void updatePatient() {
         final String message = eventDispatcherLogic.updatePatient();
-        return new SocketMessage(message);
+        broadcastToClients(message);
     }
 
     @GetMapping("createpractitioner")
     @MessageMapping("createpractitioner")
-    @SendTo("/public")
-    public SocketMessage createPractitioner() {
+    public void createPractitioner() {
         final String message = eventDispatcherLogic.createPractitioner();
-        return new SocketMessage(message);
+        broadcastToClients(message);
     }
 
     @GetMapping("updatepractitioner")
     @MessageMapping("updatepractitioner")
-    @SendTo("/public")
-    public SocketMessage updatePractitioner() {
+    public void updatePractitioner() {
         final String message = eventDispatcherLogic.updatePractitioner();
-        return new SocketMessage(message);
+        broadcastToClients(message);
     }
 }
 
