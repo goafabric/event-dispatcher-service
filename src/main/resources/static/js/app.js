@@ -1,5 +1,5 @@
 var stompClient = null;
-
+var topicSubscriptions = [];
 
 function connectSocket() {
     var websocketPath = "/websocket";
@@ -9,9 +9,9 @@ function connectSocket() {
     var socket = new SockJS(websocketPath);    stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/public', function (socketMessage) {
+        topicSubscriptions.push(stompClient.subscribe('/patient', function (socketMessage) {
             console.log("Got Socket Message : " + JSON.parse(socketMessage.body).message);
-        });
+        }));
     });
 }
 
@@ -36,5 +36,17 @@ function createPractitioner() {
 
 function updatePractitioner() {
     stompClient.send("/events/updatepractitioner", {}, "");
+}
+
+function subscribe(topic) {
+    const subscriptionPromise = stompClient.subscribe(topic, function (socketMessage) {
+        console.log(`Got Socket Message on topic ${topic}: ` + JSON.parse(socketMessage.body).message);
+    });
+    topicSubscriptions.push(subscriptionPromise);
+}
+
+function unsubscribe() {
+    topicSubscriptions.forEach(it => it.unsubscribe());
+    topicSubscriptions = [];
 }
 
