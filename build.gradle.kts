@@ -11,14 +11,13 @@ val baseImage = "ibm-semeru-runtimes:open-21.0.3_9-jre-focal@sha256:5cb19afa9ee0
 plugins {
 	java
 	jacoco
-	id("org.springframework.boot") version "3.3.1"
-	id("io.spring.dependency-management") version "1.1.5"
+	id("org.springframework.boot") version "3.3.2"
+	id("io.spring.dependency-management") version "1.1.6"
 	id("org.graalvm.buildtools.native") version "0.10.2"
 
 	id("com.google.cloud.tools.jib") version "3.4.3"
 	id("net.researchgate.release") version "3.0.2"
 	id("org.sonarqube") version "5.0.0.4638"
-	id("org.owasp.dependencycheck") version "9.1.0"
 }
 
 repositories {
@@ -49,16 +48,13 @@ dependencies {
 	//messageing
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.kafka:spring-kafka")
-	implementation("io.nats:jnats:2.19.0")
-
-	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor")
-	//implementation("io.nats:nats-spring-boot-starter:0.5.7")
 
 	//crosscuting
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
 	//test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
 tasks.withType<Test> {
