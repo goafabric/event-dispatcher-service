@@ -1,6 +1,5 @@
 package org.goafabric.eventdispatcher.service.producer;
 
-import org.goafabric.eventdispatcher.consumer.CalendarConsumer;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
@@ -35,7 +34,7 @@ class EventProducerLoadNRIT {
             eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
             eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
         }
-        long count = CalendarConsumer.CONSUMER_COUNT;
+        long count = TestConsumer.CONSUMER_COUNT;
         log.info("iteration for {} s, events processed {}, events/s {}", duration, count, count / duration);
     }
 
@@ -50,7 +49,7 @@ class EventProducerLoadNRIT {
         return new ChangeEvent(
                 UUID.randomUUID().toString(),
                 UUID.randomUUID().toString(),
-                "patient",
+                "test-topic",
                 operation,
                 "secret-service",
                 object

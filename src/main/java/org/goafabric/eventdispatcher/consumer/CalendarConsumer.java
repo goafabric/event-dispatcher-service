@@ -18,11 +18,8 @@ import java.util.concurrent.CountDownLatch;
 public class CalendarConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    static final String CONSUMER_NAME = "Calendar";
-    public static Long CONSUMER_COUNT = 0L;
-
+    private static final String CONSUMER_NAME = "Calendar";
     private final CountDownLatch latch = new CountDownLatch(1);
-
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
@@ -44,7 +41,6 @@ public class CalendarConsumer implements LatchConsumer {
                 }
             }
         }
-        CONSUMER_COUNT++;
         latch.countDown();
     }
 

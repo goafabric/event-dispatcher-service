@@ -18,7 +18,7 @@ import java.util.concurrent.CountDownLatch;
 public class InvoiceConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    static final String CONSUMER_NAME = "Invoice";
+    private static final String CONSUMER_NAME = "Invoice";
     private final CountDownLatch latch = new CountDownLatch(1);
 
     @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*", topics = {"condition", "chargeitem"})

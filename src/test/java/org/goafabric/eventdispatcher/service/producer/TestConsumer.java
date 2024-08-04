@@ -1,8 +1,9 @@
-package org.goafabric.eventdispatcher.consumer;
+package org.goafabric.eventdispatcher.service.producer;
 
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import org.goafabric.event.EventData;
+import org.goafabric.eventdispatcher.consumer.LatchConsumer;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +16,23 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.CountDownLatch;
 
 @Component
-public class LoggerConsumer implements LatchConsumer {
+public class TestConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private static final String CONSUMER_NAME = "Logger";
+    static final String CONSUMER_NAME = "Calendar";
+    public static Long CONSUMER_COUNT = 0L;
+
     private final CountDownLatch latch = new CountDownLatch(1);
 
-    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
+
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"test-topic"}) //only topics listed here will be autocreated
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         withTenantInfos(() -> process(topic, eventData));
     }
 
     private void process(String topic, EventData eventData) {
-        log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
-        log.debug("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
+        log.info("processing test event");
+        CONSUMER_COUNT++;
         latch.countDown();
     }
 
