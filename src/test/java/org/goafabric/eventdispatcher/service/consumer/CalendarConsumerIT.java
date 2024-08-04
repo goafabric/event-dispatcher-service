@@ -48,4 +48,5 @@ public class CalendarConsumerIT {
     private Patient createPatient() {
         return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", "");
     }
+
 }
