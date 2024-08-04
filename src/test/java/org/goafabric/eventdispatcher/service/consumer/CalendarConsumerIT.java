@@ -1,6 +1,6 @@
 package org.goafabric.eventdispatcher.service.consumer;
 
-import org.goafabric.eventdispatcher.consumer.LatchConsumer;
+import org.goafabric.eventdispatcher.consumer.CalendarConsumer;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -20,25 +19,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
 @Import(KafkaAutoConfiguration.class)
-public class ConsumerIT {
+public class CalendarConsumerIT {
     @Autowired
     private EventProducer eventProducer;
 
     @Autowired
-    private List<LatchConsumer> consumers;
+    private CalendarConsumer consumer;
 
     record Patient(String id, String givenName, String lastName, String gender, String payload) {};
 
-    private String EXTRA_PAYLOAD = "";
-
     @Test
-    void consumer() {
+    void consumer() throws InterruptedException {
         eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
-
-        consumers.forEach(consumer -> {
-            try { assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
-            } catch (InterruptedException e) { throw new RuntimeException(e);}
-        });
+        assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
     }
     
     private ChangeEvent createEvent(Object object, DbOperation operation) {
@@ -53,6 +46,6 @@ public class ConsumerIT {
     }
 
     private Patient createPatient() {
-        return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", EXTRA_PAYLOAD);
+        return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", "");
     }
 }

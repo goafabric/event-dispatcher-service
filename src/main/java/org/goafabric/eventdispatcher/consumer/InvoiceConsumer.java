@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.CountDownLatch;
 
 @Component
-public class LoggerConsumer implements LatchConsumer {
+public class InvoiceConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    static final String CONSUMER_NAME = "Logger";
+    static final String CONSUMER_NAME = "Invoice";
     private final CountDownLatch latch = new CountDownLatch(1);
 
-    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
+    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*", topics = {"condition", "chargeitem"})
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         withTenantInfos(() -> process(topic, eventData));
     }
