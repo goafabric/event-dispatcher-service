@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @MessageMapping(value = "events")
 public class EventDispatcherController {
     private final EventDispatcherLogic eventDispatcherLogic;
-    private final SimpMessagingTemplate messagingTemplate;
+
 
     public EventDispatcherController(EventDispatcherLogic eventDispatcherLogic, SimpMessagingTemplate messagingTemplate) {
         this.eventDispatcherLogic = eventDispatcherLogic;
-        this.messagingTemplate = messagingTemplate;
     }
 
     //dispatch event to be called from external rest clients
@@ -31,33 +30,25 @@ public class EventDispatcherController {
     @GetMapping("createpatient")
     @MessageMapping("createpatient")
     public void createPatient() {
-        final String message = eventDispatcherLogic.createPatient();
-        broadcastToClients(message, "/tenant/0/patient");
-    }
-
-    private void broadcastToClients(String message, String topic) {
-        messagingTemplate.convertAndSend(topic, new SocketMessage(message));
+        eventDispatcherLogic.createPatient();
     }
 
     @GetMapping("updatepatient")
     @MessageMapping("updatepatient")
     public void updatePatient() {
-        final String message = eventDispatcherLogic.updatePatient();
-        broadcastToClients(message, "/tenant/0/patient");
+        eventDispatcherLogic.updatePatient();
     }
 
     @GetMapping("createpractitioner")
     @MessageMapping("createpractitioner")
     public void createPractitioner() {
-        final String message = eventDispatcherLogic.createPractitioner();
-        broadcastToClients(message, "/tenant/0/practitioner");
+        eventDispatcherLogic.createPractitioner();
     }
 
     @GetMapping("updatepractitioner")
     @MessageMapping("updatepractitioner")
     public void updatePractitioner() {
-        final String message = eventDispatcherLogic.updatePractitioner();
-        broadcastToClients(message, "/tenant/0/practitioner");
+        eventDispatcherLogic.updatePractitioner();
     }
 }
 
