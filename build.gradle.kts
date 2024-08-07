@@ -57,6 +57,10 @@ dependencies {
 	//crosscuting
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
+	//security
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.security:spring-security-messaging")
+
 	//test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

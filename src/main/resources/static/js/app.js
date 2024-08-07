@@ -1,17 +1,21 @@
 var stompClient = null;
 var topicSubscriptions = [];
 
-function connectSocket() {
+async function connectSocket() {
     var websocketPath = "/websocket";
     if (window.location.pathname.startsWith('/event')) {
         websocketPath = "/event/websocket";
     }
     var socket = new SockJS(websocketPath);    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
+    // const csrfResponse= await fetch('/csrf');
+    // const body = await csrfResponse.json();
+    // console.log("body", body);
+
+    stompClient.connect({/* [body.header]: body.token*/}, function (frame) {
         console.log('Connected: ' + frame);
-        topicSubscriptions.push(stompClient.subscribe('/patient', function (socketMessage) {
+        topicSubscriptions.push(stompClient.subscribe('/tenant/0/patient', function (socketMessage) {
             console.log("Got Socket Message : " + JSON.parse(socketMessage.body).message);
-        }));
+        }, {'X-TENANT-ID': '0'}));
     });
 }
 

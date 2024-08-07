@@ -23,8 +23,9 @@
         <h2>REST 🌐 & Websocket 🔌</h2>
         <h3>Topics</h3>
         <ul>
-            <li>Subscribe to <a href="#" onclick="subscribe('/patient')">patient topic</a></li>
-            <li>Subscribe to <a href="#" onclick="subscribe('/practitioner')">practitioner topic</a></li>
+            <li>Subscribe to <a href="#" onclick="subscribe('/tenant/0/patient')">patient topic</a></li>
+            <li>Subscribe to <a href="#" onclick="subscribe('/tenant/0/practitioner')">practitioner topic</a></li>
+            <li>Subscribe to <a href="#" onclick="subscribe('/tenant/1/practitioner')">other tenant (will fail)</a></li>
             <li>Unsubscribe of all <a href="#" onclick="unsubscribe()">topics</a></li>
         </ul>
         <h3>Messages</h3>

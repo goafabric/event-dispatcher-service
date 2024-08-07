@@ -32,7 +32,7 @@ public class EventDispatcherController {
     @MessageMapping("createpatient")
     public void createPatient() {
         final String message = eventDispatcherLogic.createPatient();
-        broadcastToClients(message, "/patient");
+        broadcastToClients(message, "/tenant/0/patient");
     }
 
     private void broadcastToClients(String message, String topic) {
@@ -43,21 +43,21 @@ public class EventDispatcherController {
     @MessageMapping("updatepatient")
     public void updatePatient() {
         final String message = eventDispatcherLogic.updatePatient();
-        broadcastToClients(message, "/patient");
+        broadcastToClients(message, "/tenant/0/patient");
     }
 
     @GetMapping("createpractitioner")
     @MessageMapping("createpractitioner")
     public void createPractitioner() {
         final String message = eventDispatcherLogic.createPractitioner();
-        broadcastToClients(message, "/practitioner");
+        broadcastToClients(message, "/tenant/0/practitioner");
     }
 
     @GetMapping("updatepractitioner")
     @MessageMapping("updatepractitioner")
     public void updatePractitioner() {
         final String message = eventDispatcherLogic.updatePractitioner();
-        broadcastToClients(message, "/practitioner");
+        broadcastToClients(message, "/tenant/0/practitioner");
     }
 }
 
