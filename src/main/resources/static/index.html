@@ -21,6 +21,14 @@
             <li><a href="actuator/prometheus">Prometheus</a></li>
         </ul>
         <h2>REST 🌐 & Websocket 🔌</h2>
+        <h3>Topics</h3>
+        <ul>
+            <li>Subscribe to <a href="#" onclick="subscribe('/tenant/0/patient')">patient topic</a></li>
+            <li>Subscribe to <a href="#" onclick="subscribe('/tenant/0/practitioner')">practitioner topic</a></li>
+            <li>Subscribe to <a href="#" onclick="subscribe('/tenant/1/practitioner')">other tenant (will fail)</a></li>
+            <li>Unsubscribe of all <a href="#" onclick="unsubscribe()">topics</a></li>
+        </ul>
+        <h3>Messages</h3>
         <ul>
             <li>Create Patient<a href="events/createpatient"> 🌐</a><a href="#" onclick="createPatient()"> 🔌</a></li>
             <li>Update Patient<a href="events/updatepatient"> 🌐</a><a href="#" onclick="updatePatient()"> 🔌</a></li>

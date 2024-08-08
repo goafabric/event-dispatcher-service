@@ -1,18 +1,21 @@
 package org.goafabric.eventdispatcher.service.controller;
 
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
-import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
 import org.goafabric.eventdispatcher.service.logic.EventDispatcherLogic;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "events", produces = MediaType.APPLICATION_JSON_VALUE)
 @MessageMapping(value = "events")
 public class EventDispatcherController {
     private final EventDispatcherLogic eventDispatcherLogic;
+
 
     public EventDispatcherController(EventDispatcherLogic eventDispatcherLogic) {
         this.eventDispatcherLogic = eventDispatcherLogic;
@@ -28,34 +31,26 @@ public class EventDispatcherController {
     //events to be called from html page
     @GetMapping("createpatient")
     @MessageMapping("createpatient")
-    @SendTo("/public")
-    public SocketMessage createPatient() {
-        final String message = eventDispatcherLogic.createPatient();
-        return new SocketMessage(message);
+    public void createPatient() {
+        eventDispatcherLogic.createPatient();
     }
 
     @GetMapping("updatepatient")
     @MessageMapping("updatepatient")
-    @SendTo("/public")
-    public SocketMessage updatePatient() {
-        final String message = eventDispatcherLogic.updatePatient();
-        return new SocketMessage(message);
+    public void updatePatient() {
+        eventDispatcherLogic.updatePatient();
     }
 
     @GetMapping("createpractitioner")
     @MessageMapping("createpractitioner")
-    @SendTo("/public")
-    public SocketMessage createPractitioner() {
-        final String message = eventDispatcherLogic.createPractitioner();
-        return new SocketMessage(message);
+    public void createPractitioner() {
+        eventDispatcherLogic.createPractitioner();
     }
 
     @GetMapping("updatepractitioner")
     @MessageMapping("updatepractitioner")
-    @SendTo("/public")
-    public SocketMessage updatePractitioner() {
-        final String message = eventDispatcherLogic.updatePractitioner();
-        return new SocketMessage(message);
+    public void updatePractitioner() {
+        eventDispatcherLogic.updatePractitioner();
     }
 }
 
