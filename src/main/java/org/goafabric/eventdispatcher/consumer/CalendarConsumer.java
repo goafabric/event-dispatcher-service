@@ -1,26 +1,28 @@
 package org.goafabric.eventdispatcher.consumer;
 
-import org.goafabric.eventdispatcher.producer.EventData;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.context.Context;
+import org.goafabric.event.EventData;
+import org.goafabric.eventdispatcher.service.extensions.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import static org.goafabric.eventdispatcher.consumer.NatsSubscription.withTenantInfos;
+import java.util.concurrent.CountDownLatch;
 
 @Component
-public class CalendarConsumer {
+public class CalendarConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final String CONSUMER_NAME = "Calendar";
     public static Long CONSUMER_COUNT = 0L;
 
-    public CalendarConsumer(NatsSubscription natsSubscription) {
-        natsSubscription.create(CONSUMER_NAME, new String[]{"patient", "practitioner"},
-                (msg, eventData) -> process(msg.getSubject(), eventData));
-    }
+    private final CountDownLatch latch = new CountDownLatch(1);
+
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
@@ -43,6 +45,7 @@ public class CalendarConsumer {
             }
         }
         CONSUMER_COUNT++;
+        latch.countDown();
     }
 
     private void createPatient(String id) {
@@ -61,4 +64,12 @@ public class CalendarConsumer {
         log.info("calendar update practitioner; id = {}", id);
     }
 
+    private static void withTenantInfos(Runnable runnable) {
+        Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
+        MDC.put("tenantId", TenantContext.getTenantId());
+        try { runnable.run(); } finally { MDC.remove("tenantId"); }
+    }
+
+    @Override
+    public CountDownLatch getLatch() { return latch; }
 }
