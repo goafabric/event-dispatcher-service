@@ -15,12 +15,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
 public class EventDispatcherControllerIT {
 
     private WebsocketTestUtils websocketTestUtils;
@@ -30,7 +32,7 @@ public class EventDispatcherControllerIT {
     @LocalServerPort
     private int port;
 
-    private final String websocketResultTopic = "/public";
+    private final String websocketResultTopic = "/tenant/0/patient";
 
     @BeforeEach
     public void beforeEach() throws ExecutionException, InterruptedException, TimeoutException {
@@ -48,7 +50,7 @@ public class EventDispatcherControllerIT {
         await()
             .atMost(5, SECONDS)
             .untilAsserted(() -> assertThat(websocketTestUtils.getReceivedMessagesForTopic(websocketResultTopic)).isNotEmpty());
-        assertThat(websocketTestUtils.getReceivedMessagesForTopic(websocketResultTopic).getFirst().message() ).isEqualTo("patient created");
+        assertThat(websocketTestUtils.getReceivedMessagesForTopic(websocketResultTopic).getFirst().message() ).isEqualTo("create on topic patient");
     }
 
     @Test
@@ -60,7 +62,7 @@ public class EventDispatcherControllerIT {
         await()
             .atMost(5, SECONDS)
             .untilAsserted(() -> assertThat(websocketTestUtils.getReceivedMessagesForTopic(websocketResultTopic)).isNotEmpty());
-        assertThat(websocketTestUtils.getReceivedMessagesForTopic(websocketResultTopic).getFirst().message() ).isEqualTo("patient created");
+        assertThat(websocketTestUtils.getReceivedMessagesForTopic(websocketResultTopic).getFirst().message() ).isEqualTo("create on topic patient");
     }
 
     private String getHttpPath() {
