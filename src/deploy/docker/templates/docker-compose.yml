@@ -39,6 +39,9 @@ services:
       logging.level.io.opentelemetry.exporter: "OFF"
       management.otlp.tracing.endpoint: "http://host.docker.internal:4318/v1/traces"
 
+      #broker
+      spring.kafka.bootstrap-servers: kafka:9092
+
       #profile
       spring.profiles.active: "${_Values_profile}"
 
@@ -101,7 +104,7 @@ services:
   kafka:
     profiles:
       - kafka
-    image: bitnami/kafka:3.7.0
+    image: bitnami/kafka:3.8.0
     container_name: kafka
     ports:
       - "9092:9092"
