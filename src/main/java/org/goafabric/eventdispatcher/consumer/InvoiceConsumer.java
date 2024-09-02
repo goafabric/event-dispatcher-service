@@ -15,49 +15,21 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.CountDownLatch;
 
 @Component
-public class CalendarConsumer implements LatchConsumer {
+public class InvoiceConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private static final String CONSUMER_NAME = "Calendar";
+    private static final String CONSUMER_NAME = "Invoice";
     private final CountDownLatch latch = new CountDownLatch(1);
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
+    @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*", topics = {"condition", "chargeitem"})
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         withTenantInfos(() -> process(topic, eventData));
     }
 
     private void process(String topic, EventData eventData) {
-        switch (topic) {
-            case "patient" -> {
-                switch (eventData.operation()) {
-                    case "create" -> createPatient(eventData.referenceId());
-                    case "update" -> updatePatient(eventData.referenceId());
-                }
-            }
-            case "practitioner" -> {
-                switch (eventData.operation()) {
-                    case "create" -> createPractitioner(eventData.referenceId());
-                    case "update" -> updatePractitioner(eventData.referenceId());
-                }
-            }
-        }
+        log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
+        log.debug("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
         latch.countDown();
-    }
-
-    private void createPatient(String id) {
-        log.info("calendar create patient; id = {}", id);
-    }
-
-    private void updatePatient(String id) {
-        log.info("calendar update patient; id = {}", id);
-    }
-
-    private void createPractitioner(String id) {
-        log.info("calendar create practitioner; id = {}", id);
-    }
-
-    private void updatePractitioner(String id) {
-        log.info("calendar update practitioner; id = {}", id);
     }
 
     private static void withTenantInfos(Runnable runnable) {

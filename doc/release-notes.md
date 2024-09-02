@@ -1,5 +1,7 @@
+# 3.3.5
+
 # 3.3.4
-- upgrade to Spring Boot 3.3.2
+- upgrade to Spring Boot 3.3.3
 - nats removed
 
 # 3.3.3
