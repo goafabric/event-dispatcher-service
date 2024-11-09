@@ -29,8 +29,8 @@ repositories {
 dependencies {
 	constraints {
 		implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-		implementation("org.mapstruct:mapstruct:1.6.2")
-		annotationProcessor("org.mapstruct:mapstruct-processor:1.6.2")
+		implementation("org.mapstruct:mapstruct:1.6.3")
+		annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 		implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
 	}
 }
