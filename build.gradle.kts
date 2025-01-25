@@ -10,7 +10,7 @@ val baseImage = "ibm-semeru-runtimes:open-21.0.4.1_7-jre-focal@sha256:8b94f8b14f
 plugins {
 	java
 	jacoco
-	id("org.springframework.boot") version "3.4.1"
+	id("org.springframework.boot") version "3.4.2"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("org.graalvm.buildtools.native") version "0.10.4"
 
@@ -27,10 +27,10 @@ repositories {
 
 dependencies {
 	constraints {
-		implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+		implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3")
 		implementation("org.mapstruct:mapstruct:1.6.3")
 		annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
-		implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
+		implementation("io.github.resilience4j:resilience4j-spring-boot3:2.3.0")
 	}
 }
 
