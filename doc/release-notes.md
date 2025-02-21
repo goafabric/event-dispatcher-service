@@ -1,5 +1,8 @@
+# 3.4.3
+- upgrade of Spring Boot
+
 # 3.3.5
-- upgrade to Spring Boot 3.3.3
+- upgrade to Spring Boot 3.3.4
 
 # 3.3.4
 - upgrade to Spring Boot 3.3.2
