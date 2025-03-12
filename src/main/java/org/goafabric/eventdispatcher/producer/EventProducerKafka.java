@@ -23,17 +23,4 @@ public class EventProducerKafka implements EventProducer {
         kafkaTemplate.send(topic, referenceId, new EventData(TenantContext.getAdapterHeaderMap(), referenceId, operation, payload));
     }
 
-
-    /*
-    @Bean
-    public NewTopic topic1() {
-        return TopicBuilder.name("patient")
-                .partitions(10)
-                .replicas(1)
-                .compact()
-                .build();
-    }
-
-     */
-
 }
