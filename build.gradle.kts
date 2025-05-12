@@ -46,6 +46,10 @@ dependencies {
 	implementation("io.micrometer:micrometer-tracing-bridge-otel")
 	implementation("io.opentelemetry:opentelemetry-exporter-otlp")
 
+	//openapi
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
+
+
 	//messageing
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.kafka:spring-kafka")
