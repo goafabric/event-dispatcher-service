@@ -3,14 +3,15 @@ package org.goafabric.eventdispatcher.producer;
 import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.extensions.TenantContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 @Component
 public class EventProducerKafka implements EventProducer {
 
-    private final KafkaTemplate kafkaTemplate;
+    private final KafkaTemplate<String, EventData>  kafkaTemplate;
 
-    public EventProducerKafka(KafkaTemplate kafkaTemplate) {
+    public EventProducerKafka(@Autowired(required = true) KafkaTemplate<String, EventData> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
