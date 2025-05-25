@@ -104,7 +104,7 @@ services:
   kafka:
     profiles:
       - kafka
-    image: bitnami/kafka:3.9.0
+    image: bitnami/kafka:4.0.0
     container_name: kafka
     ports:
       - "9092:9092"
@@ -120,6 +120,7 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
 
       KAFKA_CFG_NUM_PARTITIONS: "10" # number of partitions
+      KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
 
       #KAFKA_HEAP_OPTS: "-Xmx256m"
     networks:
