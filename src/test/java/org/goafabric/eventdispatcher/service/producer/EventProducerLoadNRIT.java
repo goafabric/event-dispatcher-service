@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -21,12 +20,8 @@ class EventProducerLoadNRIT {
 
     record Patient(String id, String givenName, String lastName, String gender, String payload) {};
 
-    private String EXTRA_PAYLOAD = "";
-
     @Test
     public void testProduce() {
-        //generatePayload();
-
         long duration = 10;
         long startTime = System.currentTimeMillis();
 
@@ -36,13 +31,6 @@ class EventProducerLoadNRIT {
         }
         long count = TestConsumer.CONSUMER_COUNT;
         log.info("iteration for {} s, events processed {}, events/s {}", duration, count, count / duration);
-    }
-
-    private void generatePayload() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (int i = 0; i < 10000; i++) {
-            EXTRA_PAYLOAD += new Random().nextInt(characters.length());
-        }
     }
 
     private ChangeEvent createEvent(Object object, DbOperation operation) {
@@ -57,6 +45,6 @@ class EventProducerLoadNRIT {
     }
 
     private Patient createPatient() {
-        return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", EXTRA_PAYLOAD);
+        return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", "");
     }
 }

@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
 @Import(KafkaAutoConfiguration.class)
-public class CalendarConsumerIT {
+class CalendarConsumerIT {
     @Autowired
     private EventProducer eventProducer;
 
     @Autowired
     private CalendarConsumer consumer;
 
-    record Patient(String id, String givenName, String lastName, String gender, String payload) {};
+    record Patient(String id, String givenName, String lastName, String gender, String payload) {}
 
     @Test
     void consumer() throws InterruptedException {

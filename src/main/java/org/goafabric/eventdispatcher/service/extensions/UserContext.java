@@ -16,7 +16,7 @@ public class UserContext {
 
     record TenantContextRecord(String tenantId, String organizationId, String userName) {
         public Map<String, String> toAdapterHeaderMap() {
-            return Map.of("X-TenantId", tenantId, "X-OrganizationId", organizationId, "X-Auth-Request-Preferred-Username", userName);
+            return Map.of(X_TENANT_ID, tenantId, X_ORGANIZATION_ID, organizationId, X_AUTH_REQUEST_PREFERRED_USERNAME, userName);
         }
     }
 
