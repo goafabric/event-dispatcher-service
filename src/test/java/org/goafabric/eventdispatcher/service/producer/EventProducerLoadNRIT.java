@@ -18,7 +18,7 @@ class EventProducerLoadNRIT {
     @Autowired
     private EventProducer eventProducer;
 
-    record Patient(String id, String givenName, String lastName, String gender, String payload) {};
+    record Patient(String id, String givenName, String lastName, String gender, String payload) {}
 
     @Test
     void testProduce() {
