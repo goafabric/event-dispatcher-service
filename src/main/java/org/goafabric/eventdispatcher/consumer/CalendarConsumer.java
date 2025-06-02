@@ -32,12 +32,14 @@ public class CalendarConsumer implements LatchConsumer {
                 switch (eventData.operation()) {
                     case "create" -> createPatient(eventData.referenceId());
                     case "update" -> updatePatient(eventData.referenceId());
+                    default -> throw new IllegalStateException("event operation not found");
                 }
             }
             case "practitioner" -> {
                 switch (eventData.operation()) {
                     case "create" -> createPractitioner(eventData.referenceId());
                     case "update" -> updatePractitioner(eventData.referenceId());
+                    default -> throw new IllegalStateException("event operation not found");
                 }
             }
         }
