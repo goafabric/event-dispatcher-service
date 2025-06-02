@@ -13,15 +13,12 @@ class EventDispatcherLogicTest {
             new EventDispatcherLogic(Mockito.mock(EventProducerKafka.class));
 
     private static class Patient {
-        private final String id = "44";
     }
 
     private static class Employee {
-        private final String id = "46";
     }
 
     private static class Organization {
-        private final String id = "48";
     }
 
     @Test

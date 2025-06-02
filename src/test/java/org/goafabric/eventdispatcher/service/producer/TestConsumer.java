@@ -31,7 +31,7 @@ public class TestConsumer implements LatchConsumer {
     }
 
     private void process(String topic, EventData eventData) {
-        log.info("processing test event");
+        log.info("processing test event {} {}", topic, eventData.toString());
         CONSUMER_COUNT++;
         latch.countDown();
     }
