@@ -27,7 +27,7 @@ public class InvoiceConsumer implements LatchConsumer {
     }
 
     private void process(String topic, EventData eventData) {
-        log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
+        log.info("logger event: {} {}; id = {}, payload = {}", topic , eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
         log.debug("tenantinfo: {}", UserContext.getAdapterHeaderMap());
         latch.countDown();
     }

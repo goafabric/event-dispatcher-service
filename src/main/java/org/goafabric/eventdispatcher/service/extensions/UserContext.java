@@ -8,6 +8,12 @@ import java.util.Base64;
 import java.util.Map;
 
 public class UserContext {
+
+    public static final String X_TENANT_ID = "X-TenantId";
+    public static final String X_ORGANIZATION_ID = "X-OrganizationId";
+    public static final String X_AUTH_REQUEST_PREFERRED_USERNAME = "X-Auth-Request-Preferred-Username";
+    public static final String X_USER_INFO = "X-UserInfo";
+
     record TenantContextRecord(String tenantId, String organizationId, String userName) {
         public Map<String, String> toAdapterHeaderMap() {
             return Map.of("X-TenantId", tenantId, "X-OrganizationId", organizationId, "X-Auth-Request-Preferred-Username", userName);
@@ -18,8 +24,8 @@ public class UserContext {
             ThreadLocal.withInitial(() -> new TenantContextRecord("0", "0", "anonymous"));
 
     public static void setContext(HttpServletRequest request) {
-        setContext(request.getHeader("X-TenantId"), request.getHeader("X-OrganizationId"),
-                request.getHeader("X-Auth-Request-Preferred-Username"), request.getHeader("X-UserInfo"));
+        setContext(request.getHeader(X_TENANT_ID), request.getHeader(X_ORGANIZATION_ID),
+                request.getHeader(X_AUTH_REQUEST_PREFERRED_USERNAME), request.getHeader(X_USER_INFO));
     }
 
     public static void setContext(Map<String, String> tenantHeaderMap) {

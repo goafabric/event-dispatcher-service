@@ -42,6 +42,7 @@ public class CalendarConsumer implements LatchConsumer {
                     default -> throw new IllegalStateException("event operation not found");
                 }
             }
+            default -> throw new IllegalStateException("unknown topic");
         }
         latch.countDown();
     }
