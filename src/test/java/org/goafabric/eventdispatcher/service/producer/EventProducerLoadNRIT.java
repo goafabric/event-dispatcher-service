@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class EventProducerLoadNRIT {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -30,6 +32,7 @@ class EventProducerLoadNRIT {
             eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
         }
         long count = TestConsumer.getConsumerCount();
+        assertThat(count).isGreaterThan(0);
         log.info("iteration for {} s, events processed {}, events/s {}", duration, count, count / duration);
     }
 
