@@ -20,7 +20,7 @@ public class TestConsumer implements LatchConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final String CONSUMER_NAME = "Calendar";
-    public static Long CONSUMER_COUNT = 0L;
+    private static Long consumerCount = 0L;
 
     private final CountDownLatch latch = new CountDownLatch(1);
 
@@ -32,7 +32,7 @@ public class TestConsumer implements LatchConsumer {
 
     private void process(String topic, EventData eventData) {
         log.info("processing test event {} {}", topic, eventData);
-        CONSUMER_COUNT++;
+        consumerCount++;
         latch.countDown();
     }
 
@@ -44,4 +44,8 @@ public class TestConsumer implements LatchConsumer {
 
     @Override
     public CountDownLatch getLatch() { return latch; }
+
+    public static Long getConsumerCount() {
+        return consumerCount;
+    }
 }

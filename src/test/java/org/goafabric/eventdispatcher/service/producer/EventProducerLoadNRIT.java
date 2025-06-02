@@ -21,7 +21,7 @@ class EventProducerLoadNRIT {
     record Patient(String id, String givenName, String lastName, String gender, String payload) {};
 
     @Test
-    public void testProduce() {
+    void testProduce() {
         long duration = 10;
         long startTime = System.currentTimeMillis();
 
@@ -29,7 +29,7 @@ class EventProducerLoadNRIT {
             eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
             eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
         }
-        long count = TestConsumer.CONSUMER_COUNT;
+        long count = TestConsumer.getConsumerCount();
         log.info("iteration for {} s, events processed {}, events/s {}", duration, count, count / duration);
     }
 

@@ -29,8 +29,8 @@ public class UserContext {
     }
 
     public static void setContext(Map<String, String> tenantHeaderMap) {
-        setContext(tenantHeaderMap.get("X-TenantId"), tenantHeaderMap.get("X-OrganizationId"),
-                tenantHeaderMap.get("X-Auth-Request-Preferred-Username"), tenantHeaderMap.get("X-UserInfo"));
+        setContext(tenantHeaderMap.get(X_TENANT_ID), tenantHeaderMap.get(X_ORGANIZATION_ID),
+                tenantHeaderMap.get(X_AUTH_REQUEST_PREFERRED_USERNAME), tenantHeaderMap.get(X_USER_INFO));
     }
 
     static void setContext(String tenantId, String organizationId, String userName, String userInfo) {

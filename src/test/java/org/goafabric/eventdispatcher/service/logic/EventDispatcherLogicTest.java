@@ -22,7 +22,7 @@ class EventDispatcherLogicTest {
     }
 
     @Test
-    public void dispatch() {
+    void dispatch() {
         dispatch(createEvent(new Patient(), DbOperation.CREATE));
         dispatch(createEvent(new Patient(), DbOperation.UPDATE));
         dispatch(createEvent(new Patient(), DbOperation.DELETE));
