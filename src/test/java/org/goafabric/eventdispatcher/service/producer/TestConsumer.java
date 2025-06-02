@@ -4,7 +4,7 @@ import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.consumer.LatchConsumer;
-import org.goafabric.eventdispatcher.service.extensions.TenantContext;
+import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -37,8 +37,8 @@ public class TestConsumer implements LatchConsumer {
     }
 
     private static void withTenantInfos(Runnable runnable) {
-        Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
-        MDC.put("tenantId", TenantContext.getTenantId());
+        Span.fromContext(Context.current()).setAttribute("tenant.id", UserContext.getTenantId());
+        MDC.put("tenantId", UserContext.getTenantId());
         try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 

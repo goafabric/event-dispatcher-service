@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
 
-public class TenantContext {
+public class UserContext {
     record TenantContextRecord(String tenantId, String organizationId, String userName) {
         public Map<String, String> toAdapterHeaderMap() {
             return Map.of("X-TenantId", tenantId, "X-OrganizationId", organizationId, "X-Auth-Request-Preferred-Username", userName);
