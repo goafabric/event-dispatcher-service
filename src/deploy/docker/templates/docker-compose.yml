@@ -102,9 +102,7 @@ services:
       logging.level.org.springframework: "INFO"
 
   kafka:
-    profiles:
-      - kafka
-    image: bitnami/kafka:3.9.0
+    image: bitnami/kafka:4.0.0
     container_name: kafka
     ports:
       - "9092:9092"
@@ -118,6 +116,9 @@ services:
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
       KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092,CONTROLLER://:9093"
       KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+
+      KAFKA_CFG_NUM_PARTITIONS: "10" # number of partitions
+      KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
 
       #KAFKA_HEAP_OPTS: "-Xmx256m"
     networks:
@@ -133,7 +134,7 @@ services:
     networks:
       - ${_Values_root_name}-net
     volumes:
-      - ./nginx/nginx${_Values_nginx_oidc}.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/ssl:/etc/ssl/
     depends_on:
       application:
@@ -142,7 +143,6 @@ services:
 volumes:
     tmp:
     applogs:
-    rabbitdata:
 
 networks:
   event-dispatcher-service-net:

@@ -1,0 +1,157 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/events/dispatch": {
+      "post": {
+        "tags": [
+          "event-dispatcher-controller"
+        ],
+        "operationId": "dispatch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/events/updatepractitioner": {
+      "get": {
+        "tags": [
+          "event-dispatcher-controller"
+        ],
+        "operationId": "updatePractitioner",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SocketMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/updatepatient": {
+      "get": {
+        "tags": [
+          "event-dispatcher-controller"
+        ],
+        "operationId": "updatePatient",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SocketMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/createpractitioner": {
+      "get": {
+        "tags": [
+          "event-dispatcher-controller"
+        ],
+        "operationId": "createPractitioner",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SocketMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/createpatient": {
+      "get": {
+        "tags": [
+          "event-dispatcher-controller"
+        ],
+        "operationId": "createPatient",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SocketMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChangeEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "CREATE",
+              "READ",
+              "UPDATE",
+              "DELETE"
+            ]
+          },
+          "origin": {
+            "type": "string"
+          },
+          "payload": {}
+        }
+      },
+      "SocketMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

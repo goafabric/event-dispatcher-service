@@ -3,7 +3,7 @@ package org.goafabric.eventdispatcher.consumer;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import org.goafabric.event.EventData;
-import org.goafabric.eventdispatcher.service.extensions.TenantContext;
+import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -32,14 +32,17 @@ public class CalendarConsumer implements LatchConsumer {
                 switch (eventData.operation()) {
                     case "create" -> createPatient(eventData.referenceId());
                     case "update" -> updatePatient(eventData.referenceId());
+                    default -> throw new IllegalStateException("event operation not found");
                 }
             }
             case "practitioner" -> {
                 switch (eventData.operation()) {
                     case "create" -> createPractitioner(eventData.referenceId());
                     case "update" -> updatePractitioner(eventData.referenceId());
+                    default -> throw new IllegalStateException("event operation not found");
                 }
             }
+            default -> throw new IllegalStateException("unknown topic");
         }
         latch.countDown();
     }
@@ -61,8 +64,8 @@ public class CalendarConsumer implements LatchConsumer {
     }
 
     private static void withTenantInfos(Runnable runnable) {
-        Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
-        MDC.put("tenantId", TenantContext.getTenantId());
+        Span.fromContext(Context.current()).setAttribute("tenant.id", UserContext.getTenantId());
+        MDC.put("tenantId", UserContext.getTenantId());
         try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 

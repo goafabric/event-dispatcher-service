@@ -9,8 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Random;
 import java.util.UUID;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class EventProducerLoadNRIT {
@@ -19,14 +20,10 @@ class EventProducerLoadNRIT {
     @Autowired
     private EventProducer eventProducer;
 
-    record Patient(String id, String givenName, String lastName, String gender, String payload) {};
-
-    private String EXTRA_PAYLOAD = "";
+    record Patient(String id, String givenName, String lastName, String gender, String payload) {}
 
     @Test
-    public void testProduce() {
-        //generatePayload();
-
+    void testProduce() {
         long duration = 10;
         long startTime = System.currentTimeMillis();
 
@@ -34,15 +31,9 @@ class EventProducerLoadNRIT {
             eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
             eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
         }
-        long count = TestConsumer.CONSUMER_COUNT;
+        long count = TestConsumer.getConsumerCount();
+        assertThat(count).isGreaterThan(0);
         log.info("iteration for {} s, events processed {}, events/s {}", duration, count, count / duration);
-    }
-
-    private void generatePayload() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (int i = 0; i < 10000; i++) {
-            EXTRA_PAYLOAD += new Random().nextInt(characters.length());
-        }
     }
 
     private ChangeEvent createEvent(Object object, DbOperation operation) {
@@ -57,6 +48,6 @@ class EventProducerLoadNRIT {
     }
 
     private Patient createPatient() {
-        return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", EXTRA_PAYLOAD);
+        return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", "");
     }
 }

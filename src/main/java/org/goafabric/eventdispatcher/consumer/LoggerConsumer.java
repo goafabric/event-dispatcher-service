@@ -3,7 +3,7 @@ package org.goafabric.eventdispatcher.consumer;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import org.goafabric.event.EventData;
-import org.goafabric.eventdispatcher.service.extensions.TenantContext;
+import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -27,14 +27,14 @@ public class LoggerConsumer implements LatchConsumer {
     }
 
     private void process(String topic, EventData eventData) {
-        log.info("logger event: {}; id = {}, payload = {}", topic + " " + eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
-        log.debug("tenantinfo: {}", TenantContext.getAdapterHeaderMap());
+        log.info("logger event: {} {}; id = {}, payload = {}", topic, eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
+        log.debug("tenantinfo: {}", UserContext.getAdapterHeaderMap());
         latch.countDown();
     }
 
     private static void withTenantInfos(Runnable runnable) {
-        Span.fromContext(Context.current()).setAttribute("tenant.id", TenantContext.getTenantId());
-        MDC.put("tenantId", TenantContext.getTenantId());
+        Span.fromContext(Context.current()).setAttribute("tenant.id", UserContext.getTenantId());
+        MDC.put("tenantId", UserContext.getTenantId());
         try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 
