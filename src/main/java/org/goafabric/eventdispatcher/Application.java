@@ -1,6 +1,7 @@
 package org.goafabric.eventdispatcher;
 
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
+import org.springframework.aot.hint.MemberCategory;
+import org.springframework.aot.hint.annotation.RegisterReflection;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +16,7 @@ import java.security.AccessController;
  */
 
 @SpringBootApplication
-@RegisterReflectionForBinding({AccessController.class, javax.security.auth.Subject.class})
+@RegisterReflection(classes = {AccessController.class, javax.security.auth.Subject.class}, memberCategories = {MemberCategory.DECLARED_CLASSES, MemberCategory.INVOKE_DECLARED_METHODS})
 public class Application {
 
     public static void main(String[] args){
