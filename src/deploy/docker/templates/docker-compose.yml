@@ -102,8 +102,6 @@ services:
       logging.level.org.springframework: "INFO"
 
   kafka:
-    profiles:
-      - kafka
     image: bitnami/kafka:4.0.0
     container_name: kafka
     ports:
