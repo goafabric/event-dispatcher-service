@@ -118,7 +118,6 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
 
       KAFKA_CFG_NUM_PARTITIONS: "10" # number of partitions
-      KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
 
       #KAFKA_HEAP_OPTS: "-Xmx256m"
     networks:
