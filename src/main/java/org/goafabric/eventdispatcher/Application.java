@@ -8,15 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import java.security.AccessController;
-
-
 /**
  * Created by amautsch on 26.06.2015.
  */
 
 @SpringBootApplication
-@RegisterReflection(classes = {AccessController.class, javax.security.auth.Subject.class}, memberCategories = {MemberCategory.DECLARED_CLASSES, MemberCategory.INVOKE_DECLARED_METHODS})
+@RegisterReflection(classes = {java.security.AccessController.class, javax.security.auth.Subject.class}, memberCategories = {MemberCategory.DECLARED_CLASSES, MemberCategory.INVOKE_DECLARED_METHODS})
 public class Application {
 
     public static void main(String[] args){
