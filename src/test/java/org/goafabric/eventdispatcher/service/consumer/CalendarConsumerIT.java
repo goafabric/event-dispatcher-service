@@ -4,7 +4,6 @@ import org.goafabric.eventdispatcher.consumer.CalendarConsumer;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
@@ -28,13 +27,6 @@ class CalendarConsumerIT {
     private CalendarConsumer consumer;
 
     record Patient(String id, String givenName, String lastName, String gender, String payload) {}
-
-
-    @BeforeEach
-    void setup() throws Exception {
-        // Give Kafka a moment to fully start up and create the topic
-        Thread.sleep(1000);
-    }
 
     @Test
     void consumer() throws InterruptedException {
