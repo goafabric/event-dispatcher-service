@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
@@ -28,7 +31,7 @@ class CalendarConsumerIT {
     @Test
     void consumer() throws InterruptedException {
         eventProducer.produce(createEvent(createPatient(), DbOperation.CREATE));
-        //assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
+        assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
     }
 
     private ChangeEvent createEvent(Object object, DbOperation operation) {
