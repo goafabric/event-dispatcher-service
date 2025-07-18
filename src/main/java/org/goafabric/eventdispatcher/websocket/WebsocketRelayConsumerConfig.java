@@ -2,6 +2,8 @@ package org.goafabric.eventdispatcher.websocket;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.aot.hint.MemberCategory;
+import org.springframework.aot.hint.annotation.RegisterReflection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Configuration
+@RegisterReflection(classes = java.util.Map.class, memberCategories = {MemberCategory.DECLARED_CLASSES, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS})
 public class WebsocketRelayConsumerConfig {
 
     @Bean
