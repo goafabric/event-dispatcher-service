@@ -1,10 +1,10 @@
 package org.goafabric.eventdispatcher.service.logic;
 
+import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.producer.EventProducer;
-import org.goafabric.eventdispatcher.service.controller.dto.ChangeEvent;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
+import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
@@ -16,39 +16,30 @@ public class EventDispatcherLogic {
         this.eventProducer = eventProducer;
     }
 
-    public void dispatch(@RequestBody ChangeEvent changeEvent) {
-        eventProducer.produce(changeEvent);
-    }
-
     public String createPatient() {
-        eventProducer.produce(createEvent("Patient", DbOperation.CREATE));
+        extracted("patient", DbOperation.CREATE);
         return "patient created";
     }
 
     public String updatePatient() {
-        eventProducer.produce(createEvent("Patient", DbOperation.UPDATE));
+        extracted("patient", DbOperation.UPDATE);
         return "patient updated";
     }
 
     public String createPractitioner() {
-        eventProducer.produce(createEvent("Practitioner", DbOperation.CREATE));
+        extracted("practitioner", DbOperation.CREATE);
         return "practitioner created";
     }
 
     public String updatePractitioner() {
-        eventProducer.produce(createEvent("Practitioner", DbOperation.UPDATE));
+        extracted("practitioner", DbOperation.UPDATE);
         return "practitioner updated";
     }
 
-    private ChangeEvent createEvent(String typeName, DbOperation operation) {
-        return new ChangeEvent(
-                UUID.randomUUID().toString(),
-               // "0",
-                UUID.randomUUID().toString(),
-                typeName,
-                operation,
-                "secret-service", null
-        );
+    private void extracted(String topic, DbOperation operation) {
+        eventProducer.produce(topic, UUID.randomUUID().toString(),
+                new EventData(topic, UUID.randomUUID().toString(), operation.toString().toLowerCase(), null, UserContext.getAdapterHeaderMap()));
     }
+
 
 }
