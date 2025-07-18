@@ -1,3 +1,4 @@
-- WebsocketRelayConsumer
-- InvoiceConsumer
-- EventDispatcherLogic should use EventData Object instead of ChangeEvent
+- Websocker Relay with Security COnfig
+- EventData Type instead of Topic
+  - Change connected Core Service
+- Kafka for Personservice / Quarkus
