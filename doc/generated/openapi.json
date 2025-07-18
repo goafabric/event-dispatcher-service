@@ -11,29 +11,6 @@
     }
   ],
   "paths": {
-    "/events/dispatch": {
-      "post": {
-        "tags": [
-          "event-dispatcher-controller"
-        ],
-        "operationId": "dispatch",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeEvent"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/events/updatepractitioner": {
       "get": {
         "tags": [
@@ -42,14 +19,7 @@
         "operationId": "updatePractitioner",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SocketMessage"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -62,14 +32,7 @@
         "operationId": "updatePatient",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SocketMessage"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -82,14 +45,7 @@
         "operationId": "createPractitioner",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SocketMessage"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -102,56 +58,11 @@
         "operationId": "createPatient",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SocketMessage"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     }
   },
-  "components": {
-    "schemas": {
-      "ChangeEvent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "referenceId": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "operation": {
-            "type": "string",
-            "enum": [
-              "CREATE",
-              "READ",
-              "UPDATE",
-              "DELETE"
-            ]
-          },
-          "origin": {
-            "type": "string"
-          },
-          "payload": {}
-        }
-      },
-      "SocketMessage": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  }
+  "components": {}
 }
