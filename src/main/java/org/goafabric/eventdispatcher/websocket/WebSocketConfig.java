@@ -31,7 +31,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .withSockJS();
     }
 
-
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(new TenantAuthorizationInterceptor());
@@ -63,6 +62,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 throw new IllegalStateException("Sending via Websocket denied, due to multi tenancy limitations");
             }
 
+            checkTenantIsAuthorized(accessor);
+
+            return message;
+        }
+
+        private void checkTenantIsAuthorized(StompHeaderAccessor accessor) {
             if (accessor != null && accessor.getDestination() != null & StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
                 String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
 
@@ -73,8 +78,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     }
                 }
             }
-
-            return message;
         }
     }
 
