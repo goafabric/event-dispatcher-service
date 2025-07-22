@@ -1,12 +1,8 @@
 package org.goafabric.eventdispatcher.consumer;
 
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.context.Context;
 import org.goafabric.event.EventData;
-import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -23,10 +19,6 @@ public class CalendarConsumer implements LatchConsumer {
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
-        withTenantInfos(() -> process(topic, eventData));
-    }
-
-    private void process(String topic, EventData eventData) {
         switch (topic) {
             case "patient" -> {
                 switch (eventData.operation()) {
@@ -61,12 +53,6 @@ public class CalendarConsumer implements LatchConsumer {
 
     private void updatePractitioner(String id) {
         log.info("calendar update practitioner; id = {}", id);
-    }
-
-    private static void withTenantInfos(Runnable runnable) {
-        Span.fromContext(Context.current()).setAttribute("tenant.id", UserContext.getTenantId());
-        MDC.put("tenantId", UserContext.getTenantId());
-        try { runnable.run(); } finally { MDC.remove("tenantId"); }
     }
 
     @Override

@@ -1,5 +1,3 @@
-- Tests deactivated
-
 - Payloads with patients and practitioner
 - 
 - Change connected Core Service
