@@ -20,7 +20,7 @@ public class LoggerConsumer implements LatchConsumer {
 
     @KafkaListener(groupId = CONSUMER_NAME, topicPattern = ".*")
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
-        log.info("logger event: {} {}; id = {}, payload = {}", topic, eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
+        log.info("logger event: {} {}; id = {}, payload = {}", eventData.type(), eventData.operation(), eventData.referenceId(), eventData.payload() != null ? eventData.payload().toString() : "<none>");
         log.debug("tenantinfo: {}", UserContext.getAdapterHeaderMap());
         latch.countDown();
     }

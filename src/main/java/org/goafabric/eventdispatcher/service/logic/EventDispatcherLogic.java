@@ -17,28 +17,28 @@ public class EventDispatcherLogic {
     }
 
     public String createPatient() {
-        extracted("patient", DbOperation.CREATE);
+        produce("patient.root", "patient", DbOperation.CREATE);
         return "patient created";
     }
 
     public String updatePatient() {
-        extracted("patient", DbOperation.UPDATE);
+        produce("patient.root", "patient", DbOperation.UPDATE);
         return "patient updated";
     }
 
     public String createPractitioner() {
-        extracted("practitioner", DbOperation.CREATE);
+        produce("organization", "practitioner", DbOperation.CREATE);
         return "practitioner created";
     }
 
     public String updatePractitioner() {
-        extracted("practitioner", DbOperation.UPDATE);
+        produce("organization", "practitioner", DbOperation.UPDATE);
         return "practitioner updated";
     }
 
-    private void extracted(String topic, DbOperation operation) {
+    private void produce(String topic, String key, DbOperation operation) {
         eventProducer.produce(topic, UUID.randomUUID().toString(),
-                new EventData(topic, UUID.randomUUID().toString(), operation.toString().toLowerCase(), null, UserContext.getAdapterHeaderMap()));
+                new EventData(key, UUID.randomUUID().toString(), operation.toString().toLowerCase(), null, UserContext.getAdapterHeaderMap()));
     }
 
 

@@ -17,21 +17,25 @@ public class CalendarConsumer implements LatchConsumer {
     private static final String CONSUMER_NAME = "Calendar";
     private final CountDownLatch latch = new CountDownLatch(1);
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient", "practitioner"}) //only topics listed here will be autocreated
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient.root", "organization"}) //only topics listed here will be autocreated
     public void processKafka(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
         switch (topic) {
-            case "patient" -> {
-                switch (eventData.operation()) {
-                    case "create" -> createPatient(eventData.referenceId());
-                    case "update" -> updatePatient(eventData.referenceId());
-                    default -> throw new IllegalStateException("event operation not found");
+            case "patient.root" -> {
+                if ("patient".equals(eventData.type())) {
+                    switch (eventData.operation()) {
+                        case "create" -> createPatient(eventData.referenceId());
+                        case "update" -> updatePatient(eventData.referenceId());
+                        default -> throw new IllegalStateException("event operation not found");
+                    }
                 }
             }
             case "practitioner" -> {
-                switch (eventData.operation()) {
-                    case "create" -> createPractitioner(eventData.referenceId());
-                    case "update" -> updatePractitioner(eventData.referenceId());
-                    default -> throw new IllegalStateException("event operation not found");
+                if ("organization".equals(eventData.type())) {
+                    switch (eventData.operation()) {
+                        case "create" -> createPractitioner(eventData.referenceId());
+                        case "update" -> updatePractitioner(eventData.referenceId());
+                        default -> throw new IllegalStateException("event operation not found");
+                    }
                 }
             }
             default -> throw new IllegalStateException("unknown topic");

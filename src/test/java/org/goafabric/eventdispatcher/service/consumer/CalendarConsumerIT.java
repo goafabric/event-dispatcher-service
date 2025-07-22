@@ -31,18 +31,10 @@ class CalendarConsumerIT {
 
     @Test
     void consumer() throws InterruptedException {
-        eventProducer.produce("patient", UUID.randomUUID().toString(),
+        eventProducer.produce("patient.root", UUID.randomUUID().toString(),
                 new EventData("patient", UUID.randomUUID().toString(), DbOperation.CREATE.toString().toLowerCase(), null, UserContext.getAdapterHeaderMap()));
         assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
     }
 
-
-
-    /*
-    private Patient createPatient() {
-        return new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "m", "");
-    }
-
-     */
 
 }
