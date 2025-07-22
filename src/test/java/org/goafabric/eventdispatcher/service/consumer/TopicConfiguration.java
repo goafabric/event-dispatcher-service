@@ -9,7 +9,12 @@ import org.springframework.kafka.config.TopicBuilder;
 public class TopicConfiguration {
     @Bean
     public NewTopic patient() {
-        return TopicBuilder.name("patient").build();
+        return TopicBuilder.name("patient.root").build();
+    }
+
+    @Bean
+    public NewTopic organization() {
+        return TopicBuilder.name("organization").build();
     }
 
 }

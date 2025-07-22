@@ -29,8 +29,8 @@ public class CalendarConsumer implements LatchConsumer {
                     }
                 }
             }
-            case "practitioner" -> {
-                if ("organization".equals(eventData.type())) {
+            case "organization" -> {
+                if ("practitioner".equals(eventData.type())) {
                     switch (eventData.operation()) {
                         case "create" -> createPractitioner(eventData.referenceId());
                         case "update" -> updatePractitioner(eventData.referenceId());
