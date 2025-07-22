@@ -16,7 +16,8 @@ import java.util.Map;
 import java.util.UUID;
 
 @Configuration
-@RegisterReflection(classes = java.util.Map.class, memberCategories = {MemberCategory.DECLARED_CLASSES, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS})
+@RegisterReflection(classes = java.util.HashMap.class, memberCategories = {MemberCategory.DECLARED_CLASSES, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS})
+//@RegisterReflectionForBinding(java.util.Map.class)
 public class WebsocketRelayConsumerConfig {
 
     @Bean
@@ -26,8 +27,7 @@ public class WebsocketRelayConsumerConfig {
         return factory;
     }
 
-    @Bean
-    public Map<String, Object> latestConsumerConfigs(String bootstrapServers) {
+    private Map<String, Object> latestConsumerConfigs(String bootstrapServers) {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
