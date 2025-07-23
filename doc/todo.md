@@ -1,4 +1,2 @@
-- Change connected Core Service
 - Topics via Terraform
-- 
 - Kafka for Personservice / Quarkus
