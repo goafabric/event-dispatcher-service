@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.CountDownLatch;
 
 @Component
-public class LoggerConsumer implements LatchConsumer {
+public class LoggerConsumer  {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final String CONSUMER_NAME = "Logger";
@@ -25,6 +25,5 @@ public class LoggerConsumer implements LatchConsumer {
         latch.countDown();
     }
 
-    @Override
     public CountDownLatch getLatch() { return latch; }
 }

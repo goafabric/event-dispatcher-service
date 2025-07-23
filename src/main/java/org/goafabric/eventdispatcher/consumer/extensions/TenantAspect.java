@@ -1,4 +1,4 @@
-package org.goafabric.eventdispatcher.consumer;
+package org.goafabric.eventdispatcher.consumer.extensions;
 
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;

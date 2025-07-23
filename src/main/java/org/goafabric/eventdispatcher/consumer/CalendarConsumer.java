@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.CountDownLatch;
 
 @Component
-public class CalendarConsumer implements LatchConsumer {
+public class CalendarConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final String CONSUMER_NAME = "Calendar";
@@ -59,6 +59,6 @@ public class CalendarConsumer implements LatchConsumer {
         log.info("calendar update practitioner; id = {}", id);
     }
 
-    @Override
+
     public CountDownLatch getLatch() { return latch; }
 }
