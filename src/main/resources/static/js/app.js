@@ -9,7 +9,7 @@ function connectSocket() {
     var socket = new SockJS(websocketPath);    stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/public', function (socketMessage) {
+        stompClient.subscribe('/tenant/0', function (socketMessage) {
             console.log("Got Socket Message : " + JSON.parse(socketMessage.body).message);
         });
     });

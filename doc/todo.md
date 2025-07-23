@@ -1,3 +1,2 @@
-- WebsocketRelayConsumer
-- InvoiceConsumer
-- EventDispatcherLogic should use EventData Object instead of ChangeEvent
+- Topics via Terraform
+- Kafka for Personservice / Quarkus
