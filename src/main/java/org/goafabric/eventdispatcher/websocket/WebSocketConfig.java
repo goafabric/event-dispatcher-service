@@ -57,14 +57,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         @Override
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+
+            denySend(accessor);
+            checkTenantIsAuthorized(accessor);
+
+            return message;
+        }
+
+        private void denySend(StompHeaderAccessor accessor) {
             if ((accessor != null) && (StompCommand.SEND.equals(accessor.getCommand()))) {
                 log.error("Sending via Websocket denied, due to multi tenancy limitations");
                 throw new IllegalStateException("Sending via Websocket denied, due to multi tenancy limitations");
             }
-
-            checkTenantIsAuthorized(accessor);
-
-            return message;
         }
 
         private void checkTenantIsAuthorized(StompHeaderAccessor accessor) {
