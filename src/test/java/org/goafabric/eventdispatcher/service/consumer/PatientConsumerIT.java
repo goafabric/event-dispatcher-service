@@ -1,7 +1,7 @@
 package org.goafabric.eventdispatcher.service.consumer;
 
 import org.goafabric.event.EventData;
-import org.goafabric.eventdispatcher.consumer.CalendarConsumer;
+import org.goafabric.eventdispatcher.consumer.PatientConsumer;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
@@ -20,12 +20,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
 @Import(KafkaAutoConfiguration.class)
-class CalendarConsumerIT {
+class PatientConsumerIT {
     @Autowired
     private EventProducer eventProducer;
 
     @Autowired
-    private CalendarConsumer consumer;
+    private PatientConsumer consumer;
 
     record Patient(String id, String givenName, String lastName, String gender, String payload) {}
 
