@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record Practitioner(
     String id,
+    String organizationId,
     String givenName,
     String familyName,
 

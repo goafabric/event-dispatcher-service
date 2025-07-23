@@ -40,14 +40,15 @@ public class EventDispatcherLogic {
     }
 
     private void producePatient(DbOperation operation) {
+        String patientId = "1";
         var patient = new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
-        eventProducer.produce("patient.root", "1",
+        eventProducer.produce("patient.root", patient.id(),
                 new EventData("patient", operation.toString().toLowerCase(), patient, UserContext.getAdapterHeaderMap()));
     }
 
     private void producePractitioner(DbOperation operation) {
-        var practitioner = new Practitioner(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
-        eventProducer.produce("organization", "1",
+        var practitioner = new Practitioner(UUID.randomUUID().toString(), UUID.randomUUID().toString(),"Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
+        eventProducer.produce("organization", practitioner.organizationId(),
                 new EventData("practitioner", operation.toString().toLowerCase(), practitioner, UserContext.getAdapterHeaderMap()));
     }
 
