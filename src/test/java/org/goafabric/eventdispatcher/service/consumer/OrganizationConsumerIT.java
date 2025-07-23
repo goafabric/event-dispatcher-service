@@ -5,12 +5,15 @@ import org.goafabric.eventdispatcher.consumer.OrganizationConsumer;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.kafka.test.utils.ContainerTestUtils;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -28,6 +31,15 @@ class OrganizationConsumerIT {
     private OrganizationConsumer consumer;
 
     record Patient(String id, String givenName, String lastName, String gender, String payload) {}
+
+    @Autowired
+    private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
+
+    @BeforeEach
+    void setUp() {
+        kafkaListenerEndpointRegistry.getListenerContainers().forEach(container ->
+                ContainerTestUtils.waitForAssignment(container, container.getAssignedPartitions().size()));
+    }
 
     @Test
     void consumer() throws InterruptedException {
