@@ -77,11 +77,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             if (accessor != null && accessor.getDestination() != null && StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
                 String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
 
-                if (accessor.getDestination().contains("/tenant/")) {
-                    if (!accessor.getDestination().equals("/tenant/" + tenantId)) {
-                        log.error("Access to tenant denied: {}", tenantId);
-                        throw new IllegalStateException("Access to tenant denied");
-                    }
+                if ((accessor.getDestination().contains("/tenant/")) && (!accessor.getDestination().equals("/tenant/" + tenantId))) {
+                    log.error("Access to tenant denied: {}", tenantId);
+                    throw new IllegalStateException("Access to tenant denied");
                 }
             }
         }
