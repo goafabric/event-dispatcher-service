@@ -42,8 +42,11 @@ class PatientConsumerIT {
 
     @BeforeEach
     void setUp() {
-        kafkaListenerEndpointRegistry.getListenerContainers().forEach(container
-                -> ContainerTestUtils.waitForAssignment(container, container.getAssignedPartitions().size()));
+        kafkaListenerEndpointRegistry.getListenerContainers().forEach(container -> {
+            if (container.getContainerProperties().getTopics() != null && "practitioner".equals(container.getContainerProperties().getTopics()[0])) {
+                ContainerTestUtils.waitForAssignment(container, 1);
+            }
+        });
     }
 
     @Test
