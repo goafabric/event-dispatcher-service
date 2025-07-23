@@ -51,8 +51,8 @@ class OrganizationConsumerIT {
 
     private void producePractitioner(DbOperation operation) {
         var practitioner = new Practitioner(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
-        eventProducer.produce("organization", practitioner.id(),
-                new EventData("practitioner", practitioner.id(), operation.toString().toLowerCase(), practitioner, UserContext.getAdapterHeaderMap()));
+        eventProducer.produce("organization", "1",
+                new EventData("practitioner", operation.toString().toLowerCase(), practitioner, UserContext.getAdapterHeaderMap()));
     }
 
 }

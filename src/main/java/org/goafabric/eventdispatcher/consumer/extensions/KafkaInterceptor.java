@@ -20,7 +20,7 @@ public class KafkaInterceptor {
 
     @Around("@annotation(kafkaListener)")
     public Object resolveTenantInfo(ProceedingJoinPoint joinPoint, KafkaListener kafkaListener) throws Throwable {
-        EventData eventData = (EventData) joinPoint.getArgs()[1];
+        EventData eventData = (EventData) joinPoint.getArgs()[0];
         UserContext.setContext(eventData.tenantInfos());
 
         configureLogsAndTracing();

@@ -54,8 +54,8 @@ class PatientConsumerIT {
 
     private void producePatient(DbOperation operation) {
         var patient = new org.goafabric.eventdispatcher.service.controller.dto.Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
-        eventProducer.produce("patient.root", patient.id(),
-                new EventData("patient", patient.id(), operation.toString().toLowerCase(), patient, UserContext.getAdapterHeaderMap()));
+        eventProducer.produce("patient.root", "1",
+                new EventData("patient", operation.toString().toLowerCase(), patient, UserContext.getAdapterHeaderMap()));
     }
 
 

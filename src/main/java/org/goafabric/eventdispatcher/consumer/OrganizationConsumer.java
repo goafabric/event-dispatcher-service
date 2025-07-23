@@ -7,8 +7,6 @@ import org.goafabric.eventdispatcher.service.controller.dto.Practitioner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
@@ -29,7 +27,7 @@ public class OrganizationConsumer {
     }
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"organization"}) //only topics listed here will be autocreated
-    public void process(@Header(KafkaHeaders.RECEIVED_TOPIC) String topic, EventData eventData) {
+    public void process(EventData eventData) {
         if ("practitioner".equals(eventData.type())) {
             var practitioner = getPayLoad(eventData, Practitioner.class);
             switch (eventData.operation()) {
