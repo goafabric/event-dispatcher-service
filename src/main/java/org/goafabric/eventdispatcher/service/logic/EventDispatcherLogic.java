@@ -3,9 +3,12 @@ package org.goafabric.eventdispatcher.service.logic;
 import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
+import org.goafabric.eventdispatcher.service.controller.dto.Patient;
+import org.goafabric.eventdispatcher.service.controller.dto.Practitioner;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Component
@@ -17,29 +20,35 @@ public class EventDispatcherLogic {
     }
 
     public String createPatient() {
-        produce("patient.root", "patient", DbOperation.CREATE);
+        producePatient(DbOperation.CREATE);
         return "patient created";
     }
 
     public String updatePatient() {
-        produce("patient.root", "patient", DbOperation.UPDATE);
+        producePatient(DbOperation.UPDATE);
         return "patient updated";
     }
 
     public String createPractitioner() {
-        produce("organization", "practitioner", DbOperation.CREATE);
+        producePractitioner(DbOperation.CREATE);
         return "practitioner created";
     }
 
     public String updatePractitioner() {
-        produce("organization", "practitioner", DbOperation.UPDATE);
+        producePractitioner(DbOperation.UPDATE);
         return "practitioner updated";
     }
 
-    private void produce(String topic, String key, DbOperation operation) {
-        eventProducer.produce(topic, UUID.randomUUID().toString(),
-                new EventData(key, UUID.randomUUID().toString(), operation.toString().toLowerCase(), null, UserContext.getAdapterHeaderMap()));
+    private void producePatient(DbOperation operation) {
+        var patient = new Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
+        eventProducer.produce("patient.root", patient.id(),
+                new EventData("patient", patient.id(), operation.toString().toLowerCase(), patient, UserContext.getAdapterHeaderMap()));
     }
 
+    private void producePractitioner(DbOperation operation) {
+        var practitioner = new Practitioner(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
+        eventProducer.produce("organization", practitioner.id(),
+                new EventData("practitioner", practitioner.id(), operation.toString().toLowerCase(), practitioner, UserContext.getAdapterHeaderMap()));
+    }
 
 }

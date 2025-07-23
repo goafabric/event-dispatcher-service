@@ -4,6 +4,7 @@ import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.consumer.OrganizationConsumer;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
+import org.goafabric.eventdispatcher.service.controller.dto.Practitioner;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -43,10 +45,14 @@ class OrganizationConsumerIT {
 
     @Test
     void consumer() throws InterruptedException {
-        eventProducer.produce("organization", UUID.randomUUID().toString(),
-                new EventData("practitioner", UUID.randomUUID().toString(), DbOperation.CREATE.toString().toLowerCase(), null, UserContext.getAdapterHeaderMap()));
+        producePractitioner(DbOperation.CREATE);
         assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
     }
 
+    private void producePractitioner(DbOperation operation) {
+        var practitioner = new Practitioner(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
+        eventProducer.produce("organization", practitioner.id(),
+                new EventData("practitioner", practitioner.id(), operation.toString().toLowerCase(), practitioner, UserContext.getAdapterHeaderMap()));
+    }
 
 }

@@ -16,6 +16,7 @@ import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,10 +48,16 @@ class PatientConsumerIT {
 
     @Test
     void consumer() throws InterruptedException {
-        eventProducer.produce("patient.root", UUID.randomUUID().toString(),
-                new EventData("patient", UUID.randomUUID().toString(), DbOperation.CREATE.toString().toLowerCase(), null, UserContext.getAdapterHeaderMap()));
+        producePatient(DbOperation.CREATE);
         assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
     }
+
+    private void producePatient(DbOperation operation) {
+        var patient = new org.goafabric.eventdispatcher.service.controller.dto.Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
+        eventProducer.produce("patient.root", patient.id(),
+                new EventData("patient", patient.id(), operation.toString().toLowerCase(), patient, UserContext.getAdapterHeaderMap()));
+    }
+
 
 
 }
