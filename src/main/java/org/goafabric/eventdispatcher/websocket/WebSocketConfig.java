@@ -47,7 +47,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         }
 
         @Override
-        public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {}
+        public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
+            //not required to implement
+        }
     }
 
     //checks tenant authorization and also denies stomp send
@@ -72,7 +74,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         }
 
         private void checkTenantIsAuthorized(StompHeaderAccessor accessor) {
-            if (accessor != null && accessor.getDestination() != null & StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
+            if (accessor != null && accessor.getDestination() != null && StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
                 String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
 
                 if (accessor.getDestination().contains("/tenant/")) {
