@@ -20,7 +20,6 @@ public class KafkaInterceptor {
 
     @Around("@annotation(kafkaListener) && args(..,eventData)")
     public Object resolveTenantInfo(ProceedingJoinPoint joinPoint, KafkaListener kafkaListener, EventData eventData) throws Throwable {
-        System.err.println("inside aspect " + joinPoint.getTarget().getClass().getName());
         UserContext.setContext(eventData.tenantInfos());
 
         configureLogsAndTracing();
