@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 @RegisterReflection(classes = KafkaInterceptor.class, memberCategories = MemberCategory.INVOKE_DECLARED_METHODS)
 public class KafkaInterceptor {
 
-    @Around("@annotation(kafkaListener)")
-    public Object resolveTenantInfo(ProceedingJoinPoint joinPoint, KafkaListener kafkaListener) throws Throwable {
-        EventData eventData = (EventData) joinPoint.getArgs()[0];
+    @Around("@annotation(kafkaListener) && args(..,eventData)")
+    public Object resolveTenantInfo(ProceedingJoinPoint joinPoint, KafkaListener kafkaListener, EventData eventData) throws Throwable {
+        System.err.println("inside aspect " + joinPoint.getTarget().getClass().getName());
         UserContext.setContext(eventData.tenantInfos());
 
         configureLogsAndTracing();
