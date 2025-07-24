@@ -30,9 +30,8 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       properties.spring.json.trusted.packages: "*"
-      properties.spring.json.use.type.headers: false
-      properties.spring.json.value.default.type: org.goafabric.event.EventData
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
     template:
       observation-enabled: true
     listener:
