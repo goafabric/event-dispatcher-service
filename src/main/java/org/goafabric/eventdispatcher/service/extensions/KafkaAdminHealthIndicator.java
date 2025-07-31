@@ -1,7 +1,6 @@
 package org.goafabric.eventdispatcher.service.extensions;
 
 import org.apache.kafka.clients.admin.AdminClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.kafka.core.KafkaAdmin;
@@ -11,8 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaAdminHealthIndicator implements HealthIndicator {
 
-    @Autowired
-    private KafkaAdmin kafkaAdmin;
+    private final KafkaAdmin kafkaAdmin;
+
+    public KafkaAdminHealthIndicator(KafkaAdmin kafkaAdmin) {
+        this.kafkaAdmin = kafkaAdmin;
+    }
 
     @Override
     public Health health() {
