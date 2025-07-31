@@ -10,7 +10,7 @@ management:
     health:
       probes:
         enabled: true
-      show-details: never
+      show-details: always
   endpoints:
     web:
       exposure:
@@ -26,6 +26,9 @@ management.otlp.tracing.endpoint: "http://localhost:4318/v1/traces"
 spring:
   kafka:
     bootstrap-servers: "localhost:9092"
+    properties:
+      request.timeout.ms: 10000          # Total request timeout
+      default.api.timeout.ms: 10000      # Timeout for AdminClient operations
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
