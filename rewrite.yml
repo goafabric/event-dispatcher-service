@@ -62,6 +62,12 @@ recipeList:
       oldFullyQualifiedTypeName: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
       newFullyQualifiedTypeName: org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration
 
+  - org.openrewrite.text.FindAndReplace:
+      find: '@EmbeddedKafka(*, brokerProperties = { * })'
+      replace: '@EmbeddedKafka(partitions = 1)'
+      regex: true
+      filePattern: '**/*.java'
+
   # fix deprecations
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: org.springframework.boot.test.mock.mockito.MockBean
