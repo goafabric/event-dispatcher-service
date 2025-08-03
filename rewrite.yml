@@ -62,11 +62,9 @@ recipeList:
       oldFullyQualifiedTypeName: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
       newFullyQualifiedTypeName: org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration
 
-  - org.openrewrite.text.FindAndReplace:
-      find: '@EmbeddedKafka\\(([^)]*?)\\s*,\\s*brokerProperties\\s*=\\s*\\{[^}]+}\\s*\\)'
-      replace: '@EmbeddedKafka(partitions = 1)'
-      regex: true
-      filePattern: '**/*.java'
+  - org.openrewrite.java.RemoveAnnotationAttribute:
+      annotationType: org.springframework.kafka.test.context.EmbeddedKafka
+      attributeName: brokerProperties
 
   # fix deprecations
   - org.openrewrite.java.ChangeType:
