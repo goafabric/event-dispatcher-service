@@ -19,8 +19,6 @@ plugins {
 	id("org.sonarqube") version "6.2.0.5505"
 	id("org.cyclonedx.bom") version "2.3.1"
 	id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
-
-	id("org.openrewrite.rewrite") version "7.12.1"
 }
 
 repositories {
@@ -103,5 +101,3 @@ openApi {
 	customBootRun { args.set(listOf("--server.port=8080")) }
 	tasks.forkedSpringBootRun { dependsOn("compileAotJava", "processAotResources") }
 }
-
-rewrite { activeRecipe("UpgradeSpringBoot_4_0", "UpgradeSpringBatch_6_0") }
