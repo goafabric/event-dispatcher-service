@@ -1,2 +1,3 @@
 - Topics via Terraform
 - Kafka for Personservice / Quarkus
+- Error Handling Best Practice
