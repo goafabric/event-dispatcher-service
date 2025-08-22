@@ -53,7 +53,7 @@ class PatientConsumerIT {
     }
 
     @Test
-    @Disabled
+    @Disabled("Because of Kafka Embedded Timing Problems")
     void consumer() throws InterruptedException {
         producePatient(DbOperation.CREATE);
         assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();

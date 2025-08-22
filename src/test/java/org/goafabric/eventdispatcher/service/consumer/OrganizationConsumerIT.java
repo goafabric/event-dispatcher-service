@@ -50,7 +50,7 @@ class OrganizationConsumerIT {
     }
 
     @Test
-    @Disabled
+    @Disabled("Because of Kafka Embedded Timing Problems")
     void consumer() throws InterruptedException {
         producePractitioner(DbOperation.CREATE);
         assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
