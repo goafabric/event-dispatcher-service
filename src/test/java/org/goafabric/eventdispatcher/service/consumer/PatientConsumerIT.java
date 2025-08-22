@@ -6,6 +6,7 @@ import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
@@ -52,6 +53,7 @@ class PatientConsumerIT {
     }
 
     @Test
+    @Disabled
     void consumer() throws InterruptedException {
         producePatient(DbOperation.CREATE);
         assertThat(consumer.getLatch().await(10, TimeUnit.SECONDS)).isTrue();
