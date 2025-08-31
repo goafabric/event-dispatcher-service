@@ -102,7 +102,7 @@ services:
       logging.level.org.springframework: "INFO"
 
   kafka:
-    image: bitnami/kafka:4.0.0
+    image: bitnamilegacy/kafka:4.0.0
     container_name: kafka
     ports:
       - "9092:9092"
