@@ -1,6 +1,8 @@
 package org.goafabric.eventdispatcher;
 
 import org.goafabric.event.EventData;
+import org.goafabric.eventdispatcher.service.controller.dto.Patient;
+import org.goafabric.eventdispatcher.service.controller.dto.Practitioner;
 import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
 import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.annotation.RegisterReflection;
@@ -15,7 +17,8 @@ import org.springframework.context.annotation.Bean;
  */
 
 @SpringBootApplication
-@RegisterReflection(classes = {java.security.AccessController.class, javax.security.auth.Subject.class, EventData.class, SocketMessage.class}
+@RegisterReflection(classes = {java.security.AccessController.class, javax.security.auth.Subject.class,
+        EventData.class, SocketMessage.class, Patient.class, Practitioner.class}
         , memberCategories = {MemberCategory.DECLARED_CLASSES, MemberCategory.INVOKE_DECLARED_METHODS, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS}) @SuppressWarnings("java:S5738") //fix for ClassNotFoundexcpetion for both classes
 public class Application {
 
