@@ -20,7 +20,7 @@ public class WebsocketRelayConsumer {
         this.msgTemplate = msgTemplate;
     }
 
-    @KafkaListener(topicPattern = ".*", containerFactory = "latestKafkaListenerContainerFactory")
+    @KafkaListener(topicPattern = ".*", groupId = "Relay")//, containerFactory = "latestKafkaListenerContainerFactory")
     public void process(EventData eventData) { 
         log.info("inside relay consumer");
         msgTemplate.convertAndSend("/tenant/" + UserContext.getTenantId(), //this works as long as the TenantContext is set by TenantAspect
