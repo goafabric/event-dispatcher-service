@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @RegisterReflection(classes = {java.security.AccessController.class, javax.security.auth.Subject.class,
+        tools.jackson.databind.jsontype.NamedType.class,
         Patient.class, Practitioner.class}
         , memberCategories = { MemberCategory.INVOKE_DECLARED_METHODS, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS}) @SuppressWarnings("java:S5738") //fix for ClassNotFoundexcpetion for both classes
 public class Application {
