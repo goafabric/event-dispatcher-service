@@ -1,3 +1,3 @@
-- Topics via Terraform
 - Kafka for Personservice / Quarkus
-- Error Handling Best Practice
+- Error Handling Best Practice (Dead Letter)
+- Kafka SASL for no Bitnami https://docs.confluent.io/platform/7.3/kafka/authentication_sasl/index.html
