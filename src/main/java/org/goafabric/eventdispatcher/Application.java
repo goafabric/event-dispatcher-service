@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Bean;
  */
 
 @SpringBootApplication
-@RegisterReflection(classes = {java.security.AccessController.class, javax.security.auth.Subject.class,
-        //tools.jackson.databind.jsontype.NamedType.class,
+@RegisterReflection(classes = {
+        java.security.AccessController.class, javax.security.auth.Subject.class,
         org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever.class, org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator.class,
         Patient.class, Practitioner.class}
         , memberCategories = { MemberCategory.INVOKE_DECLARED_METHODS, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS}) @SuppressWarnings("java:S5738") //fix for ClassNotFoundexcpetion for both classes
