@@ -33,7 +33,7 @@ dependencies {
 		implementation("org.mapstruct:mapstruct:1.6.3")
 		implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0")
 		implementation("io.github.resilience4j:resilience4j-spring-boot3:2.3.0")
-		//implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.2.0")
+		implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:2.0.0")
 		testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
 	}
 
@@ -49,7 +49,7 @@ dependencies {
 	implementation("io.micrometer:micrometer-registry-prometheus")
 
 	//openapi
-	//implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
 
 
 	//messageing
@@ -86,7 +86,7 @@ tasks.named<BootBuildImage>("bootBuildImage") {
 	imageName.set(nativeImageName)
 	environment.set(mapOf("BP_NATIVE_IMAGE" to "true", "BP_JVM_VERSION" to javaVersion, "BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to "-J-Xmx6000m -march=compatibility"))
 	doLast {
-		project.objects.newInstance<InjectedExecOps>().execOps.exec { commandLine("/bin/sh", "-c", "docker run --rm $nativeImageName -check-integrity") }
+		project.objects.newInstance<InjectedExecOps>().execOps.exec { commandLine("/bin/sh", "-c", "docker run --rm $nativeImageName -Dspring.context.exit=onRefresh") }
 		project.objects.newInstance<InjectedExecOps>().execOps.exec { commandLine("/bin/sh", "-c", "docker push $nativeImageName") }
 	}
 }
