@@ -9,7 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@RegisterReflection(classes = {Patient.class, Practitioner.class}
+@RegisterReflection(classes = {Patient.class, Practitioner.class} //every type we publish needs to be registered
         , memberCategories = { MemberCategory.INVOKE_DECLARED_METHODS, MemberCategory.INVOKE_DECLARED_CONSTRUCTORS})
 public class EventProducer {
     private final KafkaTemplate<String, EventData> kafkaTemplate;
