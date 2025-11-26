@@ -1,3 +1,3 @@
-- WebsocketRelayConsumer
-- InvoiceConsumer
-- EventDispatcherLogic should use EventData Object instead of ChangeEvent
+- Kafka for Personservice / Quarkus
+- Error Handling Best Practice (Dead Letter)
+- Kubernetes Helm Chart
