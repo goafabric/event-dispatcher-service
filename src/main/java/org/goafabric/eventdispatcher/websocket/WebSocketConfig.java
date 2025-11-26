@@ -1,7 +1,9 @@
 package org.goafabric.eventdispatcher.websocket;
 
+import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -22,6 +24,7 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSocketMessageBroker
+@RegisterReflectionForBinding(SocketMessage.class)
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override

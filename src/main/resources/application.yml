@@ -52,3 +52,6 @@ logging.level.org.hibernate.SQL: "INFO"
 
 #logging.pattern.console: "%white(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable"
 
+
+springdoc.enable-kotlin: false
+logging.level.io.micrometer.registry.otlp: "OFF"
