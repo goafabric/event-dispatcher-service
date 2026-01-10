@@ -3,6 +3,7 @@ package org.goafabric.eventdispatcher.websocket;
 
 import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
+import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
