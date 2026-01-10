@@ -22,10 +22,17 @@ public class WebsocketRelayConsumer {
         this.msgTemplate = msgTemplate;
     }
 
-    @KafkaListener(groupId = "WebsocketRelayConsumer-#{T(java.util.UUID).randomUUID().toString()}", topicPattern = ".*") //, containerFactory = "latestKafkaListenerContainerFactory")
-    public void process(EventData eventData) {
+    @KafkaListener(topics = "patient.root", groupId = "WebsocketRelayConsumer-#{T(java.util.UUID).randomUUID().toString()}") //, containerFactory = "latestKafkaListenerContainerFactory")
+    public void processPatient(EventData eventData) {
         log.info("inside relay consumer");
         msgTemplate.convertAndSend("/patient/tenant/" + UserContext.getTenantId(), //this works as long as the TenantContext is set by TenantAspect
+                new SocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + UserContext.getTenantId()));
+    }
+
+    @KafkaListener(topics = "organization", groupId = "WebsocketRelayConsumer-#{T(java.util.UUID).randomUUID().toString()}") //, containerFactory = "latestKafkaListenerContainerFactory")
+    public void processOrg(EventData eventData) {
+        log.info("inside relay consumer");
+        msgTemplate.convertAndSend("/organization/tenant/" + UserContext.getTenantId(), //this works as long as the TenantContext is set by TenantAspect
                 new SocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + UserContext.getTenantId()));
     }
 

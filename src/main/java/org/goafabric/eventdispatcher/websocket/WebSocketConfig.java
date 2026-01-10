@@ -60,15 +60,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-            if (StompCommand.SEND.equals(accessor.getCommand())) {
-                throw new IllegalStateException("SEND is not allowed");
+            switch (accessor.getCommand()) {
+                case StompCommand.SEND : throw new IllegalStateException("SEND is not allowed");
+                case StompCommand.SUBSCRIBE : rewriteDestination(message, accessor);
+                default: return message;
             }
 
-            if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
-                return rewriteDestination(message, accessor);
-            }
-
-            return message;
         }
 
         //rewrite destination based on the tenant, this will match the tenant from the kafka publisher, frontend can subscribe to non specific tenant endpoints
@@ -76,17 +73,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
 
             if (tenantId == null) { throw new IllegalStateException("No tenant bound to WebSocket session");}
+            if (accessor.getDestination() == null) { throw new IllegalStateException("No Websocket distnation");};
 
-            /*
-            String destination = accessor.getDestination();
-
-            if (destination == null || destination.startsWith("/tenant/")) {
-                throw new IllegalStateException("Illegal destination");
-            }
-
-             */
-
-            accessor.setDestination("/patient/tenant/" + tenantId);
+            accessor.setDestination(accessor.getDestination() + "/tenant/" + tenantId);
             return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
 
         }
