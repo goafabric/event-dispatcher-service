@@ -10,6 +10,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+//Relay consumer listen to all kafka messages and sends them via the internal broker to the correct websocket tenant channel
+//So the trigger is always a kafka message for websockets to receive
 @Component
 public class WebsocketRelayConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());

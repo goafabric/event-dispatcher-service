@@ -71,6 +71,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             return message;
         }
 
+        //rewrite destination based on the tenant, this will match the tenant from the kafka publisher, frontend can subscribe to non specific tenant endpoints
         private Message<?> rewriteDestination(Message<?> message, StompHeaderAccessor accessor) {
             String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
 
