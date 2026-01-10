@@ -1,8 +1,6 @@
 package org.goafabric.eventdispatcher.websocket;
 
 import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -13,6 +11,7 @@ import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -36,7 +35,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new TenantAuthorizationInterceptor());
+        registration.interceptors(new TenantDestinationInterceptor());
     }
 
     //store Http Headers from HTTP Request (via lua) inside session,  to be used for Websocket later => yuck ... hope this works with replicasets
@@ -55,38 +54,43 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         }
     }
 
-    //checks tenant authorization and also denies stomp send
-    static class TenantAuthorizationInterceptor implements ChannelInterceptor {
-        private final Logger log = LoggerFactory.getLogger(this.getClass());
+    static class TenantDestinationInterceptor implements ChannelInterceptor {
 
         @Override
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-            denySend(accessor);
-            checkTenantIsAuthorized(accessor);
+            if (StompCommand.SEND.equals(accessor.getCommand())) {
+                throw new IllegalStateException("SEND is not allowed");
+            }
+
+            if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
+                return rewriteDestination(message, accessor);
+            }
 
             return message;
         }
 
-        private void denySend(StompHeaderAccessor accessor) {
-            if ((accessor != null) && (StompCommand.SEND.equals(accessor.getCommand()))) {
-                log.error("Sending via Websocket denied, due to multi tenancy limitations");
-                throw new IllegalStateException("Sending via Websocket denied, due to multi tenancy limitations");
-            }
-        }
+        private Message<?> rewriteDestination(Message<?> message, StompHeaderAccessor accessor) {
+            String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
 
-        private void checkTenantIsAuthorized(StompHeaderAccessor accessor) {
-            if (accessor != null && accessor.getDestination() != null && StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
-                String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
+            if (tenantId == null) { throw new IllegalStateException("No tenant bound to WebSocket session");}
 
-                if ((accessor.getDestination().contains("/tenant/")) && (!accessor.getDestination().equals("/tenant/" + tenantId))) {
-                    log.error("Access to tenant denied: {}", tenantId);
-                    throw new IllegalStateException("Access to tenant denied");
-                }
+            /*
+            String destination = accessor.getDestination();
+
+            if (destination == null || destination.startsWith("/tenant/")) {
+                throw new IllegalStateException("Illegal destination");
             }
+
+             */
+
+            accessor.setDestination("/patient/tenant/" + tenantId);
+            return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
+
         }
     }
+
 
 
 }
