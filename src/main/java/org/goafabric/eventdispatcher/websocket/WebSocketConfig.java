@@ -68,14 +68,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             };
         }
 
-        //rewrite destination based on the tenant, this will match the tenant from the kafka publisher, frontend can subscribe to non specific tenant endpoints
+        //rewrite destination based on the tenant, this will match the tenant and type from the relay consumer, frontend can subscribe to non specific tenant endpoints
         private Message<?> rewriteDestination(Message<?> message, StompHeaderAccessor accessor) {
-            String tenantId = (String) accessor.getSessionAttributes().get("tenantId");
-
+            var tenantId = (String) accessor.getSessionAttributes().get("tenantId");
+            var evenType = accessor.getDestination();
             if (tenantId == null) { throw new IllegalStateException("No tenant bound to WebSocket session");}
-            if (accessor.getDestination() == null) { throw new IllegalStateException("No Websocket distnation");};
+            if (evenType == null) { throw new IllegalStateException("No Websocket type");};
 
-            accessor.setDestination(accessor.getDestination() + "/tenant/" + tenantId);
+            accessor.setDestination(evenType + "/tenant/" + tenantId);
             return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
         }
     }
