@@ -30,10 +30,10 @@ spring:
       request.timeout.ms: 10000          # Total request timeout
       default.api.timeout.ms: 10000      # Timeout for AdminClient operations
     producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
     consumer:
       properties.spring.json.trusted.packages: "*"
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
 
     template:
       observation-enabled: true
