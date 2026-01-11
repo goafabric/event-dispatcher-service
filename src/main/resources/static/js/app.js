@@ -10,7 +10,10 @@ function connectSocket() {
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/patient', function (socketMessage) {
-            console.log("Got Socket Message : " + JSON.parse(socketMessage.body).message);
+            console.log("Got Patient Message : " + JSON.parse(socketMessage.body).message);
+        });
+        stompClient.subscribe('/organization', function (socketMessage) {
+            console.log("Got Organization Message : " + JSON.parse(socketMessage.body).message);
         });
     });
 }
