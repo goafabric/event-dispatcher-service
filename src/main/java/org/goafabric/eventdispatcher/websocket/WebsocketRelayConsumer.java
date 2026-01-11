@@ -31,7 +31,7 @@ public class WebsocketRelayConsumer {
         this.msgTemplate = msgTemplate;
     }
 
-    @KafkaListener(topics = {"patient.root", "organization"}, containerFactory = "relayKafkaListenerContainerFactory")
+    @KafkaListener(topicPattern = ".*.notification", containerFactory = "relayKafkaListenerContainerFactory")
     public void processPatient(EventData eventData) {
         log.info("inside relay consumer");
         msgTemplate.convertAndSend("/" + eventData.type() + "/tenant/" + UserContext.getTenantId(), //this works as long as the TenantContext is set by TenantAspect

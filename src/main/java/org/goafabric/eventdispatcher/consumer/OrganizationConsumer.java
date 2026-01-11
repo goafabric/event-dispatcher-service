@@ -26,7 +26,7 @@ public class OrganizationConsumer {
         objectMapper.registerModule(new JavaTimeModule());
     }
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = {"organization"}) //only topics listed here will be autocreated
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"organization.notification"}) //only topics listed here will be autocreated
     public void process(EventData eventData) {
         if ("practitioner".equals(eventData.type())) {
             var practitioner = getPayLoad(eventData, Practitioner.class);

@@ -26,7 +26,7 @@ public class PatientConsumer {
     }
 
 
-    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient.root"}) //only topics listed here will be autocreated
+    @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient.notification"}) //only topics listed here will be autocreated
     public void process(EventData eventData) {
         if ("patient".equals(eventData.type())) {
             var patient = getPayLoad(eventData, Patient.class);
