@@ -77,10 +77,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
             accessor.setDestination(accessor.getDestination() + "/tenant/" + tenantId);
             return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
-
         }
     }
-
-
-
 }
