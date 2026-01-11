@@ -59,13 +59,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         @Override
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-
-            switch (accessor.getCommand()) {
-                case StompCommand.SEND : throw new IllegalStateException("SEND is not allowed");
-                case StompCommand.SUBSCRIBE : rewriteDestination(message, accessor);
-                default: return message;
-            }
-
+            if (accessor == null) { return message; }
+            return switch (accessor.getCommand()) {
+                case StompCommand.SEND -> throw new IllegalStateException("SEND is not allowed");
+                case StompCommand.SUBSCRIBE -> rewriteDestination(message, accessor);
+                case null -> message;
+                default -> message;
+            };
         }
 
         //rewrite destination based on the tenant, this will match the tenant from the kafka publisher, frontend can subscribe to non specific tenant endpoints
