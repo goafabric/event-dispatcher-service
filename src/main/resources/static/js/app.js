@@ -12,7 +12,7 @@ function connectSocket() {
         stompClient.subscribe('/patient', function (socketMessage) {
             console.log("Got Patient Message : " + JSON.parse(socketMessage.body).message);
         });
-        stompClient.subscribe('/organization', function (socketMessage) {
+        stompClient.subscribe('/practitioner', function (socketMessage) {
             console.log("Got Organization Message : " + JSON.parse(socketMessage.body).message);
         });
     });

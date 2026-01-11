@@ -1,14 +1,23 @@
 package org.goafabric.eventdispatcher.websocket;
 
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.kafka.autoconfigure.KafkaProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.UUID;
 
 //Relay consumer listen to all kafka messages and sends them via the internal broker to the correct websocket tenant channel
 //So the trigger is always a kafka message for websockets to receive
@@ -22,15 +31,25 @@ public class WebsocketRelayConsumer {
         this.msgTemplate = msgTemplate;
     }
 
-    @KafkaListener(topics = {"patient.root", "organization"},
-            //groupId = "WebsocketRelayConsumer-#{T(java.util.UUID).randomUUID().toString()}",
-            //properties = {"auto.offset.reset=latest", "enable.auto.commit=false"})
-            containerFactory = "latestKafkaListenerContainerFactory")
+    @KafkaListener(topics = {"patient.root", "organization"}, containerFactory = "relayKafkaListenerContainerFactory")
     public void processPatient(EventData eventData) {
         log.info("inside relay consumer");
         msgTemplate.convertAndSend("/" + eventData.type() + "/tenant/" + UserContext.getTenantId(), //this works as long as the TenantContext is set by TenantAspect
                 new SocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + UserContext.getTenantId()));
     }
 
+    @Configuration
+    static class WebsocketRelayConsumerConfig {
+        @Bean
+        public ConcurrentKafkaListenerContainerFactory<String, String> relayKafkaListenerContainerFactory(KafkaProperties kafkaProperties) {
+            var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
+            var props = kafkaProperties.buildConsumerProperties();
+            props.putAll(Map.of(ConsumerConfig.GROUP_ID_CONFIG, "WebsocketRelayConsumer" + UUID.randomUUID(),
+                    ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest",
+                    ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false));
+            factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(props));
+            return factory;
+        }
+    }
 
 }
