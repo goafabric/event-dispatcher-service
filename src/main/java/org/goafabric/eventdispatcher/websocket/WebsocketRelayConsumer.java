@@ -3,10 +3,10 @@ package org.goafabric.eventdispatcher.websocket;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.goafabric.event.EventData;
-import org.goafabric.eventdispatcher.service.controller.dto.SocketMessage;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.boot.kafka.autoconfigure.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,17 +19,19 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.UUID;
 
-//Relay consumer listen to all kafka messages and sends them via the internal broker to the correct websocket tenant channel
+//Relay consumer listen to all ".notification" kafka messages and sends them via the internal broker to the correct websocket tenant channel, which will match the rewritten one inside WebSocketConfig.TenantDestinationInterceptor
 //So the trigger is always a kafka message for websockets to receive
 @Component
+@RegisterReflectionForBinding(WebsocketRelayConsumer.SocketMessage.class)
 public class WebsocketRelayConsumer {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     private final SimpMessagingTemplate msgTemplate;
+    record SocketMessage (String message) {}
 
     public WebsocketRelayConsumer(SimpMessagingTemplate msgTemplate) {
         this.msgTemplate = msgTemplate;
     }
+
 
     @KafkaListener(topicPattern = ".*.notification", containerFactory = "relayKafkaListenerContainerFactory")
     public void processPatient(EventData eventData) {
