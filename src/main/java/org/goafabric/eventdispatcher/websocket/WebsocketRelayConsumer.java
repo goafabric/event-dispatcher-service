@@ -2,7 +2,7 @@ package org.goafabric.eventdispatcher.websocket;
 
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.goafabric.event.EventData;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
@@ -34,10 +35,15 @@ public class WebsocketRelayConsumer {
 
 
     @KafkaListener(topicPattern = ".*.notification", containerFactory = "relayKafkaListenerContainerFactory")
-    public void processPatient(EventData eventData) {
+    public void processPatient(ConsumerRecord consumerRecord, @Header("operation") String operation) {
         log.info("inside relay consumer");
-        msgTemplate.convertAndSend("/" + eventData.type() + "/tenant/" + UserContext.getTenantId(), //this works as long as the TenantContext is set by TenantAspect
-                new SocketMessage(eventData.type() + " " + eventData.operation() + " for Tenant " + UserContext.getTenantId()));
+        String type = consumerRecord.value().getClass().getSimpleName().toLowerCase();
+        send(type, operation);
+    }
+
+    private void send(String type, String operation) {
+        msgTemplate.convertAndSend("/" + type + "/tenant/" + UserContext.getTenantId(), //this works as long as the TenantContext is set by TenantAspect
+                new SocketMessage(type + " " + operation + " for Tenant " + UserContext.getTenantId()));
     }
 
     @Configuration

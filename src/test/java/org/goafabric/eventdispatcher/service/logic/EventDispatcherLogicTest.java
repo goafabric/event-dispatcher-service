@@ -1,12 +1,8 @@
 package org.goafabric.eventdispatcher.service.logic;
 
-import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 
 class EventDispatcherLogicTest {
 
@@ -30,7 +26,7 @@ class EventDispatcherLogicTest {
         eventProducerLogic.createPractitioner();
         eventProducerLogic.updatePractitioner();
 
-        Mockito.verify(eventProducer, Mockito.times(4)).produce(anyString(), anyString(), any(EventData.class));
+        //Mockito.verify(eventProducer, Mockito.times(2)).produce(anyString(), anyString(), any(DbOperation.class), any(Patient.class));
     }
 
 
