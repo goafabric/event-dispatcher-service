@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.RecordInterceptor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -49,9 +50,10 @@ public class WebsocketRelayConsumer {
     @Configuration
     static class WebsocketRelayConsumerConfig {
         @Bean
-        public ConcurrentKafkaListenerContainerFactory<String, String> relayKafkaListenerContainerFactory(KafkaProperties kafkaProperties) {
-            var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
+        public ConcurrentKafkaListenerContainerFactory<String, Object> relayKafkaListenerContainerFactory(KafkaProperties kafkaProperties, RecordInterceptor<String, Object> recordInterceptor) {
+            var factory = new ConcurrentKafkaListenerContainerFactory<String, Object>();
             var props = kafkaProperties.buildConsumerProperties();
+            factory.setRecordInterceptor(recordInterceptor);
             props.putAll(Map.of(ConsumerConfig.GROUP_ID_CONFIG, "WebsocketRelayConsumer" + UUID.randomUUID(),
                     ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest",
                     ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false));
