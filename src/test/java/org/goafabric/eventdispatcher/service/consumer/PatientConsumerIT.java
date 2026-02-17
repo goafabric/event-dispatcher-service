@@ -1,17 +1,13 @@
 package org.goafabric.eventdispatcher.service.consumer;
 
-import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.consumer.PatientConsumer;
 import org.goafabric.eventdispatcher.producer.EventProducer;
 import org.goafabric.eventdispatcher.service.controller.dto.DbOperation;
-import org.goafabric.eventdispatcher.service.extensions.UserContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.test.context.EmbeddedKafka;
@@ -27,7 +23,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @DirtiesContext
 @EmbeddedKafka(partitions = 1)
-@Import(KafkaAutoConfiguration.class)
+//@Import(KafkaAutoConfiguration.class)
 class PatientConsumerIT {
     @Autowired
     private EventProducer eventProducer;
@@ -61,8 +57,7 @@ class PatientConsumerIT {
 
     private void producePatient(DbOperation operation) {
         var patient = new org.goafabric.eventdispatcher.service.controller.dto.Patient(UUID.randomUUID().toString(), "Homer", "Simpson", "Male", LocalDate.of(1970, 01, 01));
-        eventProducer.produce("patient.root", patient.id(),
-                new EventData("patient", operation.toString().toLowerCase(), patient, UserContext.getAdapterHeaderMap()));
+        eventProducer.produce("patient.root", patient.id(), operation, patient);
     }
 
 

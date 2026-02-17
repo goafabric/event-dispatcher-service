@@ -2,11 +2,11 @@ package org.goafabric.eventdispatcher.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.goafabric.event.EventData;
 import org.goafabric.eventdispatcher.service.controller.dto.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
@@ -27,14 +27,11 @@ public class PatientConsumer {
 
 
     @KafkaListener(groupId = CONSUMER_NAME, topics = {"patient.notification"}) //only topics listed here will be autocreated
-    public void process(EventData eventData) {
-        if ("patient".equals(eventData.type())) {
-            var patient = getPayLoad(eventData, Patient.class);
-            switch (eventData.operation()) {
-                case "create" -> createPatient(patient.id());
-                case "update" -> updatePatient(patient.id());
-                default -> throw new IllegalStateException("event operation not found");
-            }
+    public void process(Patient patient, @Header("operation") String operation) {
+        switch (operation) {
+            case "CREATE" -> createPatient(patient.id());
+            case "UPDATE" -> updatePatient(patient.id());
+            default -> throw new IllegalStateException("event operation not found");
         }
         latch.countDown();
     }
@@ -49,7 +46,4 @@ public class PatientConsumer {
 
     public CountDownLatch getLatch() { return latch; }
 
-    private <T> T getPayLoad(EventData eventData, Class<T> clazz) {
-        return objectMapper.convertValue(eventData.payload(), clazz);
-    }
 }
