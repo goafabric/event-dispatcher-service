@@ -102,7 +102,7 @@ services:
       logging.level.org.springframework: "INFO"
 
   kafka:
-    image: apache/kafka:4.1.0
+    image: apache/kafka:4.3.1
     container_name: kafka
     ports:
       - "9092:9092"
